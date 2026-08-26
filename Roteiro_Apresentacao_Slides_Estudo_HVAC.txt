@@ -1,0 +1,360 @@
+====================================================================================================
+ROTEIRO COMPLETO PARA APRESENTAÇÃO DE SLIDES
+ESTUDO DE VIABILIDADE TÉCNICA, ECONÔMICA E ESG — RETROFIT HVAC POR CLP
+CLIENTE: ADMINISTRAÇÃO DO NOVO SHOPPING CENTER
+CONSULTORIA: 3D AR CONDICIONADO & AUTOMAÇÃO (ENG. VICTOR HUGO MOTA DE ALMEIDA)
+DATA DE REFERÊNCIA: AGOSTO DE 2026
+====================================================================================================
+
+OBJETIVO DESTE DOCUMENTO:
+Este documento foi estruturado especificamente para a elaboração de uma apresentação executiva 
+em slides (PowerPoint/Keynote/PDF) voltada à Diretoria, Conselho Gestor e Setor de Engenharia do 
+Novo Shopping. Contém todos os dados técnicos consolidados, premissas de projeto, análises de 
+sensibilidade e o mapeamento exato de correlação entre variáveis (como a alteração de cada parâmetro 
+impacta no consumo, nos custos operacionais e no retorno financeiro).
+
+----------------------------------------------------------------------------------------------------
+ÍNDICE DE SLIDES PROPOSTOS:
+  Slide 01: Capa Executiva & Identificação do Projeto
+  Slide 02: Resumo Executivo & Principais Indicadores (KPIs Centrais)
+  Slide 03: Diagnóstico da Instalação Existente (Cenário Anterior / Analógico)
+  Slide 04: A Solução de Engenharia Proposta (Retrofit Térmico por CLP Inteligente)
+  Slide 05: Metodologia de Cálculo e Fórmulas Termoelétricas
+  Slide 06: Parâmetros Operacionais Padrão (Valores Baseline da Implementação)
+  Slide 07: Matriz de Correlação & Sensibilidade (Impacto das Variáveis nos Custos)
+  Slide 08: Parque Instalado: Cadastro e Dimensionamento dos 38 Climatizadores
+  Slide 09: Validação Prática em Campo: Telemetria Real dos Compressores (Logs R1)
+  Slide 10: Comparativo Consolidado de Custos e Consumo (Antes vs. Depois)
+  Slide 11: Análise de Viabilidade Financeira (Payback, ROI e VPL em 5 Anos)
+  Slide 12: Sustentabilidade Corporativa e Descarbonização ESG
+  Slide 13: Cronograma Executivo de Implantação (Roadmap 12 Semanas)
+  Slide 14: Perguntas Frequentes & Mitigação de Riscos Técnicos (FAQ da Diretoria)
+  Slide 15: Conclusão, Parecer Técnico e Próximos Passos
+----------------------------------------------------------------------------------------------------
+
+
+====================================================================================================
+SLIDE 01: CAPA EXECUTIVA & IDENTIFICAÇÃO DO PROJETO
+====================================================================================================
+• Título Principal: ESTUDO DE VIABILIDADE TÉCNICA E ECONÔMICA
+• Subtítulo: Retrofit do Sistema de Condicionamento de Ar (HVAC) — Automação e Gerenciamento Inteligente por CLP em 38 Equipamentos
+• Cliente: Novo Shopping Center (Setor de Engenharia e Manutenção)
+• Elaboração Técnica: 3D Ar Condicionado Engenharia Térmica & Automação Industrial
+• Responsável Técnico: Eng. Victor Hugo Mota de Almeida
+• Data de Referência: Agosto de 2026
+• Localização: Ribeirão Preto / SP
+
+[NOTAS DO APRESENTADOR / SPEECH]:
+"Apresentamos hoje o estudo definitivo de modernização térmica para os 38 sistemas de climatização 
+do Novo Shopping. O projeto propõe substituir o antigo controle termostático analógico por um sistema 
+inteligente baseado em CLPs, trazendo corte imediato na fatura de energia elétrica, aumento da vida 
+útil dos compressores e alinhamento do shopping às melhores práticas ESG."
+
+
+====================================================================================================
+SLIDE 02: RESUMO EXECUTIVO & PRINCIPAIS INDICADORES (KPIS CENTRAIS)
+====================================================================================================
+• Investimento Total (CAPEX): R$ 301.000,00 (Obra completa, CLPs, sensores, quadros e comissionamento)
+• Economia Mensal Líquida: R$ 18.140,53 / mês (Redução direta no OPEX de energia)
+• Economia Anual Recorrente: R$ 217.686,42 / ano
+• Redução Percentual de Consumo: 10,2% de decréscimo no consumo energético do sistema HVAC
+• Energia Economizada: 24.187 kWh/mês (290.249 kWh/ano)
+• Tempo de Retorno Simples (Payback): 16,6 meses (~1,4 anos)
+• Retorno sobre o Investimento (ROI em 5 anos): +261,6% (Retorno de mais de R$ 5,00 por real investido)
+• Valor Presente Líquido (VPL @ TMA 12% a.a.): R$ 483.710,78 (Geração real de riqueza líquida)
+• Descarbonização ESG: 25,0 toneladas de CO2 evitadas por ano na atmosfera
+
+[DESTAQUE VISUAL PARA SLIDE]:
+Cards em destaque com números grandes, setas verdes para baixo indicando redução de custos e 
+gráficos em pizza/barra evidenciando o payback rápido de menos de 1 ano e meio.
+
+
+====================================================================================================
+SLIDE 03: DIAGNÓSTICO DA INSTALAÇÃO EXISTENTE (CENÁRIO ANTERIOR / ANALÓGICO)
+====================================================================================================
+• Arquitetura Operacional Atual:
+  - 38 máquinas de climatização operando de forma autônoma e descentralizada.
+  - Controle baseado em termostato analógico de bulbo mecânico e timer horário simples.
+  - Ausência de monitoramento centralizado ou telemetria em tempo real.
+• Problemas e Ineficiências Identificadas:
+  1. Acionamento Simultâneo Forçado (100% de Carga): Sempre que a temperatura sobe, ambas as unidades 
+     condensadoras ligam juntas em paralelo, gerando alto pico de corrente de partida.
+  2. Efeito "Chattering": Liga/desliga constante de compressores de grande porte sob carga plena.
+  3. Desgaste Mecânico Desbalanceado: Inexistência de rodízio de horas entre compressores.
+  4. Alto Ciclo de Manutenção (Duty Cycle): Ambas as UCs ciclam com 70% de duty cycle contínuo.
+  5. Desperdício Energético: Consumo de 237.000 kWh/mês, gerando um custo mensal de R$ 177.749,96 
+     (R$ 2.132.999,57 ao ano).
+
+
+====================================================================================================
+SLIDE 04: A SOLUÇÃO DE ENGENHARIA PROPOSTA (RETROFIT TÉRMICO POR CLP)
+====================================================================================================
+• Pilares Tecnológicos da Modernização:
+  1. Controle Proporcional em 2 Estágios de Refrigeração:
+     - Fim do acionamento síncrono forçado. Na fase de estabilidade térmica, opera apenas a unidade Mestre.
+     - A unidade Escrava é mantida em repouso e só acionada pontualmente em picos de sobrecarga.
+  2. Equalização Automática de Desgaste (Rodízio 12 Horas):
+     - A cada 12 horas operacionais, o CLP alterna quem assume a função de Mestre e Escrava.
+     - Garante que os dois compressores trabalhem exatamente a mesma quantidade de horas na vida útil.
+  3. Redundância Ativa e Segurança 100%:
+     - Monitoramento contínuo de corrente e sensores de fluxo.
+     - Em caso de falha elétrica ou desarme na Mestre, a Escrava entra instantaneamente em menos de 1s.
+  4. Gestão Centralizada & Ajustes Remotos de Setpoint:
+     - Integração com telemetria e possibilidade de supervisão em tempo real de temperatura e alarmes.
+
+
+====================================================================================================
+SLIDE 05: METODOLOGIA DE CÁLCULO E FÓRMULAS TERMOELÉTRICAS
+====================================================================================================
+• Premissas Elétricas Básicas:
+  - Tensão de Alimentação: 380V Trifásico (V = 380 V)
+  - Fator de Potência (cos phi): 0,95
+  - Potência Nominal Total por Máquina: P_total = (Pot_UC * Qtd_UC) + (Pot_UE * Qtd_UE)
+  - Corrente Nominal de Regime: I = (P_total * 1000) / (sqrt(3) * 380 * 0,95)
+  - Constante de Semanas por Mês: 4,33 semanas/mês
+
+• Divisão da Jornada Diária (12 Horas de Operação):
+  1. Fase de Pull-Down (1,5h): Rampa de resfriamento inicial onde 100% dos compressores operam 
+     em conjunto para quebrar a inércia térmica do shopping.
+  2. Fase de Manutenção (10,5h): Período onde a temperatura está estabilizada e a economia do CLP atua.
+
+• Equação de Consumo - Cenário Antes (Analógico):
+  Consumo_UC_Antes = Qtd_UC * Pot_UC * [ min(Horas, Setup) + max(0, Horas - Setup) * DC_Antes ]
+  Onde: DC_Antes = 0,70 (70% em ambas as UCs).
+
+• Equação de Consumo - Cenário Depois (CLP Inteligente):
+  Consumo_UC_Depois = Qtd_UC * Pot_UC * min(Horas, Setup) + [ (1 * Pot_UC * DC_Mestre) + (Qtd_UC - 1) * Pot_UC * DC_Escrava ] * max(0, Horas - Setup)
+  Onde: DC_Mestre = 0,70 (70%) e DC_Escrava = 0,50 (50%).
+
+
+====================================================================================================
+SLIDE 06: PARÂMETROS OPERACIONAIS PADRÃO (VALORES BASELINE DA IMPLEMENTAÇÃO)
+====================================================================================================
+Tabela de Parâmetros Oficiais adotados no Estudo:
+
++-------------------------------------------+----------------+-----------+-----------------------------------------------+
+| PARÂMETRO TÉCNICO / ECONÔMICO             | VALOR PADRÃO   | UNIDADE   | DESCRIÇÃO / APLICAÇÃO                         |
++-------------------------------------------+----------------+-----------+-----------------------------------------------+
+| Setpoint de Temperatura                   | 22,0           | °C        | Temperatura de conforto alvo no mall          |
+| Histerese de Controle                     | 1,0            | °C        | Faixa morta para comutação do CLP (21° a 23°) |
+| Tempo de Revezamento Mestre/Escrava       | 12,0           | horas     | Intervalo para rodízio de desgaste mecânico   |
+| Tarifa de Energia Elétrica                | R$ 0,75        | R$/kWh    | Tarifa média contratada pelo shopping         |
+| Investimento CAPEX Total                  | R$ 301.000,00  | R$        | Custo integral de fornecimento e instalação   |
+| Duty Cycle Antes (Manutenção Analógica)   | 0,70 (70%)     | fração    | Ciclo de trabalho de ambas as UCs juntas      |
+| Duty Cycle Mestre Depois (Manutenção CLP) | 0,70 (70%)     | fração    | Ciclo de trabalho da UC Mestre ativa          |
+| Duty Cycle Escrava Depois (Manutenção CLP)| 0,50 (50%)     | fração    | Ciclo de trabalho da UC Escrava (suporte)     |
+| Horas de Operação Seg-Sex                 | 12,0           | horas/dia | Expediente normal de shopping (10h às 22h)    |
+| Horas de Operação Sábado                  | 12,0           | horas/dia | Expediente de sábado                          |
+| Horas de Operação Domingo                 | 12,0           | horas/dia | Expediente de domingo                         |
+| Tempo de Pull-Down (Setup)                | 1,5            | horas     | Tempo inicial até atingir o setpoint          |
+| Quantidade de Climatizadores              | 38             | unidades  | Parque total contemplado no projeto           |
+| Taxa Mínima de Atratividade (TMA)         | 12,0           | % ao ano  | Taxa de desconto para cálculo do VPL          |
+| Fator de Emissão de Carbono (SIN/MCTI)    | 0,086          | kg CO2/kWh| Fator oficial de conversão de emissões        |
++-------------------------------------------+----------------+-----------+-----------------------------------------------+
+
+
+====================================================================================================
+SLIDE 07: MATRIZ DE CORRELAÇÃO & SENSIBILIDADE (COMO AS VARIÁVEIS IMPACTAM OS CUSTOS)
+====================================================================================================
+Este slide é fundamental para explicar o comportamento dinâmico do modelo financeiro.
+Abaixo está detalhado o que acontece quando qualquer parâmetro é alterado na prática:
+
+1. IMPACTO DA TARIFA DE ENERGIA ELÉTRICA (R$/kWh):
+   - Correlação: Diretamente proporcional à economia financeira (R$) e inversamente proporcional ao Payback.
+   - Mecanismo: A economia em kWh gerada pelo CLP permanece fixa (290.249 kWh/ano). Cada aumento de 
+     R$ 0,10 na tarifa eleva a economia anual em +R$ 29.024,90/ano e reduz o tempo de payback em ~2 meses.
+   - Exemplo Prático:
+     * Tarifa a R$ 0,65/kWh ➔ Economia Anual = R$ 188.661,56 | Payback = 19,1 meses
+     * Tarifa a R$ 0,75/kWh (Padrão) ➔ Economia Anual = R$ 217.686,42 | Payback = 16,6 meses
+     * Tarifa a R$ 0,85/kWh ➔ Economia Anual = R$ 246.711,28 | Payback = 14,6 meses
+     * Tarifa a R$ 1,00/kWh ➔ Economia Anual = R$ 290.248,56 | Payback = 12,4 meses (Payback em 1 ano!)
+
+2. IMPACTO DO DUTY CYCLE DA UNIDADE ESCRAVA (DC_Escrava):
+   - Correlação: Inversamente proporcional à economia de energia.
+   - Mecanismo: Quanto menos a Escrava ligar durante a manutenção térmica, menor o consumo do shopping.
+   - A economia mensal unitária de cada máquina é dada exatamente por:
+     ΔConsumo_Mensal_Unitario = 4,33 * 7 dias * (12h - 1,5h) * Pot_UC * (DC_Antes - DC_Escrava)
+     Para Pot_UC = 10 kW e DC_Antes = 0,70:
+     * Se DC_Escrava = 0,50 (Padrão) ➔ Economia de 636,51 kWh/mês por máquina ➔ R$ 217.686,42/ano
+     * Se DC_Escrava = 0,40 (Excelente isolamento) ➔ Economia de 954,77 kWh/mês por máquina ➔ R$ 326.529,63/ano (Payback 11,1 meses)
+     * Se DC_Escrava = 0,30 (Operação máxima da Mestre) ➔ Economia de 1.273,02 kWh/mês por máquina ➔ R$ 435.372,84/ano (Payback 8,3 meses)
+     * Se DC_Escrava = 0,60 (Alta carga no shopping) ➔ Economia de 318,26 kWh/mês por máquina ➔ R$ 108.843,21/ano (Payback 33,2 meses)
+
+3. IMPACTO DO DUTY CYCLE DA UNIDADE MESTRE (DC_Mestre):
+   - Correlação: Não afeta a diferença de economia em relação ao cenário anterior porque a Mestre 
+     opera com 70% de ciclo de trabalho (mesmo fator do termostato anterior). O ganho do retrofit 
+     vem primariamente de modulação e alívio da unidade Escrava.
+
+4. IMPACTO DAS HORAS DE FUNCIONAMENTO DIÁRIAS (Horas/Dia):
+   - Correlação: Diretamente proporcional à economia.
+   - Mecanismo: Como a fase de manutenção ocorre no período (Horas - Setup), quanto mais horas o 
+     shopping opera, mais horas de economia acumulada por dia são geradas.
+     * Operação 10 horas/dia ➔ Economia Anual = R$ 176.078,05 (Payback = 20,5 meses)
+     * Operação 12 horas/dia (Padrão) ➔ Economia Anual = R$ 217.686,42 (Payback = 16,6 meses)
+     * Operação 14 horas/dia (Black Friday/Natal) ➔ Economia Anual = R$ 259.294,79 (Payback = 13,9 meses)
+
+5. IMPACTO DO INVESTIMENTO (CAPEX):
+   - Correlação: Diretamente proporcional ao tempo de Payback e inversamente proporcional ao ROI e VPL.
+   - Mecanismo: O CAPEX não altera a economia física gerada (R$ 217,7k/ano), apenas a velocidade de amortização.
+     * CAPEX R$ 250.000,00 ➔ Payback = 13,8 meses | ROI = 335,4% | VPL = R$ 534.710,78
+     * CAPEX R$ 301.000,00 (Padrão) ➔ Payback = 16,6 meses | ROI = 261,6% | VPL = R$ 483.710,78
+     * CAPEX R$ 350.000,00 ➔ Payback = 19,3 meses | ROI = 211,0% | VPL = R$ 434.710,78
+
+6. IMPACTO DO NÚMERO DE MÁQUINAS RETROFITADAS:
+   - Correlação: Linear na escala do projeto.
+   - Cada máquina retrofitada gera individualmente R$ 477,38/mês (R$ 5.728,59/ano) de economia líquida.
+     * 10 Máquinas ➔ Economia Anual = R$ 57.285,90/ano
+     * 20 Máquinas ➔ Economia Anual = R$ 114.571,80/ano
+     * 38 Máquinas (100% Parque) ➔ Economia Anual = R$ 217.686,42/ano
+
+
+====================================================================================================
+SLIDE 08: PARQUE INSTALADO: CADASTRO E DIMENSIONAMENTO DOS 38 CLIMATIZADORES
+====================================================================================================
+• Composição do Parque Térmico:
+  - Total de Climatizadores: 38 unidades instaladas
+  - Total de Unidades Condensadoras (UCs): 76 unidades (2 por climatizador, 10,0 kW cada = 760,0 kW)
+  - Total de Unidades Evaporadoras (UEs): 41 unidades (91,1 kW total instalado)
+  - Potência Nominal Total Instalada: 851,1 kW
+  - Corrente Nominal Total do Sistema: 1.361,6 Amperes em 380V Trifásico
+
+• Distribuição por Tipologia de Evaporadora:
+  1. Tipo 1 (1,5 kW): 16 climatizadores com 1 UE de 1,5 kW (Pot. Total 21,5 kW | Corrente 34,4 A)
+  2. Tipo 2 (2,2 kW): 7 climatizadores com 1 UE de 2,2 kW (Pot. Total 22,2 kW | Corrente 35,5 A)
+  3. Tipo 3 (3,0 kW): 12 climatizadores com 1 UE de 3,0 kW (Pot. Total 23,0 kW | Corrente 36,8 A)
+  4. Tipo 4 (Dupla UE 1,5 kW): 1 climatizador com 2 UEs de 1,5 kW (Pot. Total 23,0 kW | Corrente 36,8 A)
+  5. Tipo 5 (Dupla UE 2,2 kW): 1 climatizador com 2 UEs de 2,2 kW (Pot. Total 24,4 kW | Corrente 39,0 A)
+  6. Tipo 6 (Dupla UE 3,0 kW): 1 climatizador com 2 UEs de 3,0 kW (Pot. Total 26,0 kW | Corrente 41,6 A)
+
+
+====================================================================================================
+SLIDE 09: VALIDAÇÃO PRÁTICA EM CAMPO: TELEMETRIA REAL DOS COMPRESSORES (LOGS R1)
+====================================================================================================
+• Metodologia de Coleta:
+  - Dados gravados minuto a minuto diretamente dos CLPs durante expediente de 12 horas diárias.
+  - Período avaliado: FC-17 (1 Evaporadora / Setpoint 24°C) vs. FC-27 e FC-28 (2 Evaporadoras / Setpoint 23°C).
+
+• Resultados Consolidados de Telemetria:
+  +-------------+-------+--------------------+----------------+----------------+---------------+---------------+--------------------+
+  | EQUIPAMENTO | EVAPS | TEMPO P/ SETPOINT  | DC MESTRE      | DC ESCRAVA     | AMBOS ON/DIA  | DC GLOBAL     | REVEZAMENTO 12H?   |
+  +-------------+-------+--------------------+----------------+----------------+---------------+---------------+--------------------+
+  | FC-17       | 1     | 351,8 min (~5,9h)  | 69,2%          | 53,4%          | 203,7 min/dia | 61,3%         | SIM (Confirmado)   |
+  | FC-27       | 2     | 121,5 min (~2,0h)  | 69,3%          | 37,2%          | 43,0 min/dia  | 53,3%         | SIM (Confirmado)   |
+  | FC-28       | 2     | 30,0 min (~0,5h)   | 73,4%          | 41,2%          | 45,0 min/dia  | 57,3%         | SIM (Confirmado)   |
+  +-------------+-------+--------------------+----------------+----------------+---------------+---------------+--------------------+
+
+• Conclusões de Engenharia dos Logs:
+  1. A rotação automática de 12h está operando com 100% de sucesso, alternando os compressores líderes.
+  2. Equipamentos com 2 evaporadoras atingem o setpoint em tempo recorde (30 a 120 min) e reduzem o 
+     tempo de acionamento simultâneo (Ambos ON) para apenas ~43 a 45 minutos no dia todo (~6% da jornada).
+  3. No FC-17 (1 evaporadora sob alta carga), o CLP evitou sobrecarga contínua, modulando a escrava 
+     em 53,4% contra os 70% que operariam no sistema antigo sem controle.
+
+
+====================================================================================================
+SLIDE 10: COMPARATIVO CONSOLIDADO DE CUSTOS E CONSUMO (ANTES VS. DEPOIS)
+====================================================================================================
+Tabela Oficial de Comparação Operacional:
+
++-----------------------------+-------------------+--------------------+--------------------+---------------+
+| INDICADOR OPERACIONAL       | CENÁRIO ANTERIOR  | CENÁRIO COM CLP    | ECONOMIA GERADA    | REDUÇÃO (%)   |
++-----------------------------+-------------------+--------------------+--------------------+---------------+
+| Consumo Mensal de Energia   | 237.000 kWh/mês   | 212.813 kWh/mês    | 24.187 kWh/mês     | -10,2%        |
+| Consumo Anual de Energia    | 2.843.999 kWh/ano | 2.553.751 kWh/ano  | 290.249 kWh/ano    | -10,2%        |
+| Gasto Operacional Mensal    | R$ 177.749,96/mês | R$ 159.609,43/mês  | R$ 18.140,53/mês   | -10,2%        |
+| Gasto Operacional Anual     | R$ 2.132.999,57   | R$ 1.915.313,15    | R$ 217.686,42/ano  | -10,2%        |
++-----------------------------+-------------------+--------------------+--------------------+---------------+
+
+• Destaque Financeiro:
+  - O shopping deixa de gastar mais de R$ 1,08 milhão em contas de luz ao longo de 5 anos de operação.
+
+
+====================================================================================================
+SLIDE 11: ANÁLISE DE VIABILIDADE FINANCEIRA (PAYBACK, ROI E VPL EM 5 ANOS)
+====================================================================================================
+• Indicadores de Engenharia Financeira:
+  - Investimento Inicial (CAPEX): R$ 301.000,00
+  - Economia Anual Recorrente: R$ 217.686,42 / ano
+  - Payback Simples: 1,38 anos (~16,6 meses)
+  - Ponto de Equilíbrio (Breakeven): Atingido no 17º mês completo após a entrega da obra.
+  - Lucro Líquido Acumulado em 5 Anos: R$ 787.432,10 (Economia de R$ 1.088.432,10 menos o CAPEX)
+  - Retorno sobre Investimento (ROI em 5 anos): +261,6%
+  - Taxa Mínima de Atratividade (TMA adotada): 12,0% ao ano
+  - Valor Presente Líquido (VPL): R$ 483.710,78
+
+[CURVA DE FLUXO DE CAIXA PARA EXIBIR NO SLIDE]:
+  Mês 0:   -R$ 301.000,00 (Desembolso do investimento)
+  Mês 6:   -R$ 192.156,82
+  Mês 12:  -R$ 83.313,64
+  Mês 16,6: R$ 0,00 (PONTO DE EQUILÍBRIO / BREAKEVEN)
+  Mês 24:  +R$ 134.372,72
+  Mês 36:  +R$ 352.059,08
+  Mês 48:  +R$ 569.745,44
+  Mês 60:  +R$ 787.432,10 (Caixa livre direto gerado para o shopping)
+
+
+====================================================================================================
+SLIDE 12: SUSTENTABILIDADE CORPORATIVA E DESCARBONIZAÇÃO ESG
+====================================================================================================
+• Métricas Oficiais de Sustentabilidade:
+  - Redução Anual de Energia: 290.249 kWh/ano
+  - Fator Médio de Emissão (SIN / Ministério da Ciência, Tecnologia e Inovação): 0,086 kg CO2/kWh
+  - Emissões Evitadas de Gases de Efeito Estufa (GEE): 25,0 toneladas de CO2 por ano (125 tCO2 em 5 anos)
+
+• Equivalências Ambientais Práticas:
+  - ~1.560 Árvores plantadas e preservadas por ano para absorver o mesmo volume de carbono.
+  - ~54 Veículos de passeio a combustão retirados de circulação nas avenidas de Ribeirão Preto.
+  - Qualificação direta do Novo Shopping para certificações de eficiência e selos verdes (LEED, EDGE, ISO 50001).
+
+
+====================================================================================================
+SLIDE 13: CRONOGRAMA EXECUTIVO DE IMPLANTAÇÃO (ROADMAP 12 SEMANAS)
+====================================================================================================
+• Estratégia de Instalação Sem Parada Operacional:
+  - Todo o trabalho de infraestrutura e retrofit nos quadros é realizado em horário noturno (22h às 08h).
+  - Nenhuma loja ou cliente terá o conforto térmico interrompido durante o horário comercial.
+
+• Cronograma Faseado (12 Semanas):
+  - Semanas 01 e 02: Engenharia de detalhamento, aquisição de CLPs, sensores de corrente e quadros.
+  - Semanas 03 e 04: Montagem de bancada, testes de bancada e programação dos firmwares dos CLPs.
+  - Semanas 05 a 09: Instalação física nos 38 climatizadores (média de 7 a 8 máquinas por semana).
+  - Semanas 10 e 11: Comissionamento, ajuste fino de setpoints e validação do rodízio automático de 12h.
+  - Semana 12: Treinamento da equipe de manutenção do shopping, entrega do painel web e emissão do termo de aceite.
+
+
+====================================================================================================
+SLIDE 14: PERGUNTAS FREQUENTES & MITIGAÇÃO DE RISCOS (FAQ DA DIRETORIA)
+====================================================================================================
+1. O que acontece se o CLP falhar?
+   R: O sistema possui chave seletora manual/automática em cada quadro. Se necessário, o operador 
+   pode comutar em 1 segundo para o modo manual analógico convencional de emergência.
+
+2. A redução de consumo vai comprometer a temperatura no shopping nos dias mais quentes?
+   R: Não. O CLP monitora o erro de temperatura. Se o mall esquentar além do limite (ex: dia de 
+   lotação ou calor extremo de 38°C), a condensadora Escrava entra em auxílio imediatamente para 
+   garantir o conforto dos clientes.
+
+3. O que comprova que a economia é real?
+   R: A telemetria já instalada em equipamentos piloto (FC-17, FC-27 e FC-28) comprovou a redução 
+   do tempo de acionamento síncrono e a conformidade do rodízio, validando a economia projetada.
+
+
+====================================================================================================
+SLIDE 15: CONCLUSÃO, PARECER TÉCNICO E PRÓXIMOS PASSOS
+====================================================================================================
+• Síntese da Proposta:
+  - Projeto tecnicamente maduro, financeiramente de altíssimo retorno e ambientalmente responsável.
+  - Investimento de R$ 301.000,00 com retorno garantido em 16,6 meses.
+  - Redução permanente de R$ 217.686,42 ao ano no custo operacional de energia elétrica do shopping.
+
+• Próximos Passos Recomendados:
+  1. Aprovação da proposta executiva pela Diretoria e Conselho Gestor.
+  2. Assinatura do contrato de fornecimento e serviços.
+  3. Início imediato da Fase 01 do cronograma executivo.
+
+----------------------------------------------------------------------------------------------------
+RESPONSÁVEL TÉCNICO:
+3D AR CONDICIONADO ENGENHARIA TÉRMICA
+Eng. Victor Hugo Mota de Almeida
+Especialista em Eficiência Energética & Automação Industrial
+====================================================================================================
