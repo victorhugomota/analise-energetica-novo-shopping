@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análise Energética — Retrofit Novo Shopping</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<style>
+:root {
+  --primary: #0f2b46; --primary-light: #1a5276; --accent: #00b4d8;
+  --accent2: #48bb78; --bg: #f0f4f8; --card: #ffffff;
+  --border: #e2e8f0; --text: #1a202c; --muted: #718096;
+  --red: #e53e3e; --green: #38a169; --orange: #dd6b20;
+  --shadow: 0 4px 6px -1px rgba(0,0,0,.07), 0 2px 4px -1px rgba(0,0,0,.04);
+  --shadow-lg: 0 10px 25px -5px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+
+/* Navbar */
+.navbar{background:var(--primary);padding:0 30px;display:flex;align-items:center;height:56px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.nav-brand{color:white;font-size:16px;font-weight:700;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
+.nav-brand .material-icons-round{font-size:22px;color:var(--accent)}
+.nav-tabs{display:flex;margin-left:40px;height:100%}
+.nav-tab{color:rgba(255,255,255,.65);font-size:13px;font-weight:600;padding:0 20px;display:flex;align-items:center;gap:6px;cursor:pointer;border:none;background:none;height:100%;border-bottom:2px solid transparent;transition:all .2s}
+.nav-tab:hover{color:white;background:rgba(255,255,255,.05)}
+.nav-tab.active{color:white;border-bottom-color:var(--accent);background:rgba(255,255,255,.08)}
+.nav-tab .material-icons-round{font-size:18px}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+
+/* Layout */
+.page-wrap{max-width:1260px;margin:0 auto;padding:24px 20px 60px}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* Subtitle row */
+.page-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.page-title{font-size:20px;font-weight:700;color:var(--primary)}
+.page-subtitle{font-size:13px;color:var(--muted)}
+
+/* KPI Cards */
+.kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.kpi{background:var(--card);border-radius:10px;padding:20px 22px;box-shadow:var(--shadow);border:1px solid var(--border);position:relative;overflow:hidden;transition:transform .15s}
+.kpi:hover{transform:translateY(-2px)}
+.kpi::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--accent);border-radius:4px 0 0 4px}
+.kpi-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:6px}
+.kpi-val{font-size:26px;font-weight:800;color:var(--primary)}
+.kpi-desc{font-size:11px;color:var(--muted);margin-top:4px}
+.kpi.green::before{background:var(--accent2)}
+.kpi.red::before{background:var(--red)}
+
+/* Cards */
+.card{background:var(--card);border-radius:10px;padding:24px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px}
+.card-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--primary);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+/* Grids */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.chart-box{height:280px;position:relative}
+
+/* Tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:#f7fafc;color:var(--primary);font-weight:700;font-size:11px;text-transform:uppercase;padding:10px 14px;border-bottom:2px solid var(--border);text-align:center;white-space:nowrap}
+td{padding:9px 14px;border-bottom:1px solid var(--border);text-align:center}
+tr:hover td{background:#f8fafc}
+.text-left{text-align:left}
+.text-right{text-align:right}
+.bold{font-weight:600}
+.text-blue{color:var(--primary-light)}
+.text-green{color:var(--green)}
+.text-red{color:var(--red)}
+.total-row{background:#edf2f7;font-weight:700}
+.total-row td{border-top:2px solid var(--border);color:var(--primary)}
+
+/* Editable cells */
+td[contenteditable=true]{background:#fffff0;cursor:text;border:1px dashed #cbd5e0;border-radius:3px;outline:none}
+td[contenteditable=true]:focus{background:#fffbeb;border-color:var(--accent);box-shadow:0 0 0 2px rgba(0,180,216,.15)}
+td.calculated{background:#f0fdf4;color:var(--green);font-weight:600}
+
+/* Sub-tabs */
+.sub-tabs{display:flex;gap:6px;margin-bottom:16px}
+.sub-tab{padding:8px 18px;font-size:13px;font-weight:600;border-radius:6px;cursor:pointer;border:1px solid var(--border);background:var(--card);color:var(--muted);transition:all .15s}
+.sub-tab.active{background:var(--primary);color:white;border-color:var(--primary)}
+.sub-panel{display:none}
+.sub-panel.active{display:block}
+
+/* Params form */
+.param-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.param-card{background:#fafbfd;border:1px solid var(--border);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.param-card label{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);letter-spacing:.3px}
+.param-card input{font-size:16px;font-weight:600;color:var(--primary);padding:8px 12px;border:1px solid var(--border);border-radius:6px;outline:none;transition:border .2s}
+.param-card input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(0,180,216,.15)}
+.param-card .param-hint{font-size:10px;color:var(--muted)}
+
+/* Buttons */
+.btn{padding:10px 22px;font-size:13px;font-weight:700;border-radius:6px;cursor:pointer;border:none;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn .material-icons-round{font-size:16px}
+.btn-primary{background:var(--accent);color:white}
+.btn-primary:hover{background:#0096b7}
+.btn-secondary{background:var(--card);color:var(--primary);border:1px solid var(--border)}
+.btn-secondary:hover{background:#f7fafc}
+.btn-danger{background:var(--red);color:white}
+.btn-danger:hover{background:#c53030}
+.btn-group{display:flex;gap:10px;margin-top:16px}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--primary);color:white;padding:14px 22px;border-radius:8px;font-size:13px;font-weight:600;box-shadow:var(--shadow-lg);z-index:999;transform:translateY(100px);opacity:0;transition:all .3s}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* Print layout */
+.print-page{background:white;padding:50px;max-width:800px;margin:0 auto;font-size:13px;line-height:1.7}
+.print-page .print-header{text-align:center;border-bottom:2px solid var(--accent);padding-bottom:20px;margin-bottom:30px}
+.print-page .print-title{font-size:22px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:.5px}
+.print-page .print-subtitle{font-size:14px;color:var(--muted);margin-top:4px}
+.print-page .print-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:10px}
+.print-page h2{font-size:15px;font-weight:700;color:var(--primary);text-transform:uppercase;border-bottom:2px solid var(--accent);padding-bottom:5px;margin:24px 0 12px}
+.print-page p{text-align:justify;margin-bottom:10px}
+.print-page .highlight{background:#f0f9ff;border-left:3px solid var(--accent);padding:12px 16px;font-size:12px;margin:12px 0;border-radius:0 6px 6px 0}
+
+@media print {
+  body{background:white;padding:0}
+  .navbar,.nav-right,.btn-group,.toast,.sub-tabs{display:none!important}
+  .page-wrap{max-width:100%;padding:0}
+  .tab-panel{display:none!important}
+  #tab-print{display:block!important}
+  .print-page{box-shadow:none;padding:30px}
+  .card{box-shadow:none!important;border:1px solid #ccc!important}
+  .kpi{box-shadow:none!important;border:1px solid #ccc!important}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <span class="material-icons-round">bolt</span>
+    ANÁLISE ENERGÉTICA — NOVO SHOPPING
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchTab(event,'tab-dash')">
+      <span class="material-icons-round">dashboard</span> Dashboard
+    </button>
+    <button class="nav-tab" onclick="switchTab(event,'tab-equip')">
+      <span class="material-icons-round">hvac</span> Dados dos Equipamentos
+    </button>
+    <button class="nav-tab" onclick="switchTab(event,'tab-params')">
+      <span class="material-icons-round">tune</span> Parâmetros Gerais
+    </button>
+    <button class="nav-tab" onclick="switchTab(event,'tab-print')">
+      <span class="material-icons-round">print</span> Impressão
+    </button>
+  </div>
+  <div class="nav-right">
+    <button class="btn btn-primary" onclick="saveToFirebase()" id="btn-save">
+      <span class="material-icons-round">cloud_upload</span> Salvar
+    </button>
+  </div>
+</nav>
+
+<div class="page-wrap">
+
+<!-- ================================================================ -->
+<!-- TAB 1: DASHBOARD FINANCEIRO                                      -->
+<!-- ================================================================ -->
+<div id="tab-dash" class="tab-panel active">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Painel de Viabilidade Financeira & ESG</div>
+      <div class="page-subtitle">Dados em tempo real do estudo de retrofit de climatização por CLPs</div>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi red"><div class="kpi-label">Investimento CAPEX</div><div class="kpi-val" id="d-capex">—</div><div class="kpi-desc">Total da Obra e Automação</div></div>
+    <div class="kpi green"><div class="kpi-label">Economia Anual</div><div class="kpi-val" id="d-econAno">—</div><div class="kpi-desc">Economia Líquida Estimada</div></div>
+    <div class="kpi"><div class="kpi-label">Payback Simples</div><div class="kpi-val" id="d-payback">—</div><div class="kpi-desc">Tempo de Retorno do Capital</div></div>
+    <div class="kpi green"><div class="kpi-label">ROI em 5 Anos</div><div class="kpi-val" id="d-roi">—</div><div class="kpi-desc">Retorno sobre o Investimento</div></div>
+    <div class="kpi"><div class="kpi-label">Valor Presente Líquido</div><div class="kpi-val" id="d-vpl">—</div><div class="kpi-desc">VPL acumulado (5 Anos a 12% a.a.)</div></div>
+    <div class="kpi green"><div class="kpi-label">Carbono Evitado</div><div class="kpi-val" id="d-co2">—</div><div class="kpi-desc">Fator SIN/MCTI (Descarbonização ESG)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Indicadores de Consumo e Custos Operacionais (Mensal & Anual)</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th class="text-left">Indicador</th><th>Cenário Antes</th><th>Cenário Depois (CLP)</th><th>Economia Gerada</th><th>Redução (%)</th></tr></thead>
+        <tbody id="tbl-dash"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card"><div class="card-title">Consumo Mensal de Energia (kWh/mês)</div><div class="chart-box"><canvas id="ch-consumo"></canvas></div></div>
+    <div class="card"><div class="card-title">Custo Operacional Anual (R$/ano)</div><div class="chart-box"><canvas id="ch-custo"></canvas></div></div>
+    <div class="card"><div class="card-title">Distribuição de Economia por Equipamento</div><div class="chart-box"><canvas id="ch-donut"></canvas></div></div>
+    <div class="card"><div class="card-title">Evolução do Payback Acumulado (meses)</div><div class="chart-box"><canvas id="ch-payback"></canvas></div></div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- TAB 2: DADOS DOS EQUIPAMENTOS                                    -->
+<!-- ================================================================ -->
+<div id="tab-equip" class="tab-panel">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Dados dos Equipamentos</div>
+      <div class="page-subtitle">Edite os valores e os cálculos serão atualizados automaticamente</div>
+    </div>
+  </div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="switchSub(event,'sub-cad')">Cadastro de Equipamentos</button>
+    <button class="sub-tab" onclick="switchSub(event,'sub-uso')">Perfil de Uso e Consumo</button>
+  </div>
+
+  <div id="sub-cad" class="sub-panel active">
+    <div class="card">
+      <div class="card-title">Cadastro, Dimensionamento e Correntes (38 Unidades)</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>#</th><th class="text-left">Tag do Equipamento</th><th>Pot. Unit. UC (kW)</th><th>Qtd. UCs</th><th>Pot. Unit. UE (kW)</th><th>Qtd. UEs</th><th>Pot. Total (kW)</th><th>Corrente (A)</th></tr></thead>
+          <tbody id="tbl-cad"></tbody>
+          <tfoot><tr class="total-row"><td></td><td class="text-left bold">TOTAL</td><td id="tot-potUC">—</td><td id="tot-qtdUC">—</td><td id="tot-potUE">—</td><td id="tot-qtdUE">—</td><td id="tot-potTotal">—</td><td id="tot-corrente">—</td></tr></tfoot>
+        </table>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="saveToFirebase()"><span class="material-icons-round">cloud_upload</span> Salvar Alterações</button>
+        <button class="btn btn-secondary" onclick="resetCadastro()"><span class="material-icons-round">restart_alt</span> Restaurar Padrão</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="sub-uso" class="sub-panel">
+    <div class="card">
+      <div class="card-title">Perfil de Funcionamento Semanal e Cálculo de Consumo Operacional</div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>#</th><th class="text-left">Tag</th><th>Seg-Sex (h)</th><th>Sáb (h)</th><th>Dom (h)</th><th>Setup Antes (h)</th><th>Setup Depois (h)</th><th>Consumo Antes (kWh/mês)</th><th>Consumo Depois (kWh/mês)</th><th>Economia (kWh/mês)</th></tr></thead>
+          <tbody id="tbl-uso"></tbody>
+          <tfoot><tr class="total-row"><td></td><td class="text-left bold">TOTAL</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td id="tot-consAntes">—</td><td id="tot-consDepois">—</td><td id="tot-econMes">—</td></tr></tfoot>
+        </table>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="saveToFirebase()"><span class="material-icons-round">cloud_upload</span> Salvar Alterações</button>
+        <button class="btn btn-secondary" onclick="resetPerfil()"><span class="material-icons-round">restart_alt</span> Restaurar Padrão</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- TAB 3: PARÂMETROS GERAIS                                         -->
+<!-- ================================================================ -->
+<div id="tab-params" class="tab-panel">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Parâmetros Gerais do Sistema & Controle</div>
+      <div class="page-subtitle">Altere os parâmetros e todos os resultados serão recalculados em tempo real</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="param-grid" id="param-grid"></div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="applyParams(); saveToFirebase()"><span class="material-icons-round">autorenew</span> Aplicar e Salvar</button>
+      <button class="btn btn-secondary" onclick="resetParams()"><span class="material-icons-round">restart_alt</span> Restaurar Padrão</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- TAB 4: IMPRESSÃO                                                 -->
+<!-- ================================================================ -->
+<div id="tab-print" class="tab-panel">
+  <div class="page-header" style="margin-bottom:0">
+    <div><div class="page-title">Relatório para Impressão</div><div class="page-subtitle">Pressione CTRL+P ou clique no botão para gerar o PDF executivo</div></div>
+    <button class="btn btn-primary" onclick="window.print()"><span class="material-icons-round">print</span> Imprimir / Salvar PDF</button>
+  </div>
+  <div class="print-page" id="print-body"></div>
+</div>
+
+</div><!-- page-wrap -->
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Firebase SDK (compat mode for simplicity) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+<script>
+// ================================================================
+// DATA STORE
+// ================================================================
+const DEFAULT_EQUIPAMENTOS = [{"tag": "[UE-05 / UC-05A / UC-05B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-02 / UC-02A / UC-02B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-03A / UE-03B / UC-03A / UC-03B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 1, "potTotal": 22.2, "corrente": 35.5}, {"tag": "[UE-04 / UC-04A / UC-04B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-05A / UE-05B / UC-05A / UC-05B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 2, "potTotal": 26, "corrente": 41.6}, {"tag": "[UE-06A / UE-06B / UC-06A / UC-06B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 2, "potTotal": 24.4, "corrente": 39}, {"tag": "[UE-07 / UC-07A / UC-07B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-08 / UC-08A / UC-08B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-09A / UE-09B / UC-09A / UC-09B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 1, "potTotal": 22.2, "corrente": 35.5}, {"tag": "[UE-10A / UE-10B / UC-10A / UC-10B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-11 / UC-11A / UC-11B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-12A / UE-12B / UC-12A / UC-12B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-13 / UC-13A / UC-13B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-14 / UC-14A / UC-14B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-15A / UE-15B / UC-15A / UC-15B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-16 / UC-16A / UC-16B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-17 / UC-17A / UC-17B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-18A / UE-18B / UC-18A / UC-18B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 1, "potTotal": 22.2, "corrente": 35.5}, {"tag": "[UE-19 / UC-19A / UC-19B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-20A / UE-20B / UC-20A / UC-20B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-21A / UE-21B / UC-21A / UC-21B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 1, "potTotal": 22.2, "corrente": 35.5}, {"tag": "[UE-22 / UC-22A / UC-22B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-23 / UC-23A / UC-23B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-24A / UE-24B / UC-24A / UC-24B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-25A / UE-25B / UC-25A / UC-25B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-26 / UC-26A / UC-26B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-27A / UE-27B / UC-27A / UC-27B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 1, "potTotal": 22.2, "corrente": 35.5}, {"tag": "[UE-28 / UC-28A / UC-28B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-29 / UC-29A / UC-29B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-30A / UE-30B / UC-30A / UC-30B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-31 / UC-31A / UC-31B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-32 / UC-32A / UC-32B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-33A / UE-33B / UC-33A / UC-33B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 1, "potTotal": 22.2, "corrente": 35.5}, {"tag": "[UE-34 / UC-34A / UC-34B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-35A / UE-35B / UC-35A / UC-35B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-36A / UE-36B / UC-36A / UC-36B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-37 / UC-37A / UC-37B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-38 / UC-38A / UC-38B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}];
+const DEFAULT_PERFIL = [{"tag": "[UE-01 / UC-01A / UC-01B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-02 / UC-02A / UC-02B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-03A / UE-03B / UC-03A / UC-03B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6165.054000000001, "consumoDepois": 5528.544000000001, "economiaMensal": 636.5100000000002}, {"tag": "[UE-04 / UC-04A / UC-04B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-05A / UE-05B / UC-05A / UC-05B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 7547.1900000000005, "consumoDepois": 6910.68, "economiaMensal": 636.5100000000002}, {"tag": "[UE-06A / UE-06B / UC-06A / UC-06B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6965.237999999999, "consumoDepois": 6328.728, "economiaMensal": 636.5099999999993}, {"tag": "[UE-07 / UC-07A / UC-07B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-08 / UC-08A / UC-08B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-09A / UE-09B / UC-09A / UC-09B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6165.054000000001, "consumoDepois": 5528.544000000001, "economiaMensal": 636.5100000000002}, {"tag": "[UE-10A / UE-10B / UC-10A / UC-10B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-11 / UC-11A / UC-11B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-12A / UE-12B / UC-12A / UC-12B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-13 / UC-13A / UC-13B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-14 / UC-14A / UC-14B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-15A / UE-15B / UC-15A / UC-15B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-16 / UC-16A / UC-16B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-17 / UC-17A / UC-17B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-18A / UE-18B / UC-18A / UC-18B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6165.054000000001, "consumoDepois": 5528.544000000001, "economiaMensal": 636.5100000000002}, {"tag": "[UE-19 / UC-19A / UC-19B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-20A / UE-20B / UC-20A / UC-20B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-21A / UE-21B / UC-21A / UC-21B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6165.054000000001, "consumoDepois": 5528.544000000001, "economiaMensal": 636.5100000000002}, {"tag": "[UE-22 / UC-22A / UC-22B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-23 / UC-23A / UC-23B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-24A / UE-24B / UC-24A / UC-24B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-25A / UE-25B / UC-25A / UC-25B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-26 / UC-26A / UC-26B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-27A / UE-27B / UC-27A / UC-27B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6165.054000000001, "consumoDepois": 5528.544000000001, "economiaMensal": 636.5100000000002}, {"tag": "[UE-28 / UC-28A / UC-28B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-29 / UC-29A / UC-29B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-30A / UE-30B / UC-30A / UC-30B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-31 / UC-31A / UC-31B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-32 / UC-32A / UC-32B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-33A / UE-33B / UC-33A / UC-33B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6165.054000000001, "consumoDepois": 5528.544000000001, "economiaMensal": 636.5100000000002}, {"tag": "[UE-34 / UC-34A / UC-34B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-35A / UE-35B / UC-35A / UC-35B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-36A / UE-36B / UC-36A / UC-36B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-37 / UC-37A / UC-37B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-38 / UC-38A / UC-38B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}];
+const DEFAULT_PARAMS = {"setpoint": 22, "histerese": 1, "erroDuplo": 2.5, "tempoEscrava": 1, "tempoRevezamento": 12, "tarifa": 0.75, "capex": 301000, "dcAntes": 0.7, "dcMestre": 0.7, "dcEscrava": 0.5};
+
+let equipamentos = JSON.parse(JSON.stringify(DEFAULT_EQUIPAMENTOS));
+let perfil = JSON.parse(JSON.stringify(DEFAULT_PERFIL));
+let params = JSON.parse(JSON.stringify(DEFAULT_PARAMS));
+
+// ================================================================
+// FIREBASE
+// ================================================================
+firebase.initializeApp({
+  apiKey: "AIzaSyB5W7i5Ml71o8Cpva81OSIIyuN1lIvEHyg",
+  authDomain: "analiseenergeticanovoshopping.firebaseapp.com",
+  projectId: "analiseenergeticanovoshopping",
+  storageBucket: "analiseenergeticanovoshopping.firebasestorage.app",
+  messagingSenderId: "1075085728649",
+  appId: "1:1075085728649:web:03918608f7363f045d5f58",
+});
+const db = firebase.firestore();
+
+async function loadFromFirebase() {
+  try {
+    const pDoc = await db.collection('config').doc('parametros').get();
+    if (pDoc.exists) { params = pDoc.data(); }
+    const eSnap = await db.collection('equipamentos').get();
+    if (!eSnap.empty) {
+      equipamentos = [];
+      eSnap.forEach(doc => equipamentos.push(doc.data()));
+      equipamentos.sort((a,b) => (a.tag||'').localeCompare(b.tag||''));
+    }
+    const uSnap = await db.collection('perfil_uso').get();
+    if (!uSnap.empty) {
+      perfil = [];
+      uSnap.forEach(doc => perfil.push(doc.data()));
+      perfil.sort((a,b) => (a.tag||'').localeCompare(b.tag||''));
+    }
+    showToast('Dados carregados do Firebase');
+  } catch(e) {
+    console.log('Firebase load skipped:', e.message);
+  }
+}
+
+async function saveToFirebase() {
+  try {
+    readEditableCadastro();
+    readEditablePerfil();
+    readEditableParams();
+    await db.collection('config').doc('parametros').set(params);
+    const batch1 = db.batch();
+    // Clear old equipamentos
+    const oldE = await db.collection('equipamentos').get();
+    oldE.forEach(doc => batch1.delete(doc.ref));
+    equipamentos.forEach((eq, i) => {
+      batch1.set(db.collection('equipamentos').doc('eq_' + i), eq);
+    });
+    await batch1.commit();
+    const batch2 = db.batch();
+    const oldU = await db.collection('perfil_uso').get();
+    oldU.forEach(doc => batch2.delete(doc.ref));
+    perfil.forEach((p, i) => {
+      batch2.set(db.collection('perfil_uso').doc('uso_' + i), p);
+    });
+    await batch2.commit();
+    showToast('Dados salvos no Firebase com sucesso!');
+  } catch(e) {
+    showToast('Erro ao salvar: ' + e.message);
+  }
+}
+
+// ================================================================
+// FORMAT HELPERS
+// ================================================================
+const fmtCur = v => 'R$ ' + Number(v).toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+const fmtInt = v => Math.round(Number(v)).toLocaleString('pt-BR');
+const fmtDec = (v, d=1) => Number(v).toLocaleString('pt-BR', {minimumFractionDigits:d, maximumFractionDigits:d});
+const fmtPct = v => (Number(v)*100).toLocaleString('pt-BR', {minimumFractionDigits:1, maximumFractionDigits:1}) + '%';
+
+// ================================================================
+// CALCULATION ENGINE (replicates Excel formulas)
+// ================================================================
+function calcEquipamento(eq) {
+  eq.potTotal = (eq.potUC * eq.qtdUC) + (eq.potUE * eq.qtdUE);
+  eq.corrente = Math.round((eq.potTotal * 1000) / (1.732 * 380 * 0.95) * 10) / 10;
+}
+
+function calcConsumo(eq, uso) {
+  const dc_antes = params.dcAntes;
+  const dc_mestre = params.dcMestre;
+  const dc_escrava = params.dcEscrava;
+  
+  function consumoDia(horas, setup, modo) {
+    const consUE = eq.potUE * eq.qtdUE * horas;
+    if (horas <= 0) return consUE;
+    if (modo === 'antes') {
+      const consUC_setup = eq.qtdUC * eq.potUC * Math.min(horas, setup);
+      const consUC_manut = eq.qtdUC * eq.potUC * Math.max(0, horas - setup) * dc_antes;
+      return consUE + consUC_setup + consUC_manut;
+    } else {
+      const setupD = uso.setupDepois;
+      const consUC_setup = eq.qtdUC * eq.potUC * Math.min(horas, setupD);
+      const consUC_manut = (1 * eq.potUC * dc_mestre + (eq.qtdUC - 1) * eq.potUC * dc_escrava) * Math.max(0, horas - setupD);
+      return consUE + consUC_setup + consUC_manut;
+    }
+  }
+  
+  uso.consumoAntes = 4.33 * (
+    5 * consumoDia(uso.hSegSex, uso.setupAntes, 'antes') +
+    1 * consumoDia(uso.hSab, uso.setupAntes, 'antes') +
+    1 * consumoDia(uso.hDom, uso.setupAntes, 'antes')
+  );
+  
+  uso.consumoDepois = 4.33 * (
+    5 * consumoDia(uso.hSegSex, uso.setupDepois, 'depois') +
+    1 * consumoDia(uso.hSab, uso.setupDepois, 'depois') +
+    1 * consumoDia(uso.hDom, uso.setupDepois, 'depois')
+  );
+  
+  uso.economiaMensal = uso.consumoAntes - uso.consumoDepois;
+}
+
+function recalcAll() {
+  // Recalc cadastro
+  equipamentos.forEach(eq => calcEquipamento(eq));
+  // Recalc perfil
+  perfil.forEach((uso, i) => {
+    if (i < equipamentos.length) calcConsumo(equipamentos[i], uso);
+  });
+  // Recalc financeiro
+  updateDashboard();
+  updatePrintPage();
+}
+
+// ================================================================
+// TAB NAVIGATION
+// ================================================================
+function switchTab(evt, id) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  evt.currentTarget.classList.add('active');
+}
+
+function switchSub(evt, id) {
+  document.querySelectorAll('.sub-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  evt.currentTarget.classList.add('active');
+}
+
+// ================================================================
+// RENDER: CADASTRO
+// ================================================================
+function renderCadastro() {
+  const tbody = document.getElementById('tbl-cad');
+  tbody.innerHTML = '';
+  let totPotUC=0,totQtdUC=0,totPotUE=0,totQtdUE=0,totPot=0,totCorr=0;
+  equipamentos.forEach((eq, i) => {
+    calcEquipamento(eq);
+    totPotUC += eq.potUC * eq.qtdUC; totQtdUC += eq.qtdUC;
+    totPotUE += eq.potUE * eq.qtdUE; totQtdUE += eq.qtdUE;
+    totPot += eq.potTotal; totCorr += eq.corrente;
+    tbody.innerHTML += `<tr>
+      <td>${i+1}</td>
+      <td class="text-left bold">${eq.tag}</td>
+      <td contenteditable="true" data-idx="${i}" data-field="potUC" onblur="onCadEdit(this)">${fmtDec(eq.potUC,1)}</td>
+      <td contenteditable="true" data-idx="${i}" data-field="qtdUC" onblur="onCadEdit(this)">${eq.qtdUC}</td>
+      <td contenteditable="true" data-idx="${i}" data-field="potUE" onblur="onCadEdit(this)">${fmtDec(eq.potUE,1)}</td>
+      <td contenteditable="true" data-idx="${i}" data-field="qtdUE" onblur="onCadEdit(this)">${eq.qtdUE}</td>
+      <td class="calculated bold">${fmtDec(eq.potTotal,2)}</td>
+      <td class="calculated bold text-blue">${fmtDec(eq.corrente,1)}</td>
+    </tr>`;
+  });
+  document.getElementById('tot-potUC').innerText = fmtDec(totPotUC,1);
+  document.getElementById('tot-qtdUC').innerText = totQtdUC;
+  document.getElementById('tot-potUE').innerText = fmtDec(totPotUE,1);
+  document.getElementById('tot-qtdUE').innerText = totQtdUE;
+  document.getElementById('tot-potTotal').innerText = fmtDec(totPot,1);
+  document.getElementById('tot-corrente').innerText = fmtDec(totCorr,1);
+}
+
+function onCadEdit(cell) {
+  const i = parseInt(cell.dataset.idx);
+  const f = cell.dataset.field;
+  const v = parseFloat(cell.innerText.replace(',','.')) || 0;
+  equipamentos[i][f] = v;
+  recalcAll();
+  renderCadastro();
+  renderPerfil();
+}
+
+function readEditableCadastro() {
+  // Already handled by onCadEdit
+}
+
+function resetCadastro() {
+  equipamentos = JSON.parse(JSON.stringify(DEFAULT_EQUIPAMENTOS));
+  recalcAll(); renderCadastro(); renderPerfil();
+  showToast('Cadastro restaurado ao padrão');
+}
+
+// ================================================================
+// RENDER: PERFIL DE USO
+// ================================================================
+function renderPerfil() {
+  const tbody = document.getElementById('tbl-uso');
+  tbody.innerHTML = '';
+  let totCA=0, totCD=0, totEc=0;
+  perfil.forEach((uso, i) => {
+    if (i < equipamentos.length) calcConsumo(equipamentos[i], uso);
+    totCA += uso.consumoAntes; totCD += uso.consumoDepois; totEc += uso.economiaMensal;
+    tbody.innerHTML += `<tr>
+      <td>${i+1}</td>
+      <td class="text-left bold" style="font-size:11px">${uso.tag}</td>
+      <td contenteditable="true" data-idx="${i}" data-field="hSegSex" onblur="onUsoEdit(this)">${uso.hSegSex}</td>
+      <td contenteditable="true" data-idx="${i}" data-field="hSab" onblur="onUsoEdit(this)">${uso.hSab}</td>
+      <td contenteditable="true" data-idx="${i}" data-field="hDom" onblur="onUsoEdit(this)">${uso.hDom}</td>
+      <td contenteditable="true" data-idx="${i}" data-field="setupAntes" onblur="onUsoEdit(this)">${fmtDec(uso.setupAntes,1)}</td>
+      <td contenteditable="true" data-idx="${i}" data-field="setupDepois" onblur="onUsoEdit(this)">${fmtDec(uso.setupDepois,1)}</td>
+      <td class="calculated">${fmtDec(uso.consumoAntes,2)}</td>
+      <td class="calculated">${fmtDec(uso.consumoDepois,2)}</td>
+      <td class="calculated bold text-green">${fmtDec(uso.economiaMensal,2)}</td>
+    </tr>`;
+  });
+  document.getElementById('tot-consAntes').innerText = fmtDec(totCA,2);
+  document.getElementById('tot-consDepois').innerText = fmtDec(totCD,2);
+  document.getElementById('tot-econMes').innerText = fmtDec(totEc,2);
+}
+
+function onUsoEdit(cell) {
+  const i = parseInt(cell.dataset.idx);
+  const f = cell.dataset.field;
+  const v = parseFloat(cell.innerText.replace(',','.')) || 0;
+  perfil[i][f] = v;
+  recalcAll();
+  renderPerfil();
+}
+
+function readEditablePerfil() {}
+
+function resetPerfil() {
+  perfil = JSON.parse(JSON.stringify(DEFAULT_PERFIL));
+  recalcAll(); renderPerfil();
+  showToast('Perfil de Uso restaurado ao padrão');
+}
+
+// ================================================================
+// RENDER: PARÂMETROS
+// ================================================================
+const paramDefs = [
+  {key:'setpoint', label:'Setpoint de Temperatura', unit:'°C', hint:'Temperatura alvo desejada no ambiente'},
+  {key:'histerese', label:'Histerese', unit:'°C', hint:'Diferencial para desligar/ligar no setpoint'},
+  {key:'erroDuplo', label:'Erro p/ Acionamento Duplo', unit:'°C', hint:'Erro que força acionamento de ambas as condensadoras'},
+  {key:'tempoEscrava', label:'Tempo Limite Escrava', unit:'horas', hint:'Tempo antes de acionar a escrava na manutenção'},
+  {key:'tempoRevezamento', label:'Tempo de Revezamento', unit:'horas', hint:'Intervalo para rotação das unidades'},
+  {key:'tarifa', label:'Tarifa de Energia', unit:'R$/kWh', hint:'Tarifa média de energia contratada'},
+  {key:'capex', label:'Investimento CAPEX', unit:'R$', hint:'Custo total da obra de retrofit'},
+  {key:'dcAntes', label:'Duty Cycle UC Antes', unit:'(0 a 1)', hint:'Duty cycle médio no cenário analógico'},
+  {key:'dcMestre', label:'Duty Cycle Mestre Depois', unit:'(0 a 1)', hint:'Duty cycle da UC Mestre no CLP'},
+  {key:'dcEscrava', label:'Duty Cycle Escrava Depois', unit:'(0 a 1)', hint:'Duty cycle da UC Escrava no CLP'},
+];
+
+function renderParams() {
+  const grid = document.getElementById('param-grid');
+  grid.innerHTML = '';
+  paramDefs.forEach(def => {
+    grid.innerHTML += `<div class="param-card">
+      <label>${def.label} (${def.unit})</label>
+      <input type="number" step="any" id="p-${def.key}" value="${params[def.key]}" onchange="onParamChange('${def.key}', this.value)">
+      <div class="param-hint">${def.hint}</div>
+    </div>`;
+  });
+}
+
+function onParamChange(key, val) {
+  params[key] = parseFloat(val) || 0;
+  applyParams();
+}
+
+function applyParams() {
+  readEditableParams();
+  recalcAll();
+  renderCadastro();
+  renderPerfil();
+  showToast('Parâmetros aplicados e cálculos atualizados');
+}
+
+function readEditableParams() {
+  paramDefs.forEach(def => {
+    const el = document.getElementById('p-' + def.key);
+    if (el) params[def.key] = parseFloat(el.value) || 0;
+  });
+}
+
+function resetParams() {
+  params = JSON.parse(JSON.stringify(DEFAULT_PARAMS));
+  renderParams();
+  recalcAll(); renderCadastro(); renderPerfil();
+  showToast('Parâmetros restaurados ao padrão');
+}
+
+// ================================================================
+// DASHBOARD
+// ================================================================
+let chConsumo, chCusto, chDonut, chPayback;
+
+function updateDashboard() {
+  // Aggregate from perfil
+  let consAntesMes=0, consDepoisMes=0, econMes=0;
+  perfil.forEach(u => {
+    consAntesMes += u.consumoAntes;
+    consDepoisMes += u.consumoDepois;
+    econMes += u.economiaMensal;
+  });
+  const consAntesAno = consAntesMes * 12;
+  const consDepoisAno = consDepoisMes * 12;
+  const redKwhMes = econMes;
+  const redKwhAno = econMes * 12;
+  const redPerc = consAntesMes > 0 ? redKwhMes / consAntesMes : 0;
+  const custoAntesMes = consAntesMes * params.tarifa;
+  const custoDepoisMes = consDepoisMes * params.tarifa;
+  const econMesR = econMes * params.tarifa;
+  const custoAntesAno = custoAntesMes * 12;
+  const custoDepoisAno = custoDepoisMes * 12;
+  const econAnoR = econMesR * 12;
+  const paybackMeses = econMesR > 0 ? params.capex / econMesR : 999;
+  const paybackAnos = paybackMeses / 12;
+  const roi = econAnoR > 0 ? (econAnoR * 5 - params.capex) / params.capex : 0;
+  const vpl = econAnoR * 3.604776 - params.capex;
+  const co2 = redKwhAno * 0.086 / 1000;
+
+  // KPI Cards
+  document.getElementById('d-capex').innerText = fmtCur(params.capex);
+  document.getElementById('d-econAno').innerText = fmtCur(econAnoR);
+  document.getElementById('d-payback').innerText = fmtDec(paybackMeses, 1) + ' meses';
+  document.getElementById('d-roi').innerText = fmtDec(roi * 100, 1) + '%';
+  document.getElementById('d-vpl').innerText = fmtCur(vpl);
+  document.getElementById('d-co2').innerText = fmtDec(co2, 1) + ' tCO₂/ano';
+
+  // Table
+  const tblDash = document.getElementById('tbl-dash');
+  tblDash.innerHTML = `
+    <tr><td class="text-left bold">Consumo Mensal (kWh/mês)</td><td>${fmtInt(consAntesMes)}</td><td>${fmtInt(consDepoisMes)}</td><td class="bold">${fmtInt(redKwhMes)}</td><td class="bold">${fmtDec(redPerc*100,1)}%</td></tr>
+    <tr><td class="text-left bold">Consumo Anual (kWh/ano)</td><td>${fmtInt(consAntesAno)}</td><td>${fmtInt(consDepoisAno)}</td><td class="bold">${fmtInt(redKwhAno)}</td><td class="bold">${fmtDec(redPerc*100,1)}%</td></tr>
+    <tr><td class="text-left bold">Gasto Mensal (R$/mês)</td><td>${fmtCur(custoAntesMes)}</td><td>${fmtCur(custoDepoisMes)}</td><td class="bold text-blue">${fmtCur(econMesR)}</td><td class="bold">${fmtDec(redPerc*100,1)}%</td></tr>
+    <tr class="total-row"><td class="text-left">Gasto Anual (R$/ano)</td><td>${fmtCur(custoAntesAno)}</td><td>${fmtCur(custoDepoisAno)}</td><td class="bold">${fmtCur(econAnoR)}</td><td class="bold">${fmtDec(redPerc*100,1)}%</td></tr>`;
+
+  // Charts
+  updateCharts(consAntesMes, consDepoisMes, custoAntesAno, custoDepoisAno, econMesR, paybackMeses);
+
+  // Store for print page
+  window._fin = { consAntesMes, consDepoisMes, redKwhMes, redPerc, consAntesAno, consDepoisAno, redKwhAno, custoAntesMes, custoDepoisMes, econMesR, custoAntesAno, custoDepoisAno, econAnoR, paybackMeses, paybackAnos, roi, vpl, co2 };
+}
+
+function updateCharts(cAM, cDM, cAA, cDA, econMesR, pbMeses) {
+  const barOpts = { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} };
+
+  if (chConsumo) chConsumo.destroy();
+  chConsumo = new Chart(document.getElementById('ch-consumo'), {
+    type:'bar', data:{ labels:['Antes','Depois (CLP)'], datasets:[{ data:[cAM,cDM], backgroundColor:['#e53e3e','#38a169'], borderRadius:5 }] }, options:barOpts
+  });
+
+  if (chCusto) chCusto.destroy();
+  chCusto = new Chart(document.getElementById('ch-custo'), {
+    type:'bar', data:{ labels:['Antes','Depois (CLP)'], datasets:[{ data:[cAA,cDA], backgroundColor:['#e53e3e','#1a5276'], borderRadius:5 }] }, options:barOpts
+  });
+
+  // Donut: Top 5 equipment savings + others
+  const sorted = perfil.map((u,i) => ({tag: u.tag.replace(/[\[\]]/g,''), econ: u.economiaMensal})).sort((a,b) => b.econ - a.econ);
+  const top5 = sorted.slice(0, 5);
+  const otherSum = sorted.slice(5).reduce((s,v) => s + v.econ, 0);
+  const donutLabels = top5.map(v => v.tag);
+  const donutData = top5.map(v => v.econ);
+  if (otherSum > 0) { donutLabels.push('Demais'); donutData.push(otherSum); }
+  const donutColors = ['#0f2b46','#1a5276','#00b4d8','#48bb78','#dd6b20','#9b59b6'];
+
+  if (chDonut) chDonut.destroy();
+  chDonut = new Chart(document.getElementById('ch-donut'), {
+    type:'doughnut', data:{ labels:donutLabels, datasets:[{ data:donutData, backgroundColor:donutColors }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'right',labels:{font:{size:10}}}} }
+  });
+
+  // Payback line
+  const months = [];
+  const acum = [];
+  for (let m = 0; m <= 60; m++) {
+    months.push(m);
+    acum.push(-params.capex + econMesR * m);
+  }
+
+  if (chPayback) chPayback.destroy();
+  chPayback = new Chart(document.getElementById('ch-payback'), {
+    type:'line', data:{ labels:months, datasets:[
+      { label:'Fluxo Acumulado (R$)', data:acum, borderColor:'#00b4d8', backgroundColor:'rgba(0,180,216,.08)', fill:true, tension:.3, pointRadius:0 },
+      { label:'Zero', data:months.map(()=>0), borderColor:'#e53e3e', borderDash:[5,5], pointRadius:0 }
+    ] },
+    options:{ responsive:true, maintainAspectRatio:false, scales:{ x:{title:{display:true,text:'Meses'}}, y:{title:{display:true,text:'R$'}} }, plugins:{legend:{display:false}} }
+  });
+}
+
+// ================================================================
+// PRINT PAGE
+// ================================================================
+function updatePrintPage() {
+  const f = window._fin || {};
+  const body = document.getElementById('print-body');
+  body.innerHTML = `
+    <div class="print-header">
+      <div class="print-title">Projeto de Retrofit de Climatização por CLP</div>
+      <div class="print-subtitle">Estudo de Viabilidade Técnica, Econômica e Socioambiental</div>
+      <div class="print-meta">
+        <span><b>Cliente:</b> Grupo Administrador Novo Shopping</span>
+        <span><b>Data:</b> Agosto de 2026</span>
+      </div>
+    </div>
+
+    <h2>1. Resumo Executivo</h2>
+    <p>Este estudo documenta a viabilidade da modernização do sistema de controle térmico de ar-condicionado do shopping através da implementação de controladores lógicos programáveis (CLPs) dedicados. O retrofit abrange um total de <b>${equipamentos.length} equipamentos</b> de grande porte. A finalidade da automação é mitigar a ineficiência do acionamento termostático convencional, reduzindo a demanda ativa do compressor e promovendo economia financeira direta e sustentável.</p>
+
+    <h2>2. Parâmetros do Projeto</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th class="text-left">Parâmetro</th><th>Valor</th><th>Unidade</th></tr></thead>
+      <tbody>
+        <tr><td class="text-left">Setpoint de Temperatura</td><td>${params.setpoint}</td><td>°C</td></tr>
+        <tr><td class="text-left">Histerese</td><td>${params.histerese}</td><td>°C</td></tr>
+        <tr><td class="text-left">Erro p/ Acionamento Duplo</td><td>${params.erroDuplo}</td><td>°C</td></tr>
+        <tr><td class="text-left">Tempo Limite Escrava</td><td>${params.tempoEscrava}</td><td>horas</td></tr>
+        <tr><td class="text-left">Tempo de Revezamento</td><td>${params.tempoRevezamento}</td><td>horas</td></tr>
+        <tr><td class="text-left">Tarifa de Energia</td><td>${fmtCur(params.tarifa)}</td><td>R$/kWh</td></tr>
+        <tr><td class="text-left">Duty Cycle Antes (Manutenção)</td><td>${fmtDec(params.dcAntes*100,0)}%</td><td>—</td></tr>
+        <tr><td class="text-left">Duty Cycle Mestre (CLP)</td><td>${fmtDec(params.dcMestre*100,0)}%</td><td>—</td></tr>
+        <tr><td class="text-left">Duty Cycle Escrava (CLP)</td><td>${fmtDec(params.dcEscrava*100,0)}%</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>3. Resultados Operacionais</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th class="text-left">Indicador</th><th>Antes</th><th>Depois (CLP)</th><th>Economia</th><th>Red. (%)</th></tr></thead>
+      <tbody>
+        <tr><td class="text-left bold">Consumo Mensal (kWh/mês)</td><td>${fmtInt(f.consAntesMes||0)}</td><td>${fmtInt(f.consDepoisMes||0)}</td><td class="bold">${fmtInt(f.redKwhMes||0)}</td><td>${fmtDec((f.redPerc||0)*100,1)}%</td></tr>
+        <tr><td class="text-left bold">Consumo Anual (kWh/ano)</td><td>${fmtInt(f.consAntesAno||0)}</td><td>${fmtInt(f.consDepoisAno||0)}</td><td class="bold">${fmtInt(f.redKwhAno||0)}</td><td>${fmtDec((f.redPerc||0)*100,1)}%</td></tr>
+        <tr><td class="text-left bold">Gasto Mensal (R$/mês)</td><td>${fmtCur(f.custoAntesMes||0)}</td><td>${fmtCur(f.custoDepoisMes||0)}</td><td class="bold">${fmtCur(f.econMesR||0)}</td><td>${fmtDec((f.redPerc||0)*100,1)}%</td></tr>
+        <tr class="total-row"><td class="text-left">Gasto Anual (R$/ano)</td><td>${fmtCur(f.custoAntesAno||0)}</td><td>${fmtCur(f.custoDepoisAno||0)}</td><td class="bold">${fmtCur(f.econAnoR||0)}</td><td>${fmtDec((f.redPerc||0)*100,1)}%</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>4. Indicadores Financeiros e Payback</h2>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th class="text-left">Indicador</th><th>Valor</th><th>Unidade</th></tr></thead>
+      <tbody>
+        <tr><td class="text-left bold">Investimento CAPEX</td><td class="bold">${fmtCur(params.capex)}</td><td>R$</td></tr>
+        <tr><td class="text-left">Economia Mensal</td><td>${fmtCur(f.econMesR||0)}</td><td>R$/mês</td></tr>
+        <tr><td class="text-left">Economia Anual</td><td>${fmtCur(f.econAnoR||0)}</td><td>R$/ano</td></tr>
+        <tr><td class="text-left">Redução Energética Anual</td><td>${fmtInt(f.redKwhAno||0)}</td><td>kWh/ano</td></tr>
+        <tr class="total-row"><td class="text-left">Payback Simples</td><td class="bold">${fmtDec(f.paybackMeses||0,1)} meses</td><td>Meses</td></tr>
+        <tr class="total-row"><td class="text-left">ROI em 5 Anos</td><td class="bold">${fmtDec((f.roi||0)*100,1)}%</td><td>%</td></tr>
+        <tr class="total-row"><td class="text-left">VPL (5 anos, 12% a.a.)</td><td class="bold">${fmtCur(f.vpl||0)}</td><td>R$</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>5. Sustentabilidade ESG</h2>
+    <div class="highlight">
+      <b>Descarbonização:</b> A economia no consumo elétrico evitará a emissão de aproximadamente <b>${fmtDec(f.co2||0,1)} toneladas de CO₂ por ano</b>, considerando o fator médio de emissão do SIN/MCTI de 0,086 kg CO₂/kWh. Isso demonstra compromisso direto com práticas ambientais corporativas e metas de sustentabilidade.
+    </div>
+
+    <h2>6. Conclusão e Recomendação Técnica</h2>
+    <p>O retrofit térmico dos ${equipamentos.length} equipamentos é considerado <b>altamente recomendado</b> devido ao payback operacional simples de apenas <b>${fmtDec(f.paybackMeses||0,1)} meses</b>, retorno sobre investimento de <b>${fmtDec((f.roi||0)*100,1)}%</b> em 5 anos e forte contribuição ambiental. Recomenda-se a imediata liberação do orçamento CAPEX e início do comissionamento para início imediato do ciclo de economia.</p>
+  `;
+}
+
+// ================================================================
+// TOAST
+// ================================================================
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerText = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ================================================================
+// INIT
+// ================================================================
+async function init() {
+  await loadFromFirebase();
+  renderParams();
+  renderCadastro();
+  renderPerfil();
+  recalcAll();
+}
+
+window.onload = init;
+</script>
+</body>
+</html>
