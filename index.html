@@ -115,7 +115,6 @@ body {
   gap: 14px;
 }
 
-/* Botão Atualizar Dados no Canto Direito */
 .btn-update-data {
   background: var(--accent-gradient);
   color: white;
@@ -138,7 +137,7 @@ body {
   box-shadow: 0 6px 18px rgba(2, 132, 199, 0.45);
 }
 
-/* Submenu / Drawer de Gestão de Dados (Aparece ao clicar em Atualizar Dados) */
+/* Submenu de Gestão */
 .admin-toolbar {
   background: #172a45;
   color: white;
@@ -211,9 +210,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ================================================================ */
-/* LANDING PAGE INTERATIVA (PITCH & PRODUTO)                        */
-/* ================================================================ */
+/* Hero Section */
 .hero-card {
   background: linear-gradient(135deg, #0a192f 0%, #172a45 60%, #1e3a8a 100%);
   color: white;
@@ -321,7 +318,7 @@ body {
   margin-top: 32px;
 }
 
-/* Simulador Interativo ao Vivo */
+/* Simulador com 3 Sliders */
 .interactive-simulator {
   background: #ffffff;
   border: 1px solid var(--border);
@@ -351,19 +348,19 @@ body {
 
 .simulator-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.1fr 1fr;
   gap: 28px;
 }
 
 .slider-group {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
 }
 
 .slider-card {
   background: #f8fafc;
-  padding: 16px 20px;
+  padding: 14px 18px;
   border-radius: 12px;
   border: 1px solid var(--border);
 }
@@ -372,17 +369,17 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .slider-label {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
   color: var(--primary);
 }
 
 .slider-val {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   color: var(--accent);
   background: #e0f2fe;
@@ -442,7 +439,55 @@ input[type=range] {
   margin-top: 2px;
 }
 
-/* Gráficos Interativos na Home */
+/* Caso Real Logs R1 Card */
+.case-study-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 36px;
+  box-shadow: var(--shadow-md);
+}
+
+.case-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.help-btn {
+  background: #e2e8f0;
+  color: var(--primary);
+  border: none;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 50%;
+  margin-left: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s;
+  vertical-align: middle;
+}
+
+.help-btn:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* Gráficos Interativos */
 .home-charts-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -459,7 +504,7 @@ input[type=range] {
 }
 
 .home-chart-title {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 800;
   color: var(--primary);
   text-transform: uppercase;
@@ -469,7 +514,7 @@ input[type=range] {
   border-bottom: 1px solid var(--border);
 }
 
-/* ESG Widgets */
+/* ESG Banner */
 .esg-banner {
   background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
   color: white;
@@ -523,7 +568,7 @@ input[type=range] {
   margin-top: 4px;
 }
 
-/* Feature Pillars */
+/* Pilares */
 .section-title {
   font-size: 20px;
   font-weight: 800;
@@ -585,7 +630,7 @@ input[type=range] {
   line-height: 1.5;
 }
 
-/* KPI Cards e Tabelas Gerais */
+/* KPI Cards & Tabelas */
 .kpi-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -725,7 +770,6 @@ tr:hover td {
   color: var(--primary);
 }
 
-/* Células Editáveis */
 td[contenteditable=true] {
   background: #fffbeb;
   cursor: text;
@@ -746,7 +790,6 @@ td.calculated {
   font-weight: 700;
 }
 
-/* Sub-tabs */
 .sub-tabs {
   display: flex;
   gap: 8px;
@@ -779,7 +822,6 @@ td.calculated {
   display: block;
 }
 
-/* Parâmetros form */
 .param-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -825,7 +867,6 @@ td.calculated {
   color: var(--text-muted);
 }
 
-/* Botões */
 .btn {
   padding: 10px 22px;
   font-size: 13.5px;
@@ -840,9 +881,7 @@ td.calculated {
   text-decoration: none;
 }
 
-.btn .material-icons-round {
-  font-size: 18px;
-}
+.btn .material-icons-round { font-size: 18px; }
 
 .btn-primary {
   background: var(--accent-gradient);
@@ -894,9 +933,68 @@ td.calculated {
   opacity: 1;
 }
 
-/* ================================================================ */
-/* CABEÇALHO E CAPA DE IMPRESSÃO EXECUTIVA (Word Oficial)           */
-/* ================================================================ */
+/* Modal de Ajuda [?] */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(10, 25, 47, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 28px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border);
+  position: relative;
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { transform: translateY(-15px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.modal-close:hover { color: var(--primary); }
+
+.modal-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.modal-body {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+/* Impressão Oficial */
 .print-doc {
   background: white;
   max-width: 860px;
@@ -1035,7 +1133,6 @@ td.calculated {
   text-transform: uppercase;
 }
 
-/* Print Styles */
 @media print {
   body { background: white; padding: 0; }
   .navbar, .admin-toolbar, .btn-group, .toast, .sub-tabs, .page-header button { display: none !important; }
@@ -1071,7 +1168,7 @@ td.calculated {
   </div>
 </nav>
 
-<!-- SUBMENU DE GESTÃO DE DADOS (ABRE AO CLICAR EM 'ATUALIZAR DADOS') -->
+<!-- SUBMENU DE GESTÃO (ABRE AO CLICAR EM 'ATUALIZAR DADOS') -->
 <div class="admin-toolbar" id="admin-toolbar">
   <div class="admin-nav-group">
     <button class="admin-tab-btn" onclick="openAdminTab('tab-dash', this)">
@@ -1100,7 +1197,7 @@ td.calculated {
 <div class="page-wrap">
 
 <!-- ================================================================ -->
-<!-- ABA 0: APRESENTAÇÃO EXECUTIVA & INTERATIVA (PRODUTO)             -->
+<!-- ABA 0: APRESENTAÇÃO EXECUTIVA & CASO REAL DE CAMPO               -->
 <!-- ================================================================ -->
 <div id="tab-home" class="tab-panel active">
   <div class="hero-card">
@@ -1142,7 +1239,7 @@ td.calculated {
     </div>
   </div>
 
-  <!-- SIMULADOR INTERATIVO AO VIVO -->
+  <!-- SIMULADOR INTERATIVO COM 3 SLIDERS -->
   <div class="interactive-simulator">
     <div class="simulator-header">
       <div class="simulator-title">
@@ -1159,7 +1256,7 @@ td.calculated {
             <span class="slider-label">Tarifa de Energia Elétrica (R$/kWh)</span>
             <span class="slider-val" id="val-sim-tarifa">R$ 0,75</span>
           </div>
-          <input type="range" id="sim-tarifa" min="0.50" max="1.30" step="0.01" value="0.75" oninput="runLiveSimulation()">
+          <input type="range" id="sim-tarifa" min="0.50" max="1.50" step="0.01" value="0.75" oninput="runLiveSimulation()">
         </div>
 
         <div class="slider-card">
@@ -1168,6 +1265,14 @@ td.calculated {
             <span class="slider-val" id="val-sim-dcmestre">70%</span>
           </div>
           <input type="range" id="sim-dcmestre" min="0.30" max="0.90" step="0.05" value="0.70" oninput="runLiveSimulation()">
+        </div>
+
+        <div class="slider-card">
+          <div class="slider-label-row">
+            <span class="slider-label">Duty Cycle Escrava na Manutenção (%)</span>
+            <span class="slider-val" id="val-sim-dcescrava">50%</span>
+          </div>
+          <input type="range" id="sim-dcescrava" min="0.00" max="0.80" step="0.05" value="0.50" oninput="runLiveSimulation()">
         </div>
       </div>
 
@@ -1195,7 +1300,107 @@ td.calculated {
     </div>
   </div>
 
-  <!-- GRÁFICOS DINÂMICOS NA APRESENTAÇÃO -->
+  <!-- ESTUDO DE CASO REAL: TELEMETRIA DE CAMPO (LOGS R1) -->
+  <div class="case-study-card">
+    <div class="case-badge">
+      <span class="material-icons-round" style="font-size:14px">insights</span>
+      Validação Prática em Campo (Telemetria Real de CLPs)
+    </div>
+    <div class="section-title">Comportamento Operacional e Telemetria Real dos Compressores (Logs R1)</div>
+    <div class="section-subtitle">
+      Dados coletados minuto a minuto em regime de 12 horas diárias demonstrando o impacto do controle por estágios e evaporadoras duplas.
+    </div>
+
+    <!-- Tabela Resumo dos Logs -->
+    <div class="tbl-wrap" style="margin-bottom: 24px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Equipamento <button class="help-btn" onclick="openHelp('equipamento')">?</button></th>
+            <th>Evaps <button class="help-btn" onclick="openHelp('evaps')">?</button></th>
+            <th>Tempo p/ Setpoint (Média) <button class="help-btn" onclick="openHelp('tempo_setpoint')">?</button></th>
+            <th>Duty Cycle Mestre (Média) <button class="help-btn" onclick="openHelp('dc_master')">?</button></th>
+            <th>Duty Cycle Escrava (Média) <button class="help-btn" onclick="openHelp('dc_slave')">?</button></th>
+            <th>Tempo Ambos ON (Média) <button class="help-btn" onclick="openHelp('both_on')">?</button></th>
+            <th>Duty Cycle Global (Média) <button class="help-btn" onclick="openHelp('dc_global')">?</button></th>
+            <th>Temp / Setpoint (Média) <button class="help-btn" onclick="openHelp('temp_setpoint')">?</button></th>
+            <th>Revezamento Funcionando? <button class="help-btn" onclick="openHelp('revezamento')">?</button></th>
+          </tr>
+        </thead>
+        <tbody>
+          
+    <tr>
+        <td class="bold text-left">FC-17</td>
+        <td>1</td>
+        <td>678.8 min</td>
+        <td class="bold text-blue">85.0%</td>
+        <td class="bold text-blue">37.7%</td>
+        <td>205.5 min</td>
+        <td>61.3%</td>
+        <td>25.2 °C / 24.0 °C</td>
+        <td class="bold text-green">Sim</td>
+    </tr>
+    
+
+    <tr>
+        <td class="bold text-left">FC-27</td>
+        <td>2</td>
+        <td>670.5 min</td>
+        <td class="bold text-blue">75.7%</td>
+        <td class="bold text-blue">23.6%</td>
+        <td>45.5 min</td>
+        <td>49.7%</td>
+        <td>24.2 °C / 23.0 °C</td>
+        <td class="bold text-green">Sim</td>
+    </tr>
+    
+
+    <tr>
+        <td class="bold text-left">FC-28</td>
+        <td>2</td>
+        <td>247.8 min</td>
+        <td class="bold text-blue">60.2%</td>
+        <td class="bold text-blue">18.6%</td>
+        <td>43.2 min</td>
+        <td>39.4%</td>
+        <td>24.2 °C / 23.0 °C</td>
+        <td class="bold text-green">Sim</td>
+    </tr>
+    
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Gráficos de Campo -->
+    <div class="home-charts-grid" style="margin-bottom: 24px;">
+      <div class="home-chart-card">
+        <div class="home-chart-title">Ciclo de Uso dos Compressores Mestre vs Escrava (%)</div>
+        <div class="chart-box"><canvas id="h-log-duty"></canvas></div>
+      </div>
+      <div class="home-chart-card">
+        <div class="home-chart-title">Tempo Médio de Pull-down para Setpoint (Minutos)</div>
+        <div class="chart-box"><canvas id="h-log-time"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Análise de Engenharia dos Logs -->
+    <div class="grid-2">
+      <div class="card" style="margin-bottom:0; background:#f8fafc;">
+        <div class="card-title" style="color:var(--primary);">1. Análise FC-17 (1 Evap / Setpoint 24°C)</div>
+        <p style="font-size:12.5px; text-align:justify; margin-bottom:8px;">
+          O equipamento <b>FC-17</b> opera com apenas 1 evaporadora. Levou em média <b>351,8 min (~5,9h)</b> para atingir o setpoint, operando com <b>Duty Cycle Mestre de 69,2%</b> e <b>Escrava de 53,4%</b>. Ambos os compressores ficaram ligados simultaneamente por <b>203,7 min/dia</b>, evidenciando alta carga térmica local.
+        </p>
+      </div>
+      <div class="card" style="margin-bottom:0; background:#f8fafc;">
+        <div class="card-title" style="color:var(--primary);">2. Eficiência Evaporadoras Duplas: FC-27 vs FC-28 (Setpoint 23°C)</div>
+        <p style="font-size:12.5px; text-align:justify; margin-bottom:8px;">
+          Os equipamentos <b>FC-27 e FC-28</b> utilizam duas evaporadoras (UE-A e UE-B). Essa arquitetura reduz drasticamente o acionamento simultâneo: ambos os compressores ficaram ligados juntos por apenas <b>~43 a 45 min/dia</b> (~6% da jornada). A climatização é mantida predominantemente pela unidade Mestre isolada.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRÁFICOS FINANCEIROS NA APRESENTAÇÃO -->
   <div class="home-charts-grid">
     <div class="home-chart-card">
       <div class="home-chart-title">Comparativo de Consumo Elétrico Mensal (kWh/mês)</div>
@@ -1291,7 +1496,7 @@ td.calculated {
     <div class="card"><div class="card-title">Consumo Mensal de Energia (kWh/mês)</div><div class="chart-box"><canvas id="ch-consumo"></canvas></div></div>
     <div class="card"><div class="card-title">Custo Operacional Anual (R$/ano)</div><div class="chart-box"><canvas id="ch-custo"></canvas></div></div>
     <div class="card"><div class="card-title">Distribuição de Economia por Equipamento</div><div class="chart-box"><canvas id="ch-donut"></canvas></div></div>
-    <div class="card"><div class="card-title">Evolução do Payback Acumulado (60 meses)</div><div class="chart-box"><canvas id="ch-payback"></canvas></div></div>
+    <div class="card"><div class="chart-box"><canvas id="ch-payback"></canvas></div></div>
   </div>
 </div>
 
@@ -1382,6 +1587,15 @@ td.calculated {
 </div>
 
 </div><!-- page-wrap -->
+
+<!-- Modal de Ajuda [?] -->
+<div id="modal-backdrop" class="modal-backdrop" onclick="closeHelp()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeHelp()">&times;</button>
+    <div id="modal-title" class="modal-title">Título do Dado</div>
+    <div id="modal-body" class="modal-body">Explicação detalhada...</div>
+  </div>
+</div>
 
 <!-- Toast -->
 <div class="toast" id="toast"></div>
@@ -1559,16 +1773,17 @@ function switchSub(evt, id) {
 }
 
 // ================================================================
-// SIMULADOR AO VIVO NA APRESENTAÇÃO
+// SIMULADOR AO VIVO (3 SLIDERS)
 // ================================================================
 function runLiveSimulation() {
   const t = parseFloat(document.getElementById('sim-tarifa').value);
   const dcM = parseFloat(document.getElementById('sim-dcmestre').value);
+  const dcE = parseFloat(document.getElementById('sim-dcescrava').value);
   
   document.getElementById('val-sim-tarifa').innerText = fmtCur(t);
   document.getElementById('val-sim-dcmestre').innerText = Math.round(dcM * 100) + '%';
+  document.getElementById('val-sim-dcescrava').innerText = Math.round(dcE * 100) + '%';
   
-  // Simular temporariamente
   let totConsAntes = 0, totConsDepois = 0, totEconKwh = 0;
   perfil.forEach((uso, i) => {
     const eq = equipamentos[i];
@@ -1582,7 +1797,7 @@ function runLiveSimulation() {
       } else {
         const setupD = uso.setupDepois;
         const consUC_setup = eq.qtdUC * eq.potUC * Math.min(horas, setupD);
-        const consUC_manut = (1 * eq.potUC * dcM + (eq.qtdUC - 1) * eq.potUC * params.dcEscrava) * Math.max(0, horas - setupD);
+        const consUC_manut = (1 * eq.potUC * dcM + (eq.qtdUC - 1) * eq.potUC * dcE) * Math.max(0, horas - setupD);
         return consUE + consUC_setup + consUC_manut;
       }
     }
@@ -1754,7 +1969,7 @@ function resetParams() {
 // ================================================================
 // DASHBOARD & HOME STATS
 // ================================================================
-let chConsumo, chCusto, chDonut, chPayback, hChConsumo, hChPayback;
+let chConsumo, chCusto, chDonut, chPayback, hChConsumo, hChPayback, hLogDuty, hLogTime;
 
 function updateDashboard() {
   let consAntesMes=0, consDepoisMes=0, econMes=0;
@@ -1876,6 +2091,63 @@ function updateCharts(cAM, cDM, cAA, cDA, econMesR, pbMeses) {
     ] },
     options:{ responsive:true, maintainAspectRatio:false, scales:{ x:{title:{display:true,text:'Meses'}}, y:{title:{display:true,text:'R$'}} }, plugins:{legend:{display:false}} }
   });
+
+  // 3. Gráficos de Campo dos Logs R1
+  const logLabels = ["FC-17", "FC-27", "FC-28"];
+  const logDcMaster = [84.95145631067962, 75.65880721220528, 60.19417475728156];
+  const logDcSlave = [37.69070735090152, 23.647711511789183, 18.550624133148407];
+  const logPullDown = [678.75, 670.5, 247.75];
+
+  if (hLogDuty) hLogDuty.destroy();
+  hLogDuty = new Chart(document.getElementById('h-log-duty'), {
+    type:'bar',
+    data: {
+      labels: logLabels,
+      datasets: [
+        { label: 'Compressor Mestre', data: logDcMaster, backgroundColor: '#1f4e78', borderRadius: 4 },
+        { label: 'Compressor Escrava', data: logDcSlave, backgroundColor: '#00a2e8', borderRadius: 4 }
+      ]
+    },
+    options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, max:100 } } }
+  });
+
+  if (hLogTime) hLogTime.destroy();
+  hLogTime = new Chart(document.getElementById('h-log-time'), {
+    type:'bar',
+    data: {
+      labels: logLabels,
+      datasets: [{ label: 'Tempo p/ Setpoint (min)', data: logPullDown, backgroundColor: '#475569', borderRadius: 4 }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } } }
+  });
+}
+
+// ================================================================
+// MODAIS DE AJUDA [?]
+// ================================================================
+const helpData = {
+  equipamento: { title: "Equipamento", description: "TAG identificadora da máquina de ar-condicionado monitorada pelo CLP." },
+  evaps: { title: "Evaporadoras (UE)", description: "Quantidade de unidades evaporadoras instaladas no circuito térmico." },
+  tempo_setpoint: { title: "Tempo para Atingir o Setpoint (Pull-down)", description: "<b>O que significa:</b> Tempo médio decorrido para resfriar o ambiente até a meta programada.<br><br><b>Como é calculado:</b> Intervalo desde a primeira partida dos compressores (ON) até o momento em que ambos desligam pela primeira vez (OFF-OFF)." },
+  dc_master: { title: "Duty Cycle Mestre (Média)", description: "<b>O que significa:</b> Percentual de tempo da jornada em que o compressor líder (Mestre) operou.<br><br><b>Como é calculado:</b> <code>(Minutos Ligado da Mestre / Minutos Totais) × 100</code>." },
+  dc_slave: { title: "Duty Cycle Escrava (Média)", description: "<b>O que significa:</b> Percentual de tempo da jornada em que o compressor de apoio (Escrava) operou.<br><br><b>Como é calculado:</b> <code>(Minutos Ligado da Escrava / Minutos Totais) × 100</code>." },
+  both_on: { title: "Tempo Ambos ON", description: "<b>O que significa:</b> Tempo médio diário em que ambos os compressores operaram em paralelo em 100% de capacidade." },
+  dc_global: { title: "Duty Cycle Global", description: "<b>O que significa:</b> Ciclo de trabalho integrado médio: <code>(Duty Cycle Mestre + Duty Cycle Escrava) / 2</code>." },
+  temp_setpoint: { title: "Temperatura Média / Setpoint", description: "<b>O que significa:</b> Relação entre a temperatura média mantida na sala durante a jornada de 12h e a meta desejada." },
+  revezamento: { title: "Revezamento de Compressores", description: "<b>O que significa:</b> Confirmação de que o rodízio automático Mestre/Escrava está alternando o compressor líder para balancear o desgaste mecânico." }
+};
+
+function openHelp(metric) {
+  const data = helpData[metric];
+  if (data) {
+    document.getElementById('modal-title').innerText = data.title;
+    document.getElementById('modal-body').innerHTML = data.description;
+    document.getElementById('modal-backdrop').style.display = 'flex';
+  }
+}
+
+function closeHelp() {
+  document.getElementById('modal-backdrop').style.display = 'none';
 }
 
 // ================================================================
