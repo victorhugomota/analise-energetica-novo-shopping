@@ -645,13 +645,13 @@ td.calculated {
     </div>
   </section>
 
-  <!-- SIMULADOR INTERATIVO CLP ANTES VS DEPOIS COM FALHA -->
+  <!-- SIMULADOR INTERATIVO CLP ANTES VS DEPOIS COM SLIDERS DE DUTY CYCLE -->
   <section class="section-wrapper" id="simulador-clp" style="margin-bottom: 3rem;">
     <div class="container">
       <div class="section-header">
         <span class="section-pill">Demonstração Interativa</span>
         <h2 class="section-title">Simulador de Controle Térmico & Redundância</h2>
-        <p class="section-subtitle">Alterne entre os cenários, ajuste a temperatura do mall, simule horários do dia e teste o acionamento de emergência em tempo real.</p>
+        <p class="section-subtitle">Alterne entre os cenários, ajuste o setpoint e regule o Duty Cycle das unidades. Todos os cálculos de retorno financeiro e consumo são atualizados em tempo real.</p>
       </div>
 
       <div class="sim-container">
@@ -720,18 +720,19 @@ td.calculated {
             </div>
           </div>
 
-          <!-- Controles Interativos -->
+          <!-- Painel de Parâmetros de Simulação com Sliders de Duty Cycle -->
           <div class="sim-controls-panel">
             <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">
               🎛️ Painel de Parâmetros de Simulação
             </h3>
 
+            <!-- Slider Setpoint -->
             <div class="sim-control-group">
               <div class="sim-control-label">
                 <span>Temperatura Desejada (Setpoint):</span>
                 <strong id="simTempVal">22 °C</strong>
               </div>
-              <input type="range" id="simTempSlider" class="sim-range-slider" min="18" max="26" value="22" step="1" oninput="updateSimControls()">
+              <input type="range" id="simTempSlider" class="sim-range-slider" min="18" max="26" value="22" step="1" oninput="onSimTempChange(this.value)">
               <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
                 <span>18 °C (Frio Intenso)</span>
                 <span>22 °C (Padrão Conforto)</span>
@@ -739,19 +740,62 @@ td.calculated {
               </div>
             </div>
 
-            <div class="sim-control-group">
-              <div class="sim-control-label">
-                <span>Horário de Operação (Ciclo 12h):</span>
-                <strong id="simTimeVal">08:00h (1º Turno)</strong>
+            <!-- Controles de Duty Cycle para Cenário CLP (Mestre + Escrava) -->
+            <div id="controls-clp-dc">
+              <!-- Duty Cycle Mestre -->
+              <div class="sim-control-group">
+                <div class="sim-control-label">
+                  <span>Duty Cycle Mestre na Manutenção:</span>
+                  <strong id="simDcMasterVal" style="color:var(--accent);">70% (0,70)</strong>
+                </div>
+                <input type="range" id="simDcMasterSlider" class="sim-range-slider" min="0.30" max="0.90" step="0.05" value="0.70" oninput="onSimDcMasterChange(this.value)">
+                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
+                  <span>30%</span>
+                  <span>70% (Padrão CLP)</span>
+                  <span>90%</span>
+                </div>
               </div>
-              <input type="range" id="simTimeSlider" class="sim-range-slider" min="0" max="23" value="8" step="1" oninput="updateSimControls()">
-              <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
-                <span>00:00h (UC-A Mestre)</span>
-                <span>12:00h (Troca de Turno)</span>
-                <span>23:00h (UC-B Mestre)</span>
+
+              <!-- Duty Cycle Escrava -->
+              <div class="sim-control-group">
+                <div class="sim-control-label">
+                  <span>Duty Cycle Escrava na Manutenção:</span>
+                  <strong id="simDcSlaveVal" style="color:var(--success);">50% (0,50)</strong>
+                </div>
+                <input type="range" id="simDcSlaveSlider" class="sim-range-slider" min="0.00" max="0.80" step="0.05" value="0.50" oninput="onSimDcSlaveChange(this.value)">
+                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
+                  <span>0% (Desligada)</span>
+                  <span>50% (Padrão CLP)</span>
+                  <span>80% (Pico)</span>
+                </div>
               </div>
             </div>
 
+            <!-- Controle de Duty Cycle para Cenário Analógico (Único para ambas UCs) -->
+            <div id="controls-analog-dc" style="display: none;">
+              <div class="sim-control-group">
+                <div class="sim-control-label">
+                  <span>Duty Cycle Único (Ambas Condensadoras):</span>
+                  <strong id="simDcAnalogVal" style="color:#ef4444;">70% (0,70)</strong>
+                </div>
+                <input type="range" id="simDcAnalogSlider" class="sim-range-slider" min="0.40" max="1.00" step="0.05" value="0.70" oninput="onSimDcAnalogChange(this.value)">
+                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
+                  <span>40%</span>
+                  <span>70% (Padrão Termostato)</span>
+                  <span>100% (Contínuo)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Badge Informativo de Ciclo de Rodízio (Substitui o slider de horário) -->
+            <div style="background: #f1f5f9; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; margin-bottom: 0.75rem;">
+              <span class="material-icons-round" style="color:var(--accent); font-size:20px;">sync</span>
+              <div style="font-size: 0.8rem; color: #334155; line-height: 1.4;">
+                <strong>Rodízio Automático:</strong> Ciclo equalizado a cada <strong>12 horas</strong> com base no tempo de operação de <strong id="infoDailyHours">12h/dia</strong> do shopping.
+              </div>
+            </div>
+
+            <!-- Botões de Teste de Redundância -->
             <div style="padding-top: 0.5rem; border-top: 1px solid var(--border-light); display: flex; flex-direction: column; gap: 0.75rem;">
               <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Teste de Segurança & Redundância</span>
               <div class="sim-action-buttons">
@@ -769,18 +813,18 @@ td.calculated {
     </div>
   </section>
 
-  <!-- CALCULADORA DINÂMICA DE VIABILIDADE (5 SLIDERS) -->
+  <!-- CALCULADORA DINÂMICA DE VIABILIDADE (AJUSTADA) -->
   <section class="section-wrapper bg-subtle" id="calc-dinamica" style="margin-bottom: 3rem; border-radius: 16px; padding: 2.5rem 2rem;">
     <div class="container">
       <div class="section-header">
         <span class="section-pill">Simulador de Retorno</span>
         <h2 class="section-title">Calculadora Financeira & Energética em Tempo Real</h2>
-        <p class="section-subtitle">Ajuste os parâmetros de Tarifa, Duty Cycles, Horas e CAPEX. Todos os dados correlatos do site e do banco de dados são recalculados instantaneamente.</p>
+        <p class="section-subtitle">Ajuste os parâmetros de Tarifa e Horas Diárias. Todos os dados correlatos do site e do banco de dados são recalculados instantaneamente.</p>
       </div>
 
       <div class="calc-card-main">
         <div class="calc-grid-layout">
-          <!-- Inputs / 5 Sliders -->
+          <!-- Inputs Ajustados -->
           <div class="calc-inputs-pane">
             <h3 class="calc-pane-title">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
@@ -797,16 +841,6 @@ td.calculated {
               <div class="calc-limits"><span>R$ 0,50 / kWh</span><span>R$ 0,75 (Atual)</span><span>R$ 1,50 / kWh</span></div>
             </div>
 
-            <!-- Duty Cycle Escrava -->
-            <div class="calc-field">
-              <div class="calc-field-header">
-                <span class="calc-field-title">Duty Cycle Escrava na Manutenção:</span>
-                <span class="calc-field-badge" id="calcDutySlaveVal">50% (0,50)</span>
-              </div>
-              <input type="range" id="calcDutySlaveSlider" class="calc-slider" min="0.0" max="0.80" step="0.05" value="0.50" oninput="onDynamicCalculatorChange()">
-              <div class="calc-limits"><span>0% (Desligada)</span><span>50% (Estudo)</span><span>80% (Pico)</span></div>
-            </div>
-
             <!-- Horas Diárias -->
             <div class="calc-field">
               <div class="calc-field-header">
@@ -817,24 +851,16 @@ td.calculated {
               <div class="calc-limits"><span>8h/dia</span><span>12h/dia (Padrão)</span><span>18h/dia</span></div>
             </div>
 
-            <!-- Quantidade de Climatizadores -->
-            <div class="calc-field">
-              <div class="calc-field-header">
-                <span class="calc-field-title">Quantidade de Climatizadores no Retrofit:</span>
-                <span class="calc-field-badge" id="calcMachinesVal">38 climatizadores</span>
+            <!-- Parâmetros Fixos (Parque e CAPEX Fixo) -->
+            <div style="background: #ffffff; border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-top: 10px; display: flex; flex-direction: column; gap: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.85rem; font-weight: 700; color: #334155;">⚙️ Escopo do Parque:</span>
+                <span style="font-size: 0.85rem; font-weight: 800; color: var(--accent); background: #e0f2fe; padding: 2px 10px; border-radius: 6px;">38 Climatizadores (100% da Obra)</span>
               </div>
-              <input type="range" id="calcMachinesSlider" class="calc-slider" min="10" max="38" step="1" value="38" oninput="onDynamicCalculatorChange()">
-              <div class="calc-limits"><span>10 máquinas</span><span>24 máquinas</span><span>38 máquinas (100%)</span></div>
-            </div>
-
-            <!-- CAPEX -->
-            <div class="calc-field">
-              <div class="calc-field-header">
-                <span class="calc-field-title">Investimento Total Estimado (CAPEX):</span>
-                <span class="calc-field-badge" id="calcCapexVal">R$ 301.000</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 8px;">
+                <span style="font-size: 0.85rem; font-weight: 700; color: #334155;">💰 Investimento Total (CAPEX):</span>
+                <span style="font-size: 0.85rem; font-weight: 800; color: #166534; background: #dcfce7; padding: 2px 10px; border-radius: 6px;">R$ 301.000,00 (Fixo / Estudo Base)</span>
               </div>
-              <input type="range" id="calcCapexSlider" class="calc-slider" min="200000" max="450000" step="5000" value="301000" oninput="onDynamicCalculatorChange()">
-              <div class="calc-limits"><span>R$ 200k</span><span>R$ 301k (Estudo)</span><span>R$ 450k</span></div>
             </div>
           </div>
 
@@ -891,7 +917,6 @@ td.calculated {
         <p class="section-subtitle">Dados minuto a minuto coletados diretamente dos CLPs em regime de 12h diárias comprovando a rotação de compressores e o ganho térmico com evaporadoras duplas.</p>
       </div>
 
-      <!-- Tabela Resumo dos Logs -->
       <div class="table-executive-card" style="margin-bottom: 2rem;">
         <div class="table-executive-header">
           <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">
@@ -959,12 +984,9 @@ td.calculated {
         </div>
       </div>
 
-      <!-- Análise de Engenharia dos Logs -->
       <div class="pillars-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 2rem;">
         <div class="pillar-card">
-          <div class="pillar-icon-box" style="background: #fee2e2; color: #dc2626;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-          </div>
+          <div class="pillar-icon-box" style="background: #fee2e2; color: #dc2626;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></div>
           <h3 class="pillar-title">1. Diagnóstico FC-17 (1 Evaporadora / Setpoint 24°C)</h3>
           <p class="pillar-desc" style="font-size: 0.88rem; line-height: 1.6;">
             O <strong>FC-17</strong> possui apenas 1 evaporadora para 2 condensadoras. Por estar sob alta carga térmica no mall, precisou de <strong>351,8 min</strong> para o pull-down inicial, com ambos os compressores atuando juntos por <strong>203,7 min/dia</strong>. Isso reforça a importância do controle por CLP para evitar que os dois compressores fiquem 100% ligados além do estritamente necessário.
@@ -972,9 +994,7 @@ td.calculated {
         </div>
 
         <div class="pillar-card">
-          <div class="pillar-icon-box" style="background: #ecfdf5; color: #059669;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-          </div>
+          <div class="pillar-icon-box" style="background: #ecfdf5; color: #059669;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></div>
           <h3 class="pillar-title">2. Alta Eficiência: FC-27 e FC-28 (2 Evaporadoras / Setpoint 23°C)</h3>
           <p class="pillar-desc" style="font-size: 0.88rem; line-height: 1.6;">
             Os equipamentos <strong>FC-27 e FC-28</strong> contam com duas evaporadoras (UE-A e UE-B). A eficiência na troca térmica reduziu drasticamente a necessidade de compressão dupla: ambos os compressores ligaram juntos por apenas <strong>~43 a 45 min/dia</strong>. O CLP manteve a climatização com apenas o compressor Mestre ativo durante a maior parte do expediente.
@@ -1521,72 +1541,114 @@ function switchSub(evt, id) {
 }
 
 // ================================================================
-// CALCULADORA DINÂMICA (5 SLIDERS)
+// CONTROLES DO SIMULADOR E CALCULADORA (SINCRONIZAÇÃO TOTAL)
 // ================================================================
 function syncSlidersWithParams() {
+  // Sliders do Simulador
+  const simTemp = document.getElementById('simTempSlider');
+  const simDcM = document.getElementById('simDcMasterSlider');
+  const simDcE = document.getElementById('simDcSlaveSlider');
+  const simDcA = document.getElementById('simDcAnalogSlider');
+
+  if (simTemp) simTemp.value = params.setpoint;
+  if (simDcM) simDcM.value = params.dcMestre;
+  if (simDcE) simDcE.value = params.dcEscrava;
+  if (simDcA) simDcA.value = params.dcAntes;
+
+  const vTemp = document.getElementById('simTempVal');
+  const vDcM = document.getElementById('simDcMasterVal');
+  const vDcE = document.getElementById('simDcSlaveVal');
+  const vDcA = document.getElementById('simDcAnalogVal');
+
+  if (vTemp) vTemp.innerText = `${params.setpoint} °C`;
+  if (vDcM) vDcM.innerText = `${Math.round(params.dcMestre * 100)}% (${params.dcMestre.toFixed(2).replace('.', ',')})`;
+  if (vDcE) vDcE.innerText = `${Math.round(params.dcEscrava * 100)}% (${params.dcEscrava.toFixed(2).replace('.', ',')})`;
+  if (vDcA) vDcA.innerText = `${Math.round(params.dcAntes * 100)}% (${params.dcAntes.toFixed(2).replace('.', ',')})`;
+
+  // Sliders da Calculadora
   const sT = document.getElementById('calcTariffSlider');
-  const sE = document.getElementById('calcDutySlaveSlider');
-  const sC = document.getElementById('calcCapexSlider');
   if (sT) sT.value = params.tarifa;
-  if (sE) sE.value = params.dcEscrava;
-  if (sC) sC.value = params.capex;
-  
   const vT = document.getElementById('calcTariffVal');
-  const vE = document.getElementById('calcDutySlaveVal');
-  const vC = document.getElementById('calcCapexVal');
   if (vT) vT.innerText = `R$ ${params.tarifa.toFixed(2).replace('.', ',')} / kWh`;
-  if (vE) vE.innerText = `${Math.round(params.dcEscrava * 100)}% (${params.dcEscrava.toFixed(2).replace('.', ',')})`;
-  if (vC) vC.innerText = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(params.capex);
+
+  const hVal = perfil[0]?.hSegSex || 12;
+  const sH = document.getElementById('calcHoursSlider');
+  if (sH) sH.value = hVal;
+  const vH = document.getElementById('calcHoursVal');
+  if (vH) vH.innerText = `${hVal} horas/dia`;
+  const infoH = document.getElementById('infoDailyHours');
+  if (infoH) infoH.innerText = `${hVal}h/dia`;
+
+  updateSimSchematic();
 }
 
+// Handlers de alteração nos Sliders do Simulador
+function onSimTempChange(val) {
+  params.setpoint = parseFloat(val) || 22;
+  document.getElementById('simTempVal').innerText = `${params.setpoint} °C`;
+  const pSetpoint = document.getElementById('p-setpoint');
+  if (pSetpoint) pSetpoint.value = params.setpoint;
+  recalcAll();
+  autoSaveParamsToFirebase();
+}
+
+function onSimDcMasterChange(val) {
+  params.dcMestre = parseFloat(val) || 0.70;
+  document.getElementById('simDcMasterVal').innerText = `${Math.round(params.dcMestre * 100)}% (${params.dcMestre.toFixed(2).replace('.', ',')})`;
+  const pDcM = document.getElementById('p-dcMestre');
+  if (pDcM) pDcM.value = params.dcMestre;
+  recalcAll();
+  updateSimSchematic();
+  autoSaveParamsToFirebase();
+}
+
+function onSimDcSlaveChange(val) {
+  params.dcEscrava = parseFloat(val) || 0.50;
+  document.getElementById('simDcSlaveVal').innerText = `${Math.round(params.dcEscrava * 100)}% (${params.dcEscrava.toFixed(2).replace('.', ',')})`;
+  const pDcE = document.getElementById('p-dcEscrava');
+  if (pDcE) pDcE.value = params.dcEscrava;
+  recalcAll();
+  updateSimSchematic();
+  autoSaveParamsToFirebase();
+}
+
+function onSimDcAnalogChange(val) {
+  params.dcAntes = parseFloat(val) || 0.70;
+  document.getElementById('simDcAnalogVal').innerText = `${Math.round(params.dcAntes * 100)}% (${params.dcAntes.toFixed(2).replace('.', ',')})`;
+  const pDcA = document.getElementById('p-dcAntes');
+  if (pDcA) pDcA.value = params.dcAntes;
+  recalcAll();
+  updateSimSchematic();
+  autoSaveParamsToFirebase();
+}
+
+// Handler de alteração na Calculadora (Tarifa e Horas)
 function onDynamicCalculatorChange() {
   const tariffSlider = document.getElementById('calcTariffSlider');
-  const dutySlaveSlider = document.getElementById('calcDutySlaveSlider');
   const hoursSlider = document.getElementById('calcHoursSlider');
-  const machinesSlider = document.getElementById('calcMachinesSlider');
-  const capexSlider = document.getElementById('calcCapexSlider');
-
-  if (!tariffSlider || !dutySlaveSlider || !hoursSlider || !machinesSlider || !capexSlider) return;
+  if (!tariffSlider || !hoursSlider) return;
 
   const t = parseFloat(tariffSlider.value);
-  const dcE = parseFloat(dutySlaveSlider.value);
   const h = parseFloat(hoursSlider.value);
-  const m = parseInt(machinesSlider.value, 10);
-  const cap = parseFloat(capexSlider.value);
 
-  // Atualizar badges
   document.getElementById('calcTariffVal').innerText = `R$ ${t.toFixed(2).replace('.', ',')} / kWh`;
-  document.getElementById('calcDutySlaveVal').innerText = `${Math.round(dcE * 100)}% (${dcE.toFixed(2).replace('.', ',')})`;
   document.getElementById('calcHoursVal').innerText = `${h} horas/dia`;
-  document.getElementById('calcMachinesVal').innerText = `${m} climatizadores`;
-  document.getElementById('calcCapexVal').innerText = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(cap);
+  const infoH = document.getElementById('infoDailyHours');
+  if (infoH) infoH.innerText = `${h}h/dia`;
 
-  // Sincronizar parâmetros centrais
   params.tarifa = t;
-  params.dcEscrava = dcE;
-  params.capex = cap;
-
-  // Atualizar inputs da aba de Parâmetros Gerais
   const pTarifa = document.getElementById('p-tarifa');
-  const pDcE = document.getElementById('p-dcEscrava');
-  const pCapex = document.getElementById('p-capex');
   if (pTarifa) pTarifa.value = t;
-  if (pDcE) pDcE.value = dcE;
-  if (pCapex) pCapex.value = cap;
 
-  // Atualizar horas no perfil de uso de cada máquina
   perfil.forEach(u => {
     u.hSegSex = h;
     u.hSab = h;
     u.hDom = h;
   });
 
-  // Recalcular todo o sistema
   recalcAll();
   renderCadastro();
   renderPerfil();
-
-  // Auto-salvar no Firebase
   autoSaveParamsToFirebase();
 }
 
@@ -1600,6 +1662,15 @@ function setSimMode(mode) {
   simMode = mode;
   document.getElementById('simBtnBefore').classList.toggle('active-before', mode === 'before');
   document.getElementById('simBtnClp').classList.toggle('active-after', mode === 'clp');
+
+  // Alternar visibilidade dos sliders correspondentes
+  const clpControls = document.getElementById('controls-clp-dc');
+  const analogControls = document.getElementById('controls-analog-dc');
+  if (clpControls && analogControls) {
+    clpControls.style.display = mode === 'clp' ? 'block' : 'none';
+    analogControls.style.display = mode === 'before' ? 'block' : 'none';
+  }
+
   updateSimSchematic();
 }
 
@@ -1611,18 +1682,7 @@ function toggleSimFault() {
   updateSimSchematic();
 }
 
-function updateSimControls() {
-  const temp = document.getElementById('simTempSlider').value;
-  const hour = document.getElementById('simTimeSlider').value;
-  document.getElementById('simTempVal').innerText = `${temp} °C`;
-  const turno = hour < 12 ? '1º Turno (00h-12h)' : '2º Turno (12h-24h)';
-  document.getElementById('simTimeVal').innerText = `${String(hour).padStart(2, '0')}:00h (${turno})`;
-  updateSimSchematic();
-}
-
 function updateSimSchematic() {
-  const hour = parseInt(document.getElementById('simTimeSlider')?.value || 8);
-  const isSecondTurn = hour >= 12;
   const ucABlock = document.getElementById('simUcA');
   const ucBBlock = document.getElementById('simUcB');
   const statusUcA = document.getElementById('statusUcA');
@@ -1633,56 +1693,39 @@ function updateSimSchematic() {
   const exp = document.getElementById('simExplanation');
 
   if (simMode === 'before') {
-    badge.innerHTML = '<span class="status-chip chip-danger">⚠️ Controle Analógico Tradicional</span>';
-    ucABlock.className = 'hvac-unit-block active-before-full';
-    ucBBlock.className = 'hvac-unit-block active-before-full';
-    statusUcA.innerHTML = '<span class="status-chip chip-danger">100% Carga Direta</span>';
-    statusUcB.innerHTML = '<span class="status-chip chip-danger">100% Carga Direta</span>';
-    dutyUcA.innerText = 'Duty Cycle: 70% (Ambas em Paralelo)';
-    dutyUcB.innerText = 'Duty Cycle: 70% (Ambas em Paralelo)';
-    exp.innerHTML = '<strong>Alerta de Desperdício:</strong> No cenário analógico, ambas as condensadoras partem juntas sob carga máxima (100%), gerando alto pico de corrente, estresse térmico e sem rodízio mecânico.';
+    if (badge) badge.innerHTML = '<span class="status-chip chip-danger">⚠️ Controle Analógico Tradicional</span>';
+    if (ucABlock) ucABlock.className = 'hvac-unit-block active-before-full';
+    if (ucBBlock) ucBBlock.className = 'hvac-unit-block active-before-full';
+    if (statusUcA) statusUcA.innerHTML = '<span class="status-chip chip-danger">100% Carga Direta</span>';
+    if (statusUcB) statusUcB.innerHTML = '<span class="status-chip chip-danger">100% Carga Direta</span>';
+    const dcPct = Math.round(params.dcAntes * 100);
+    if (dutyUcA) dutyUcA.innerText = `Duty Cycle: ${dcPct}% (Ambas em Paralelo)`;
+    if (dutyUcB) dutyUcB.innerText = `Duty Cycle: ${dcPct}% (Ambas em Paralelo)`;
+    if (exp) exp.innerHTML = '<strong>Alerta de Desperdício:</strong> No cenário analógico, ambas as condensadoras partem juntas sob carga máxima (100%), gerando alto pico de corrente, estresse térmico e sem rodízio mecânico.';
     return;
   }
 
   // Modo CLP
   if (simFaultActive) {
-    badge.innerHTML = '<span class="status-chip chip-warning">🚨 Redundância Ativa (Falha na Mestre)</span>';
-    if (!isSecondTurn) {
-      ucABlock.className = 'hvac-unit-block unit-fault';
-      ucBBlock.className = 'hvac-unit-block active-master';
-      statusUcA.innerHTML = '<span class="status-chip chip-danger">FALHA TÉRMICA (Desarmada)</span>';
-      statusUcB.innerHTML = '<span class="status-chip chip-active">REDUNDÂNCIA ATIVA (Assumiu Carga)</span>';
-      dutyUcA.innerText = 'Desligada para Proteção';
-      dutyUcB.innerText = 'Duty Cycle: 70% (100% da Demanda Atendida)';
-    } else {
-      ucBBlock.className = 'hvac-unit-block unit-fault';
-      ucABlock.className = 'hvac-unit-block active-master';
-      statusUcB.innerHTML = '<span class="status-chip chip-danger">FALHA TÉRMICA (Desarmada)</span>';
-      statusUcA.innerHTML = '<span class="status-chip chip-active">REDUNDÂNCIA ATIVA (Assumiu Carga)</span>';
-      dutyUcB.innerText = 'Desligada para Proteção';
-      dutyUcA.innerText = 'Duty Cycle: 70% (100% da Demanda Atendida)';
-    }
-    exp.innerHTML = '<strong>Segurança Comprovada:</strong> O CLP detectou o desarme da Mestre em milissegundos e transferiu automaticamente toda a climatização para a unidade reserva, sem queda de conforto no shopping.';
+    if (badge) badge.innerHTML = '<span class="status-chip chip-warning">🚨 Redundância Ativa (Falha na Mestre)</span>';
+    if (ucABlock) ucABlock.className = 'hvac-unit-block unit-fault';
+    if (ucBBlock) ucBBlock.className = 'hvac-unit-block active-master';
+    if (statusUcA) statusUcA.innerHTML = '<span class="status-chip chip-danger">FALHA TÉRMICA (Desarmada)</span>';
+    if (statusUcB) statusUcB.innerHTML = '<span class="status-chip chip-active">REDUNDÂNCIA ATIVA (Assumiu Carga)</span>';
+    if (dutyUcA) dutyUcA.innerText = 'Desligada para Proteção';
+    if (dutyUcB) dutyUcB.innerText = `Duty Cycle: ${Math.round(params.dcMestre * 100)}% (100% da Demanda Atendida)`;
+    if (exp) exp.innerHTML = '<strong>Segurança Comprovada:</strong> O CLP detectou o desarme da Mestre em milissegundos e transferiu automaticamente toda a climatização para a unidade reserva, sem queda de conforto no shopping.';
     return;
   }
 
-  badge.innerHTML = '<span class="status-chip chip-active">🟢 Controle Otimizado CLP Ativo</span>';
-  if (!isSecondTurn) {
-    ucABlock.className = 'hvac-unit-block active-master';
-    ucBBlock.className = 'hvac-unit-block active-slave';
-    statusUcA.innerHTML = '<span class="status-chip chip-active">MESTRE (Prioridade)</span>';
-    statusUcB.innerHTML = '<span class="status-chip chip-partial">ESCRAVA (Modulada)</span>';
-    dutyUcA.innerText = 'Duty Cycle: 70% (Estágio 1 Principal)';
-    dutyUcB.innerText = 'Duty Cycle: 50% (Estágio 2 Suporte)';
-  } else {
-    ucBBlock.className = 'hvac-unit-block active-master';
-    ucABlock.className = 'hvac-unit-block active-slave';
-    statusUcB.innerHTML = '<span class="status-chip chip-active">MESTRE (Prioridade - Rodízio 12h)</span>';
-    statusUcA.innerHTML = '<span class="status-chip chip-partial">ESCRAVA (Modulada)</span>';
-    dutyUcB.innerText = 'Duty Cycle: 70% (Estágio 1 Principal)';
-    dutyUcA.innerText = 'Duty Cycle: 50% (Estágio 2 Suporte)';
-  }
-  exp.innerHTML = `<strong>Rodízio Equalizado:</strong> O CLP alternou a máquina Mestre para balancear o desgaste mecânico. Economia garantida de <strong>R$ ${fmtCur(window._fin?.econAnoR || 217686.42)}/ano</strong>.`;
+  if (badge) badge.innerHTML = '<span class="status-chip chip-active">🟢 Controle Otimizado CLP Ativo</span>';
+  if (ucABlock) ucABlock.className = 'hvac-unit-block active-master';
+  if (ucBBlock) ucBBlock.className = 'hvac-unit-block active-slave';
+  if (statusUcA) statusUcA.innerHTML = '<span class="status-chip chip-active">MESTRE (Prioridade)</span>';
+  if (statusUcB) statusUcB.innerHTML = '<span class="status-chip chip-partial">ESCRAVA (Modulada)</span>';
+  if (dutyUcA) dutyUcA.innerText = `Duty Cycle: ${Math.round(params.dcMestre * 100)}% (Estágio 1 Principal)`;
+  if (dutyUcB) dutyUcB.innerText = `Duty Cycle: ${Math.round(params.dcEscrava * 100)}% (Estágio 2 Suporte)`;
+  if (exp) exp.innerHTML = `<strong>Rodízio Equalizado:</strong> O CLP alterna a máquina Mestre a cada 12h para balancear o desgaste mecânico. Economia garantida de <strong>R$ ${fmtCur(window._fin?.econAnoR || 217686.42)}/ano</strong>.`;
 }
 
 // ================================================================
@@ -1710,7 +1753,6 @@ function renderCatalogCards() {
   let count = 0;
 
   CLIMATIZERS_DATA.forEach((item, idx) => {
-    // Buscar consumo calculado
     const uso = perfil[idx] || {};
     const econReais = (uso.economiaMensal || 636.51) * params.tarifa * 12;
 
@@ -2100,7 +2142,7 @@ const paramDefs = [
   {key:'histerese', label:'Histerese', unit:'°C', hint:'Diferencial para desligar/ligar no setpoint'},
   {key:'tempoRevezamento', label:'Tempo de Revezamento', unit:'horas', hint:'Intervalo para rotação das unidades Mestre/Escrava'},
   {key:'tarifa', label:'Tarifa de Energia Elétrica', unit:'R$/kWh', hint:'Tarifa média de energia contratada'},
-  {key:'capex', label:'Investimento CAPEX Total', unit:'R$', hint:'Custo total da obra de retrofit e automação'},
+  {key:'capex', label:'Investimento CAPEX Total', unit:'R$', hint:'Custo total da obra de retrofit e automação (Fixo em R$ 301.000,00)'},
   {key:'dcAntes', label:'Duty Cycle UC Antes (Manutenção)', unit:'(0 a 1)', hint:'Duty cycle médio no cenário analógico (ambas UCs)'},
   {key:'dcMestre', label:'Duty Cycle Mestre Depois (CLP)', unit:'(0 a 1)', hint:'Duty cycle da UC Mestre no controle por CLP'},
   {key:'dcEscrava', label:'Duty Cycle Escrava Depois (CLP)', unit:'(0 a 1)', hint:'Duty cycle da UC Escrava no controle por CLP'},
@@ -2111,15 +2153,17 @@ function renderParams() {
   if (!grid) return;
   grid.innerHTML = '';
   paramDefs.forEach(def => {
+    const readonlyAttr = def.key === 'capex' ? 'readonly style="background:#f1f5f9; cursor:not-allowed;"' : '';
     grid.innerHTML += `<div class="param-card">
       <label>${def.label} (${def.unit})</label>
-      <input type="number" step="any" id="p-${def.key}" value="${params[def.key]}" onchange="onParamChange('${def.key}', this.value)">
+      <input type="number" step="any" id="p-${def.key}" value="${params[def.key]}" ${readonlyAttr} onchange="onParamChange('${def.key}', this.value)">
       <div class="param-hint">${def.hint}</div>
     </div>`;
   });
 }
 
 function onParamChange(key, val) {
+  if (key === 'capex') return; // CAPEX é fixo
   params[key] = parseFloat(val) || 0;
   syncSlidersWithParams();
   applyParams();
@@ -2137,6 +2181,7 @@ function applyParams() {
 
 function readEditableParams() {
   paramDefs.forEach(def => {
+    if (def.key === 'capex') return;
     const el = document.getElementById('p-' + def.key);
     if (el) params[def.key] = parseFloat(el.value) || 0;
   });
