@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """
 Sincronizador Completo e Oficial: Site/Firebase -> PowerPoint (PPTX)
-Trata tanto o caso do arquivo estar fechado quanto aberto no PowerPoint no Windows.
-Atualiza:
+Atualiza 100% dos dados:
+- Parâmetros Gerais (Firebase config/parametros)
+- Tags e Potências dos Equipamentos (Firebase equipamentos e perfil_uso)
 - Slide 6: Tabela de Parâmetros Baseline
 - Slide 7: Gráficos de Sensibilidade (Tarifa e Duty Cycle Escrava) + Textos Explicativos
 - Slide 10: Tabela Comparativa Consolidada + Gráficos de Barras (Consumo Mensal e Gasto Anual)
@@ -16,23 +17,32 @@ import pptx
 from pptx.chart.data import CategoryChartData
 import win32com.client
 import pythoncom
-import time
 
 if sys.stdout.encoding != 'utf-8':
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 PPTX_PATH = os.path.abspath(r"C:\Users\Eletrica\Desktop\Estudo de Custo Novo Shopping\Analise Final\Estudo_Viabilidade_Retrofit_HVAC_Novo_Shopping.pptx")
-TEMP_PPTX_PATH = os.path.abspath(r"C:\Users\Eletrica\Desktop\Estudo de Custo Novo Shopping\Analise Final\~temp_sync.pptx")
 EXCEL_PATH = os.path.abspath(r"C:\Users\Eletrica\Desktop\Estudo de Custo Novo Shopping\Final\Planilha_Retrofit.xlsx")
 
-def fetch_params_from_firebase():
-    url = "https://firestore.googleapis.com/v1/projects/analiseenergeticanovoshopping/databases/(default)/documents/config/parametros"
+def fetch_data_from_firebase():
+    params_url = "https://firestore.googleapis.com/v1/projects/analiseenergeticanovoshopping/databases/(default)/documents/config/parametros"
+    equip_url = "https://firestore.googleapis.com/v1/projects/analiseenergeticanovoshopping/databases/(default)/documents/equipamentos?pageSize=100"
+    perfil_url = "https://firestore.googleapis.com/v1/projects/analiseenergeticanovoshopping/databases/(default)/documents/perfil_uso?pageSize=100"
+
+    params = {
+        'setpoint': 22.0, 'histerese': 1.0, 'erroDuplo': 2.5, 'tempoEscrava': 1.0,
+        'tempoRevezamento': 12.0, 'tarifa': 0.75, 'capex': 301000.0,
+        'dcAntes': 0.70, 'dcMestre': 0.70, 'dcEscrava': 0.50
+    }
+    custom_equip = []
+    custom_perfil = []
+
     try:
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        req = urllib.request.Request(params_url, headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req, timeout=5) as resp:
             data = json.loads(resp.read().decode('utf-8'))
             fields = data.get('fields', {})
-            params = {
+            params.update({
                 'setpoint': float(fields.get('setpoint', {}).get('doubleValue') or fields.get('setpoint', {}).get('integerValue') or 22.0),
                 'histerese': float(fields.get('histerese', {}).get('doubleValue') or fields.get('histerese', {}).get('integerValue') or 1.0),
                 'erroDuplo': float(fields.get('erroDuplo', {}).get('doubleValue') or fields.get('erroDuplo', {}).get('integerValue') or 2.5),
@@ -43,52 +53,104 @@ def fetch_params_from_firebase():
                 'dcAntes': float(fields.get('dcAntes', {}).get('doubleValue') or fields.get('dcAntes', {}).get('integerValue') or 0.70),
                 'dcMestre': float(fields.get('dcMestre', {}).get('doubleValue') or fields.get('dcMestre', {}).get('integerValue') or 0.70),
                 'dcEscrava': float(fields.get('dcEscrava', {}).get('doubleValue') or fields.get('dcEscrava', {}).get('integerValue') or 0.50),
-            }
-            print("[OK] Parametros carregados com sucesso do Firebase Firestore!")
-            return params
+            })
+            print("[OK] Parametros carregados do Firebase!")
     except Exception as e:
-        print(f"[AVISO] Usando parametros padrao ({e})")
-        return {
-            'setpoint': 22.0, 'histerese': 1.0, 'erroDuplo': 2.5, 'tempoEscrava': 1.0,
-            'tempoRevezamento': 12.0, 'tarifa': 0.75, 'capex': 301000.0,
-            'dcAntes': 0.70, 'dcMestre': 0.70, 'dcEscrava': 0.50
-        }
+        print(f"[AVISO] Parametros locais utilizados ({e})")
 
-def calculate_system(params, custom_dc_escrava=None, custom_horas=None, custom_tarifa=None):
-    import openpyxl
-    wb = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
-    ws_c = wb["Cadastro de Equipamentos"]
-    ws_u = wb["Perfil de Uso e Consumo"]
+    try:
+        req = urllib.request.Request(equip_url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            docs = data.get('documents', [])
+            for doc in docs:
+                f = doc.get('fields', {})
+                custom_equip.append({
+                    'idx': int(f.get('idx', {}).get('integerValue') or 0),
+                    'tag': f.get('tag', {}).get('stringValue') or '',
+                    'potUC': float(f.get('potUC', {}).get('doubleValue') or f.get('potUC', {}).get('integerValue') or 10.0),
+                    'qtdUC': float(f.get('qtdUC', {}).get('doubleValue') or f.get('qtdUC', {}).get('integerValue') or 2.0),
+                    'potUE': float(f.get('potUE', {}).get('doubleValue') or f.get('potUE', {}).get('integerValue') or 1.5),
+                    'qtdUE': float(f.get('qtdUE', {}).get('doubleValue') or f.get('qtdUE', {}).get('integerValue') or 1.0),
+                })
+            custom_equip.sort(key=lambda x: x['idx'])
+            if custom_equip:
+                print(f"[OK] {len(custom_equip)} Equipamentos (com TAGs editadas) carregados do Firebase!")
+    except Exception as e:
+        pass
 
+    try:
+        req = urllib.request.Request(perfil_url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            docs = data.get('documents', [])
+            for doc in docs:
+                f = doc.get('fields', {})
+                custom_perfil.append({
+                    'idx': int(f.get('idx', {}).get('integerValue') or 0),
+                    'tag': f.get('tag', {}).get('stringValue') or '',
+                    'hSegSex': float(f.get('hSegSex', {}).get('doubleValue') or f.get('hSegSex', {}).get('integerValue') or 12.0),
+                    'hSab': float(f.get('hSab', {}).get('doubleValue') or f.get('hSab', {}).get('integerValue') or 12.0),
+                    'hDom': float(f.get('hDom', {}).get('doubleValue') or f.get('hDom', {}).get('integerValue') or 12.0),
+                    'setupAntes': float(f.get('setupAntes', {}).get('doubleValue') or f.get('setupAntes', {}).get('integerValue') or 1.5),
+                    'setupDepois': float(f.get('setupDepois', {}).get('doubleValue') or f.get('setupDepois', {}).get('integerValue') or 1.5),
+                })
+            custom_perfil.sort(key=lambda x: x['idx'])
+    except Exception as e:
+        pass
+
+    return params, custom_equip, custom_perfil
+
+def calculate_system(params, custom_equip=None, custom_perfil=None, custom_dc_escrava=None, custom_horas=None, custom_tarifa=None):
     tarifa = custom_tarifa if custom_tarifa is not None else params['tarifa']
     dc_escrava = custom_dc_escrava if custom_dc_escrava is not None else params['dcEscrava']
 
-    equipamentos = []
-    for r in range(4, 42):
-        tag = ws_c[f"A{r}"].value
-        if not tag or tag == "Total": continue
-        potUC = float(ws_c[f"B{r}"].value or 0)
-        qtdUC = float(ws_c[f"C{r}"].value or 0)
-        potUE = float(ws_c[f"D{r}"].value or 0)
-        qtdUE = float(ws_c[f"E{r}"].value or 0)
-        equipamentos.append({
-            'tag': tag, 'potUC': potUC, 'qtdUC': qtdUC, 'potUE': potUE, 'qtdUE': qtdUE,
-            'potTotal': potUC*qtdUC + potUE*qtdUE,
-            'corrente': (potUC*qtdUC + potUE*qtdUE)*1000 / (1.732 * 380 * 0.95)
-        })
+    if custom_equip and len(custom_equip) == 38:
+        equipamentos = custom_equip
+    else:
+        import openpyxl
+        wb = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
+        ws_c = wb["Cadastro de Equipamentos"]
+        equipamentos = []
+        for r in range(4, 42):
+            tag = ws_c[f"A{r}"].value
+            if not tag or tag == "Total": continue
+            potUC = float(ws_c[f"B{r}"].value or 0)
+            qtdUC = float(ws_c[f"C{r}"].value or 0)
+            potUE = float(ws_c[f"D{r}"].value or 0)
+            qtdUE = float(ws_c[f"E{r}"].value or 0)
+            equipamentos.append({
+                'tag': tag, 'potUC': potUC, 'qtdUC': qtdUC, 'potUE': potUE, 'qtdUE': qtdUE,
+                'potTotal': potUC*qtdUC + potUE*qtdUE,
+                'corrente': (potUC*qtdUC + potUE*qtdUE)*1000 / (1.732 * 380 * 0.95)
+            })
 
-    perfil = []
-    for r in range(4, 42):
-        tag = ws_u[f"A{r}"].value
-        if not tag or "Total" in str(tag): continue
-        h_seg = custom_horas if custom_horas is not None else float(ws_u[f"B{r}"].value or 12)
-        h_sab = custom_horas if custom_horas is not None else float(ws_u[f"C{r}"].value or 12)
-        h_dom = custom_horas if custom_horas is not None else float(ws_u[f"D{r}"].value or 12)
-        perfil.append({
-            'tag': tag, 'hSegSex': h_seg, 'hSab': h_sab, 'hDom': h_dom,
-            'setupAntes': float(ws_u[f"E{r}"].value or 1.5),
-            'setupDepois': float(ws_u[f"F{r}"].value or 1.5),
-        })
+    if custom_perfil and len(custom_perfil) == 38:
+        perfil = []
+        for p in custom_perfil:
+            h_seg = custom_horas if custom_horas is not None else p['hSegSex']
+            h_sab = custom_horas if custom_horas is not None else p['hSab']
+            h_dom = custom_horas if custom_horas is not None else p['hDom']
+            perfil.append({
+                'tag': p['tag'], 'hSegSex': h_seg, 'hSab': h_sab, 'hDom': h_dom,
+                'setupAntes': p['setupAntes'], 'setupDepois': p['setupDepois']
+            })
+    else:
+        import openpyxl
+        wb = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
+        ws_u = wb["Perfil de Uso e Consumo"]
+        perfil = []
+        for r in range(4, 42):
+            tag = ws_u[f"A{r}"].value
+            if not tag or "Total" in str(tag): continue
+            h_seg = custom_horas if custom_horas is not None else float(ws_u[f"B{r}"].value or 12)
+            h_sab = custom_horas if custom_horas is not None else float(ws_u[f"C{r}"].value or 12)
+            h_dom = custom_horas if custom_horas is not None else float(ws_u[f"D{r}"].value or 12)
+            perfil.append({
+                'tag': tag, 'hSegSex': h_seg, 'hSab': h_sab, 'hDom': h_dom,
+                'setupAntes': float(ws_u[f"E{r}"].value or 1.5),
+                'setupDepois': float(ws_u[f"F{r}"].value or 1.5),
+            })
 
     def consumo_dia(eq, horas, setup, modo):
         consUE = eq['potUE'] * eq['qtdUE'] * horas
@@ -146,15 +208,15 @@ def calculate_system(params, custom_dc_escrava=None, custom_horas=None, custom_t
         'capex': params['capex'], 'tarifa': tarifa,
         'dcAntes': params['dcAntes'], 'dcMestre': params['dcMestre'], 'dcEscrava': dc_escrava,
         'setpoint': params['setpoint'], 'histerese': params['histerese'], 'tempoRevezamento': params['tempoRevezamento'],
-        'horasOperacao': horasOperacao, 'setupHoras': setupHoras
+        'horasOperacao': horasOperacao, 'setupHoras': setupHoras,
+        'equipamentos': equipamentos
     }
 
-def update_presentation_complete(calc):
+def update_presentation_complete(calc, params, custom_equip, custom_perfil):
     if not os.path.exists(PPTX_PATH):
         print(f"[ERRO] Arquivo nao encontrado em {PPTX_PATH}")
         return False
 
-    # Fechar apresentações abertas do mesmo arquivo no PowerPoint para liberar o lock de escrita
     pythoncom.CoInitialize()
     try:
         ppt_app = win32com.client.GetActiveObject("PowerPoint.Application")
@@ -170,18 +232,17 @@ def update_presentation_complete(calc):
     fmtInt = lambda v: f"{round(v):,}".replace(",", ".")
     fmtDec = lambda v, d=1: f"{v:.{d}f}".replace(".", ",")
 
-    # Cálculos de sensibilidade para os gráficos do Slide 7
-    s_tar_065 = calculate_system(params, custom_tarifa=0.65)['econAnoR'] / 1000.0
-    s_tar_075 = calculate_system(params, custom_tarifa=0.75)['econAnoR'] / 1000.0
-    s_tar_085 = calculate_system(params, custom_tarifa=0.85)['econAnoR'] / 1000.0
-    s_tar_100 = calculate_system(params, custom_tarifa=1.00)['econAnoR'] / 1000.0
+    s_tar_065 = calculate_system(params, custom_equip, custom_perfil, custom_tarifa=0.65)['econAnoR'] / 1000.0
+    s_tar_075 = calculate_system(params, custom_equip, custom_perfil, custom_tarifa=0.75)['econAnoR'] / 1000.0
+    s_tar_085 = calculate_system(params, custom_equip, custom_perfil, custom_tarifa=0.85)['econAnoR'] / 1000.0
+    s_tar_100 = calculate_system(params, custom_equip, custom_perfil, custom_tarifa=1.00)['econAnoR'] / 1000.0
 
-    s_dc_30 = calculate_system(params, custom_dc_escrava=0.30)['econAnoR'] / 1000.0
-    s_dc_40 = calculate_system(params, custom_dc_escrava=0.40)['econAnoR'] / 1000.0
-    s_dc_50 = calculate_system(params, custom_dc_escrava=0.50)['econAnoR'] / 1000.0
-    s_dc_60 = calculate_system(params, custom_dc_escrava=0.60)['econAnoR'] / 1000.0
+    s_dc_30 = calculate_system(params, custom_equip, custom_perfil, custom_dc_escrava=0.30)['econAnoR'] / 1000.0
+    s_dc_40 = calculate_system(params, custom_equip, custom_perfil, custom_dc_escrava=0.40)['econAnoR'] / 1000.0
+    s_dc_50 = calculate_system(params, custom_equip, custom_perfil, custom_dc_escrava=0.50)['econAnoR'] / 1000.0
+    s_dc_60 = calculate_system(params, custom_equip, custom_perfil, custom_dc_escrava=0.60)['econAnoR'] / 1000.0
 
-    calc_plus2h = calculate_system(params, custom_horas=calc['horasOperacao'] + 2.0)
+    calc_plus2h = calculate_system(params, custom_equip, custom_perfil, custom_horas=calc['horasOperacao'] + 2.0)
     econ_unit_mes = calc['econMesR'] / 38.0
     econ_unit_ano = calc['econAnoR'] / 38.0
     econ_10_ano = econ_unit_ano * 10.0
@@ -221,13 +282,11 @@ def update_presentation_complete(calc):
         if shape.has_chart:
             chart_count += 1
             if chart_count == 1:
-                # Gráfico 1: Sensibilidade à Tarifa
                 cd = CategoryChartData()
                 cd.categories = ['0,65', '0,75', '0,85', '1,00']
                 cd.add_series('Economia Anual (R$ mil)', (round(s_tar_065, 1), round(s_tar_075, 1), round(s_tar_085, 1), round(s_tar_100, 1)))
                 shape.chart.replace_data(cd)
             elif chart_count == 2:
-                # Gráfico 2: Sensibilidade ao Duty Cycle Escrava
                 cd = CategoryChartData()
                 cd.categories = ['30%', '40%', '50% (padrão)', '60%']
                 cd.add_series('Economia Anual (R$ mil)', (round(s_dc_30, 1), round(s_dc_40, 1), round(s_dc_50, 1), round(s_dc_60, 1)))
@@ -270,13 +329,11 @@ def update_presentation_complete(calc):
         elif shape.has_chart:
             chart_count_10 += 1
             if chart_count_10 == 1:
-                # Gráfico 1: Consumo Mensal Antes vs Depois
                 cd = CategoryChartData()
                 cd.categories = ['Antes', 'Com CLP']
                 cd.add_series('kWh/mês', (round(calc['consAntesMes']), round(calc['consDepoisMes'])))
                 shape.chart.replace_data(cd)
             elif chart_count_10 == 2:
-                # Gráfico 2: Gasto Anual Antes vs Depois
                 cd = CategoryChartData()
                 cd.categories = ['Antes', 'Com CLP']
                 cd.add_series('R$/ano', (round(calc['custoAntesAno'], 2), round(calc['custoDepoisAno'], 2)))
@@ -288,31 +345,23 @@ def update_presentation_complete(calc):
             if shape.has_text_frame:
                 for p in shape.text_frame.paragraphs:
                     txt = p.text
-                    # Economia Anual
                     if "R$ 217.686" in txt or "R$ 217.686,42" in txt or "R$ 163.264" in txt or "R$ 163.264,82" in txt:
                         p.text = p.text.replace("R$ 217.686,42", fmtCur(calc['econAnoR'])).replace("R$ 217.686", fmtCur(calc['econAnoR']).split(',')[0]).replace("R$ 163.264,82", fmtCur(calc['econAnoR'])).replace("R$ 163.264", fmtCur(calc['econAnoR']).split(',')[0])
-                    # Payback
                     if "16,6 meses" in txt or "16,5 meses" in txt or "22,1 meses" in txt:
                         p.text = p.text.replace("16,6 meses", f"{fmtDec(calc['paybackMeses'], 1)} meses").replace("16,5 meses", f"{fmtDec(calc['paybackMeses'], 1)} meses").replace("22,1 meses", f"{fmtDec(calc['paybackMeses'], 1)} meses")
-                    # ROI
                     if "+261,6%" in txt or "+262,8%" in txt or "+171,2%" in txt or "+172,1%" in txt:
                         p.text = p.text.replace("+261,6%", f"+{fmtDec(calc['roi5'], 1)}%").replace("+262,8%", f"+{fmtDec(calc['roi5'], 1)}%").replace("+171,2%", f"+{fmtDec(calc['roi5'], 1)}%").replace("+172,1%", f"+{fmtDec(calc['roi5'], 1)}%")
-                    # CO2 ESG
                     if "25,0 tCO2/ano" in txt or "25,0 tCO" in txt or "18,7 tCO2/ano" in txt:
                         p.text = p.text.replace("25,0 tCO2/ano", f"{fmtDec(calc['co2'], 1)} tCO2/ano").replace("18,7 tCO2/ano", f"{fmtDec(calc['co2'], 1)} tCO2/ano")
-                    # kWh/ano
                     if "290.249 kWh/ano" in txt or "217.686 kWh/ano" in txt:
                         p.text = p.text.replace("290.249 kWh/ano", f"{fmtInt(calc['econAnoKwh'])} kWh/ano").replace("217.686 kWh/ano", f"{fmtInt(calc['econAnoKwh'])} kWh/ano")
-                    # Economia Mensal
                     if "R$ 18.140,53" in txt or "R$ 18.140,54" in txt or "R$ 18.140" in txt or "R$ 13.605,40" in txt:
                         p.text = p.text.replace("R$ 18.140,53", fmtCur(calc['econMesR'])).replace("R$ 18.140,54", fmtCur(calc['econMesR'])).replace("R$ 18.140", fmtCur(calc['econMesR']).split(',')[0]).replace("R$ 13.605,40", fmtCur(calc['econMesR']))
-                    # VPL
                     if "R$ 483.710" in txt or "R$ 484.710" in txt or "R$ 287.525" in txt or "R$ 288.533" in txt:
                         p.text = p.text.replace("R$ 483.710", fmtCur(calc['vpl']).split(',')[0]).replace("R$ 484.710", fmtCur(calc['vpl']).split(',')[0]).replace("R$ 287.525", fmtCur(calc['vpl']).split(',')[0]).replace("R$ 288.533", fmtCur(calc['vpl']).split(',')[0])
 
     prs.save(PPTX_PATH)
 
-    # 5. Normalização final COM do PowerPoint para garantir integridade e validação perfeita no Windows
     ppt_app = win32com.client.Dispatch("PowerPoint.Application")
     try:
         pres = ppt_app.Presentations.Open(PPTX_PATH, WithWindow=False)
@@ -326,8 +375,8 @@ def update_presentation_complete(calc):
         pythoncom.CoUninitialize()
 
 if __name__ == "__main__":
-    params = fetch_params_from_firebase()
-    calc = calculate_system(params)
+    params, custom_equip, custom_perfil = fetch_data_from_firebase()
+    calc = calculate_system(params, custom_equip, custom_perfil)
     print("\n--- DADOS CONSOLIDADOS DO SISTEMA ---")
     print(f"• Tarifa: R$ {calc['tarifa']:.2f}/kWh | CAPEX: R$ {calc['capex']:,.2f}")
     print(f"• Duty Mestre: {calc['dcMestre']*100:.0f}% | Duty Escrava: {calc['dcEscrava']*100:.0f}%")
@@ -338,4 +387,4 @@ if __name__ == "__main__":
     print(f"• Payback Simples: {calc['paybackMeses']:.1f} meses | ROI (5a): +{calc['roi5']:.1f}% | VPL: R$ {calc['vpl']:,.2f}")
     print(f"• Descarbonizacao ESG: {calc['co2']:.1f} tCO2/ano")
     print("------------------------------------\n")
-    update_presentation_complete(calc)
+    update_presentation_complete(calc, params, custom_equip, custom_perfil)
