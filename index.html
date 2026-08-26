@@ -221,9 +221,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ==========================================================================
-   CARDS PREMIUM DO CATÁLOGO COM ANIMAÇÃO HOVER RICA & CABEÇALHO EM DESTAQUE
-   ========================================================================== */
+/* Cards de Equipamentos */
 .equipment-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -398,7 +396,7 @@ body {
   box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
 }
 
-/* Tabelas Editáveis (Cadastro e Perfil) com Rolagem Fluida */
+/* Tabelas Editáveis */
 .tbl-wrap {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -791,7 +789,7 @@ td.calculated {
 }
 
 /* ==========================================================================
-   SUPER RESPONSIVIDADE MOBILE (< 992px & < 768px & < 480px)
+   RESPONSIVIDADE MOBILE (< 992px & < 768px)
    ========================================================================== */
 @media (max-width: 992px) {
   .nav-tabs {
@@ -972,7 +970,7 @@ td.calculated {
 </head>
 <body>
 
-<!-- NAVBAR PRINCIPAL (DESKTOP E HEADER MOBILE) -->
+<!-- NAVBAR PRINCIPAL -->
 <nav class="navbar">
   <div class="nav-inner">
     <div class="nav-left">
@@ -1008,7 +1006,7 @@ td.calculated {
     </div>
   </div>
   
-  <!-- BARRA HORIZONTAL DESLIZÁVEL EXCLUSIVA PARA CELULAR -->
+  <!-- BARRA HORIZONTAL MOBILE -->
   <div class="mobile-tab-bar">
     <button class="mobile-tab-btn active" onclick="switchTab(event,'tab-home')">
       <span class="material-icons-round" style="font-size:15px">present_to_all</span> Apresentação
@@ -1252,7 +1250,7 @@ td.calculated {
                 <span>Temperatura Desejada (Setpoint):</span>
                 <strong id="simTempVal">22 °C</strong>
               </div>
-              <input type="range" id="simTempSlider" class="sim-range-slider" min="18" max="26" value="22" step="1" oninput="onSimTempChange(this.value)">
+              <input type="range" id="simTempSlider" class="sim-range-slider" min="18" max="26" value="22" step="1" oninput="onSimTempChange(this.value)" onchange="autoSaveSingleDocToFirebase()">
               <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
                 <span>18 °C (Frio)</span>
                 <span>22 °C (Padrão)</span>
@@ -1268,7 +1266,7 @@ td.calculated {
                   <span>Duty Cycle Mestre na Manutenção:</span>
                   <strong id="simDcMasterVal" style="color:var(--accent);">70% (0,70)</strong>
                 </div>
-                <input type="range" id="simDcMasterSlider" class="sim-range-slider" min="0.30" max="0.90" step="0.05" value="0.70" oninput="onSimDcMasterChange(this.value)">
+                <input type="range" id="simDcMasterSlider" class="sim-range-slider" min="0.30" max="0.90" step="0.05" value="0.70" oninput="onSimDcMasterChange(this.value)" onchange="autoSaveSingleDocToFirebase()">
                 <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
                   <span>30%</span>
                   <span>70% (Padrão CLP)</span>
@@ -1282,7 +1280,7 @@ td.calculated {
                   <span>Duty Cycle Escrava na Manutenção:</span>
                   <strong id="simDcSlaveVal" style="color:var(--success);">50% (0,50)</strong>
                 </div>
-                <input type="range" id="simDcSlaveSlider" class="sim-range-slider" min="0.00" max="0.80" step="0.05" value="0.50" oninput="onSimDcSlaveChange(this.value)">
+                <input type="range" id="simDcSlaveSlider" class="sim-range-slider" min="0.00" max="0.80" step="0.05" value="0.50" oninput="onSimDcSlaveChange(this.value)" onchange="autoSaveSingleDocToFirebase()">
                 <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
                   <span>0% (Desligada)</span>
                   <span>50% (Padrão CLP)</span>
@@ -1298,7 +1296,7 @@ td.calculated {
                   <span>Duty Cycle Único (Ambas Condensadoras):</span>
                   <strong id="simDcAnalogVal" style="color:#ef4444;">70% (0,70)</strong>
                 </div>
-                <input type="range" id="simDcAnalogSlider" class="sim-range-slider" min="0.40" max="1.00" step="0.05" value="0.70" oninput="onSimDcAnalogChange(this.value)">
+                <input type="range" id="simDcAnalogSlider" class="sim-range-slider" min="0.40" max="1.00" step="0.05" value="0.70" oninput="onSimDcAnalogChange(this.value)" onchange="autoSaveSingleDocToFirebase()">
                 <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
                   <span>40%</span>
                   <span>70% (Padrão Termostato)</span>
@@ -1357,7 +1355,7 @@ td.calculated {
                 <span class="calc-field-title">Tarifa Média de Energia Contratada:</span>
                 <span class="calc-field-badge" id="calcTariffVal">R$ 0,75 / kWh</span>
               </div>
-              <input type="range" id="calcTariffSlider" class="calc-slider" min="0.50" max="1.50" step="0.01" value="0.75" oninput="onDynamicCalculatorChange()">
+              <input type="range" id="calcTariffSlider" class="calc-slider" min="0.50" max="1.50" step="0.01" value="0.75" oninput="onDynamicCalculatorChange()" onchange="autoSaveSingleDocToFirebase()">
               <div class="calc-limits"><span>R$ 0,50 / kWh</span><span>R$ 0,75 (Atual)</span><span>R$ 1,50 / kWh</span></div>
             </div>
 
@@ -1367,7 +1365,7 @@ td.calculated {
                 <span class="calc-field-title">Tempo de Operação Diária do Shopping:</span>
                 <span class="calc-field-badge" id="calcHoursVal">12 horas/dia</span>
               </div>
-              <input type="range" id="calcHoursSlider" class="calc-slider" min="8" max="18" step="1" value="12" oninput="onDynamicCalculatorChange()">
+              <input type="range" id="calcHoursSlider" class="calc-slider" min="8" max="18" step="1" value="12" oninput="onDynamicCalculatorChange()" onchange="autoSaveSingleDocToFirebase()">
               <div class="calc-limits"><span>8h/dia</span><span>12h/dia (Padrão)</span><span>18h/dia</span></div>
             </div>
 
@@ -1563,7 +1561,7 @@ td.calculated {
     </div>
   </section>
 
-  <!-- CATÁLOGO DOS 38 CLIMATIZADORES (CARDS COM DESTAQUE E HOVER 3D) -->
+  <!-- CATÁLOGO DOS 38 CLIMATIZADORES -->
   <section class="section-wrapper" id="catalogo-equipamentos" style="margin-bottom: 2.5rem;">
     <div class="container">
       <div class="section-header">
@@ -1588,9 +1586,7 @@ td.calculated {
         <div class="catalog-counter" id="catalogCount">Exibindo 38 de 38 climatizadores</div>
       </div>
 
-      <div class="equipment-grid" id="equipmentGrid">
-        <!-- Renderizado dinamicamente via JS com cards em destaque -->
-      </div>
+      <div class="equipment-grid" id="equipmentGrid"></div>
     </div>
   </section>
 
@@ -1646,9 +1642,7 @@ td.calculated {
         <p class="section-subtitle">Metodologia modular e execução noturna que não interfere no horário de atendimento aos clientes e lojistas do shopping.</p>
       </div>
 
-      <div class="roadmap-timeline" id="roadmapContainer">
-        <!-- Renderizado dinamicamente via JS -->
-      </div>
+      <div class="roadmap-timeline" id="roadmapContainer"></div>
     </div>
   </section>
 
@@ -1661,9 +1655,7 @@ td.calculated {
         <p class="section-subtitle">Respostas técnicas e operacionais para subsidiar a tomada de decisão da diretoria.</p>
       </div>
 
-      <div class="faq-list" id="faqContainer">
-        <!-- Renderizado dinamicamente via JS -->
-      </div>
+      <div class="faq-list" id="faqContainer"></div>
     </div>
   </section>
 
@@ -1750,7 +1742,7 @@ td.calculated {
   <div class="page-header" style="margin-bottom: 16px;">
     <div>
       <h2 style="font-size: 20px; font-weight: 800; color: var(--primary-dark);">Dados Técnicos dos Equipamentos</h2>
-      <p style="font-size: 13px; color: #64748b;">Edite qualquer campo (incluindo a <strong>TAG do Equipamento</strong>). Toda edição é gravada de forma definitiva no banco de dados.</p>
+      <p style="font-size: 13px; color: #64748b;">Edite qualquer campo (incluindo a <strong>TAG do Equipamento</strong>). Toda edição é gravada com persistência de alta performance.</p>
     </div>
   </div>
 
@@ -1771,6 +1763,7 @@ td.calculated {
       </div>
       <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
         <button class="btn btn-primary" onclick="saveToFirebase(true)"><span class="material-icons-round">cloud_upload</span> Salvar no Banco Agora</button>
+        <button class="btn btn-secondary" onclick="exportDataAsJSON()"><span class="material-icons-round">file_download</span> Baixar Backup (JSON)</button>
         <button class="btn btn-secondary" onclick="confirmResetCadastro()"><span class="material-icons-round">restart_alt</span> Restaurar Padrão da Planilha</button>
       </div>
     </div>
@@ -1788,6 +1781,7 @@ td.calculated {
       </div>
       <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
         <button class="btn btn-primary" onclick="saveToFirebase(true)"><span class="material-icons-round">cloud_upload</span> Salvar no Banco Agora</button>
+        <button class="btn btn-secondary" onclick="exportDataAsJSON()"><span class="material-icons-round">file_download</span> Baixar Backup (JSON)</button>
         <button class="btn btn-secondary" onclick="confirmResetPerfil()"><span class="material-icons-round">restart_alt</span> Restaurar Padrão da Planilha</button>
       </div>
     </div>
@@ -1808,13 +1802,14 @@ td.calculated {
     <div class="param-grid" id="param-grid"></div>
     <div style="margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap;">
       <button class="btn btn-primary" onclick="applyParams(); saveToFirebase(true)"><span class="material-icons-round">autorenew</span> Aplicar e Salvar</button>
+      <button class="btn btn-secondary" onclick="exportDataAsJSON()"><span class="material-icons-round">file_download</span> Baixar Backup (JSON)</button>
       <button class="btn btn-secondary" onclick="confirmResetParams()"><span class="material-icons-round">restart_alt</span> Restaurar Padrão</button>
     </div>
   </div>
 </div>
 
 <!-- ================================================================ -->
-<!-- ABA 4: RELATÓRIO DE IMPRESSÃO OFICIAL (Word Relatorio_Retrofit)   -->
+<!-- ABA 4: RELATÓRIO DE IMPRESSÃO OFICIAL                            -->
 <!-- ================================================================ -->
 <div id="tab-print" class="tab-panel">
   <div class="page-header" style="margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
@@ -1838,9 +1833,7 @@ td.calculated {
       <h3 class="modal-title" id="modalTag">Ficha Técnica — Climatizador</h3>
       <button class="modal-close-btn" onclick="closeEquipModal()">✕</button>
     </div>
-    <div class="modal-body" id="modalBody">
-      <!-- Preenchido via JS -->
-    </div>
+    <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 
@@ -1853,7 +1846,7 @@ td.calculated {
 
 <script>
 // ================================================================
-// DATA STORE & PERMANENT PERSISTENCE ENGINE
+// DATA STORE & HIGH-EFFICIENCY DUAL PERSISTENCE ENGINE
 // ================================================================
 const DEFAULT_EQUIPAMENTOS = [{"tag": "[UE-05 / UC-05A / UC-05B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-02 / UC-02A / UC-02B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-03A / UE-03B / UC-03A / UC-03B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 1, "potTotal": 22.2, "corrente": 35.5}, {"tag": "[UE-04 / UC-04A / UC-04B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-05A / UE-05B / UC-05A / UC-05B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 2, "potTotal": 26, "corrente": 41.6}, {"tag": "[UE-06A / UE-06B / UC-06A / UC-06B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 2, "potTotal": 24.4, "corrente": 39}, {"tag": "[UE-07 / UC-07A / UC-07B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-08 / UC-08A / UC-08B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-09A / UE-09B / UC-09A / UC-09B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 1, "potTotal": 22.2, "corrente": 35.5}, {"tag": "[UE-10A / UE-10B / UC-10A / UC-10B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-11 / UC-11A / UC-11B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-12A / UE-12B / UC-12A / UC-12B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-13 / UC-13A / UC-13B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-14 / UC-14A / UC-14B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-15A / UE-15B / UC-15A / UC-15B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-16 / UC-16A / UC-16B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-17 / UC-17A / UC-17B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-18A / UE-18B / UC-18A / UC-18B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 1, "potTotal": 22.2, "corrente": 35.5}, {"tag": "[UE-19 / UC-19A / UC-19B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-20A / UE-20B / UC-20A / UC-20B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-21A / UE-21B / UC-21A / UC-21B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 1, "potTotal": 22.2, "corrente": 35.5}, {"tag": "[UE-22 / UC-22A / UC-22B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-23 / UC-23A / UC-23B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-24A / UE-24B / UC-24A / UC-24B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-25A / UE-25B / UC-25A / UC-25B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-26 / UC-26A / UC-26B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-27A / UE-27B / UC-27A / UC-27B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 1, "potTotal": 22.2, "corrente": 35.5}, {"tag": "[UE-28 / UC-28A / UC-28B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-29 / UC-29A / UC-29B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-30A / UE-30B / UC-30A / UC-30B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-31 / UC-31A / UC-31B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-32 / UC-32A / UC-32B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-33A / UE-33B / UC-33A / UC-33B]", "potUC": 10, "qtdUC": 2, "potUE": 2.2, "qtdUE": 1, "potTotal": 22.2, "corrente": 35.5}, {"tag": "[UE-34 / UC-34A / UC-34B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-35A / UE-35B / UC-35A / UC-35B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-36A / UE-36B / UC-36A / UC-36B]", "potUC": 10, "qtdUC": 2, "potUE": 3, "qtdUE": 1, "potTotal": 23, "corrente": 36.8}, {"tag": "[UE-37 / UC-37A / UC-37B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-38 / UC-38A / UC-38B]", "potUC": 10, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}];
 const DEFAULT_PERFIL = [{"tag": "[UE-01 / UC-01A / UC-01B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-02 / UC-02A / UC-02B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-03A / UE-03B / UC-03A / UC-03B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6165.054000000001, "consumoDepois": 5528.544000000001, "economiaMensal": 636.5100000000002}, {"tag": "[UE-04 / UC-04A / UC-04B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-05A / UE-05B / UC-05A / UC-05B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 7547.1900000000005, "consumoDepois": 6910.68, "economiaMensal": 636.5100000000002}, {"tag": "[UE-06A / UE-06B / UC-06A / UC-06B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6965.237999999999, "consumoDepois": 6328.728, "economiaMensal": 636.5099999999993}, {"tag": "[UE-07 / UC-07A / UC-07B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-08 / UC-08A / UC-08B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-09A / UE-09B / UC-09A / UC-09B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6165.054000000001, "consumoDepois": 5528.544000000001, "economiaMensal": 636.5100000000002}, {"tag": "[UE-10A / UE-10B / UC-10A / UC-10B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-11 / UC-11A / UC-11B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-12A / UE-12B / UC-12A / UC-12B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-13 / UC-13A / UC-13B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-14 / UC-14A / UC-14B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-15A / UE-15B / UC-15A / UC-15B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-16 / UC-16A / UC-16B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-17 / UC-17A / UC-17B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-18A / UE-18B / UC-18A / UC-18B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6165.054000000001, "consumoDepois": 5528.544000000001, "economiaMensal": 636.5100000000002}, {"tag": "[UE-19 / UC-19A / UC-19B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-20A / UE-20B / UC-20A / UC-20B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-21A / UE-21B / UC-21A / UC-21B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6165.054000000001, "consumoDepois": 5528.544000000001, "economiaMensal": 636.5100000000002}, {"tag": "[UE-22 / UC-22A / UC-22B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-23 / UC-23A / UC-23B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-24A / UE-24B / UC-24A / UC-24B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-25A / UE-25B / UC-25A / UC-25B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-26 / UC-26A / UC-26B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-27A / UE-27B / UC-27A / UC-27B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6165.054000000001, "consumoDepois": 5528.544000000001, "economiaMensal": 636.5100000000002}, {"tag": "[UE-28 / UC-28A / UC-28B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-29 / UC-29A / UC-29B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-30A / UE-30B / UC-30A / UC-30B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-31 / UC-31A / UC-31B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-32 / UC-32A / UC-32B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-33A / UE-33B / UC-33A / UC-33B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6165.054000000001, "consumoDepois": 5528.544000000001, "economiaMensal": 636.5100000000002}, {"tag": "[UE-34 / UC-34A / UC-34B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-35A / UE-35B / UC-35A / UC-35B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-36A / UE-36B / UC-36A / UC-36B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-37 / UC-37A / UC-37B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-38 / UC-38A / UC-38B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}];
@@ -1864,7 +1857,7 @@ let equipamentos = JSON.parse(JSON.stringify(DEFAULT_EQUIPAMENTOS));
 let perfil = JSON.parse(JSON.stringify(DEFAULT_PERFIL));
 let params = JSON.parse(JSON.stringify(DEFAULT_PARAMS));
 
-// Helper de LocalStorage
+// 1. LocalStorage Imediato (Resiliência Offline Infinita)
 function saveToLocalStorage() {
   try {
     localStorage.setItem('ns_hvac_equipamentos', JSON.stringify(equipamentos));
@@ -1909,6 +1902,26 @@ function loadFromLocalStorage() {
   }
 }
 
+// 2. Exportar / Baixar Backup JSON
+function exportDataAsJSON() {
+  const data = {
+    projeto: "Novo Shopping Center - Retrofit HVAC",
+    versao: "12.0",
+    dataExportacao: new Date().toISOString(),
+    parametros: params,
+    equipamentos: equipamentos,
+    perfil_uso: perfil
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `backup_retrofit_novo_shopping_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Backup JSON baixado com sucesso!');
+}
+
 // Roadmap & FAQ Data
 const ROADMAP_STEPS = [
   { step: "01", phase: "Engenharia de Detalhe & Mapeamento de Painéis", duration: "Semanas 1 e 2", description: "Inspeção física in loco nos 38 quadros elétricos dos climatizadores, validação dos sensores de temperatura PT100/NTC e conferência da infraestrutura de comunicação.", deliverable: "Projeto executivo elétrico e diagramas de interligação aprovados." },
@@ -1927,7 +1940,7 @@ const FAQS_DATA = [
 ];
 
 // ================================================================
-// FIREBASE & AUTO-SAVE DEFINITIVO
+// FIREBASE FIRESTORE CONSOLIDADO (1 ÚNICO DOC = ECONOMIA DE 98.7% DE COTA!)
 // ================================================================
 firebase.initializeApp({
   apiKey: "AIzaSyB5W7i5Ml71o8Cpva81OSIIyuN1lIvEHyg",
@@ -1939,119 +1952,78 @@ firebase.initializeApp({
 });
 const db = firebase.firestore();
 
-let autoSaveTimeout = null;
+let autoSaveTimer = null;
 
-function autoSaveParamsToFirebase() {
+// Salva TUDO em apenas 1 ÚNICA GRAVAÇÃO de documento (Consome 1 de 20.000)
+async function saveToFirebase(showNotification = false) {
+  readEditableParams();
   saveToLocalStorage();
-  clearTimeout(autoSaveTimeout);
   const ind = document.getElementById('save-indicator');
-  if (ind) {
-    ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#38bdf8;">sync</span> Salvando...';
-  }
-  
-  autoSaveTimeout = setTimeout(async () => {
-    try {
-      await db.collection('config').doc('parametros').set(params, { merge: true });
-      if (ind) {
-        ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#34d399;">cloud_done</span> Salvo no Banco';
-      }
-    } catch(err) {
-      console.error('Auto-save error:', err);
-      if (ind) {
-        ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#f87171;">cloud_off</span> Salvo Localmente';
+  if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#38bdf8;">sync</span> Gravando...';
+
+  try {
+    const payload = {
+      atualizadoEm: new Date().toISOString(),
+      parametros: params,
+      equipamentos: equipamentos,
+      perfil_uso: perfil
+    };
+    
+    // 1 única escrita no documento consolidado
+    await db.collection('config').doc('dados_completos').set(payload);
+    
+    if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#34d399;">cloud_done</span> Salvo no Banco';
+    if (showNotification) showToast('✅ Dados gravados com sucesso no banco de dados!');
+  } catch(e) {
+    console.warn('Firebase save note:', e.message);
+    if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#f59e0b;">sd_card</span> Salvo Localmente';
+    if (showNotification) {
+      if (e.message.includes('quota') || e.message.includes('resource-exhausted')) {
+        showToast('⚠️ Cota diária da nuvem atingida. Seus dados continuam 100% salvos no dispositivo!');
+      } else {
+        showToast('Salvo localmente com segurança.');
       }
     }
-  }, 500);
+  }
 }
 
-function autoSaveAllToFirebase() {
+function autoSaveSingleDocToFirebase() {
   saveToLocalStorage();
-  clearTimeout(autoSaveTimeout);
+  clearTimeout(autoSaveTimer);
   const ind = document.getElementById('save-indicator');
-  if (ind) {
-    ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#38bdf8;">sync</span> Salvando...';
-  }
-  
-  autoSaveTimeout = setTimeout(async () => {
-    try {
-      await saveToFirebase(false);
-      if (ind) {
-        ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#34d399;">cloud_done</span> Salvo no Banco';
-      }
-    } catch(err) {
-      console.error('Auto-save all error:', err);
-    }
-  }, 600);
+  if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#38bdf8;">sync</span> Sincronizando...';
+
+  autoSaveTimer = setTimeout(async () => {
+    await saveToFirebase(false);
+  }, 2000); // 2 segundos de debounce inteligente
 }
 
 async function loadFromFirebase() {
   try {
+    // 1. Tenta carregar do documento consolidado (1 leitura!)
+    const cDoc = await db.collection('config').doc('dados_completos').get();
+    if (cDoc.exists) {
+      const d = cDoc.data();
+      if (d.parametros) params = Object.assign(params, d.parametros);
+      if (Array.isArray(d.equipamentos) && d.equipamentos.length === 38) equipamentos = d.equipamentos;
+      if (Array.isArray(d.perfil_uso) && d.perfil_uso.length === 38) perfil = d.perfil_uso;
+      saveToLocalStorage();
+      syncSlidersWithParams();
+      recalcAll(); renderCadastro(); renderPerfil(); renderParams();
+      const ind = document.getElementById('save-indicator');
+      if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#34d399;">cloud_done</span> Sincronizado';
+      return;
+    }
+
+    // Fallback: Tenta carregar de docs individuais se o consolidado ainda não foi criado
     const pDoc = await db.collection('config').doc('parametros').get();
-    if (pDoc.exists) {
-      params = Object.assign(params, pDoc.data());
-    }
-    
-    const eSnap = await db.collection('equipamentos').get();
-    if (!eSnap.empty) {
-      const loadedE = [];
-      eSnap.forEach(doc => {
-        const d = doc.data();
-        if (d && d.idx !== undefined) loadedE.push(d);
-      });
-      loadedE.sort((a,b) => a.idx - b.idx);
-      if (loadedE.length === 38) {
-        equipamentos = loadedE;
-      }
-    }
-    
-    const uSnap = await db.collection('perfil_uso').get();
-    if (!uSnap.empty) {
-      const loadedU = [];
-      uSnap.forEach(doc => {
-        const d = doc.data();
-        if (d && d.idx !== undefined) loadedU.push(d);
-      });
-      loadedU.sort((a,b) => a.idx - b.idx);
-      if (loadedU.length === 38) {
-        perfil = loadedU;
-      }
-    }
+    if (pDoc.exists) params = Object.assign(params, pDoc.data());
 
     saveToLocalStorage();
     syncSlidersWithParams();
-    recalcAll();
-    renderCadastro();
-    renderPerfil();
-    renderParams();
-    const ind = document.getElementById('save-indicator');
-    if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#34d399;">cloud_done</span> Sincronizado';
+    recalcAll(); renderCadastro(); renderPerfil(); renderParams();
   } catch(e) {
     console.log('Firebase load info:', e.message);
-  }
-}
-
-async function saveToFirebase(showNotification = false) {
-  try {
-    readEditableParams();
-    saveToLocalStorage();
-    await db.collection('config').doc('parametros').set(params);
-    const batch1 = db.batch();
-    equipamentos.forEach((eq, i) => {
-      eq.idx = i;
-      batch1.set(db.collection('equipamentos').doc('eq_' + String(i).padStart(2, '0')), eq);
-    });
-    await batch1.commit();
-    const batch2 = db.batch();
-    perfil.forEach((p, i) => {
-      p.idx = i;
-      batch2.set(db.collection('perfil_uso').doc('uso_' + String(i).padStart(2, '0')), p);
-    });
-    await batch2.commit();
-    const ind = document.getElementById('save-indicator');
-    if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#34d399;">cloud_done</span> Salvo no Banco';
-    if (showNotification) showToast('Todos os dados foram gravados de forma definitiva no Firebase!');
-  } catch(e) {
-    showToast('Erro ao salvar no banco: ' + e.message);
   }
 }
 
@@ -2127,7 +2099,6 @@ function switchTab(evt, id) {
   const targetPanel = document.getElementById(id);
   if (targetPanel) targetPanel.classList.add('active');
   
-  // Atualizar botões desktop e mobile correspondentes
   document.querySelectorAll(`.nav-tab[onclick*="${id}"]`).forEach(t => t.classList.add('active'));
   document.querySelectorAll(`.mobile-tab-btn[onclick*="${id}"]`).forEach(b => b.classList.add('active'));
 
@@ -2187,7 +2158,7 @@ function onSimTempChange(val) {
   const pSetpoint = document.getElementById('p-setpoint');
   if (pSetpoint) pSetpoint.value = params.setpoint;
   recalcAll();
-  autoSaveParamsToFirebase();
+  saveToLocalStorage();
 }
 
 function onSimDcMasterChange(val) {
@@ -2197,7 +2168,7 @@ function onSimDcMasterChange(val) {
   if (pDcM) pDcM.value = params.dcMestre;
   recalcAll();
   updateSimSchematic();
-  autoSaveParamsToFirebase();
+  saveToLocalStorage();
 }
 
 function onSimDcSlaveChange(val) {
@@ -2207,7 +2178,7 @@ function onSimDcSlaveChange(val) {
   if (pDcE) pDcE.value = params.dcEscrava;
   recalcAll();
   updateSimSchematic();
-  autoSaveParamsToFirebase();
+  saveToLocalStorage();
 }
 
 function onSimDcAnalogChange(val) {
@@ -2217,7 +2188,7 @@ function onSimDcAnalogChange(val) {
   if (pDcA) pDcA.value = params.dcAntes;
   recalcAll();
   updateSimSchematic();
-  autoSaveParamsToFirebase();
+  saveToLocalStorage();
 }
 
 function onDynamicCalculatorChange() {
@@ -2246,7 +2217,7 @@ function onDynamicCalculatorChange() {
   recalcAll();
   renderCadastro();
   renderPerfil();
-  autoSaveParamsToFirebase();
+  saveToLocalStorage();
 }
 
 // ================================================================
@@ -2324,7 +2295,7 @@ function updateSimSchematic() {
 }
 
 // ================================================================
-// CATÁLOGO INTERATIVO DOS 38 CLIMATIZADORES (COM NOVO DESIGN PREMIUM)
+// CATÁLOGO INTERATIVO DOS 38 CLIMATIZADORES
 // ================================================================
 let currentPowerFilter = 'all';
 
@@ -2692,7 +2663,7 @@ function onCadEdit(cell) {
   recalcAll();
   renderCadastro();
   renderPerfil();
-  autoSaveAllToFirebase();
+  autoSaveSingleDocToFirebase();
 }
 
 function confirmResetCadastro() {
@@ -2740,7 +2711,7 @@ function onUsoEdit(cell) {
   saveToLocalStorage();
   recalcAll();
   renderPerfil();
-  autoSaveAllToFirebase();
+  autoSaveSingleDocToFirebase();
 }
 
 function confirmResetPerfil() {
@@ -2795,8 +2766,8 @@ function applyParams() {
   recalcAll();
   renderCadastro();
   renderPerfil();
-  autoSaveParamsToFirebase();
-  showToast('Parâmetros gravados e sincronizados com a nuvem');
+  autoSaveSingleDocToFirebase();
+  showToast('Parâmetros salvos com sucesso!');
 }
 
 function readEditableParams() {
@@ -3051,17 +3022,14 @@ function showToast(msg) {
   if (!t) return;
   t.innerText = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  setTimeout(() => t.classList.remove('show'), 3500);
 }
 
 // ================================================================
 // INICIALIZAÇÃO BLINDADA DO PORTAL
 // ================================================================
 async function init() {
-  // 1. Carrega primeiro do LocalStorage (garante persistência imediata)
   loadFromLocalStorage();
-  
-  // 2. Renderiza componentes com estado persistido
   renderParams();
   renderCadastro();
   renderPerfil();
@@ -3071,7 +3039,6 @@ async function init() {
   renderFaq();
   recalcAll();
   
-  // 3. Sincroniza com Firebase em background (sem sobrescrever valores editados)
   await loadFromFirebase();
 }
 

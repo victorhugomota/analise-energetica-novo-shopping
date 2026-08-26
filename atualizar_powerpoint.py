@@ -25,6 +25,7 @@ PPTX_PATH = os.path.abspath(r"C:\Users\Eletrica\Desktop\Estudo de Custo Novo Sho
 EXCEL_PATH = os.path.abspath(r"C:\Users\Eletrica\Desktop\Estudo de Custo Novo Shopping\Final\Planilha_Retrofit.xlsx")
 
 def fetch_data_from_firebase():
+    dados_completos_url = "https://firestore.googleapis.com/v1/projects/analiseenergeticanovoshopping/databases/(default)/documents/config/dados_completos"
     params_url = "https://firestore.googleapis.com/v1/projects/analiseenergeticanovoshopping/databases/(default)/documents/config/parametros"
     equip_url = "https://firestore.googleapis.com/v1/projects/analiseenergeticanovoshopping/databases/(default)/documents/equipamentos?pageSize=100"
     perfil_url = "https://firestore.googleapis.com/v1/projects/analiseenergeticanovoshopping/databases/(default)/documents/perfil_uso?pageSize=100"
@@ -37,6 +38,52 @@ def fetch_data_from_firebase():
     custom_equip = []
     custom_perfil = []
 
+    # 1. Tentar ler do documento consolidado de alta performance (dados_completos)
+    try:
+        req = urllib.request.Request(dados_completos_url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            fields = data.get('fields', {})
+            # Parse parametros
+            if 'parametros' in fields:
+                p_map = fields['parametros'].get('mapValue', {}).get('fields', {})
+                for k in params:
+                    if k in p_map:
+                        params[k] = float(p_map[k].get('doubleValue') or p_map[k].get('integerValue') or params[k])
+            # Parse equipamentos
+            if 'equipamentos' in fields:
+                arr = fields['equipamentos'].get('arrayValue', {}).get('values', [])
+                for i, v in enumerate(arr):
+                    ef = v.get('mapValue', {}).get('fields', {})
+                    custom_equip.append({
+                        'idx': i,
+                        'tag': ef.get('tag', {}).get('stringValue') or f'UE-{i+1:02d}',
+                        'potUC': float(ef.get('potUC', {}).get('doubleValue') or ef.get('potUC', {}).get('integerValue') or 10.0),
+                        'qtdUC': float(ef.get('qtdUC', {}).get('doubleValue') or ef.get('qtdUC', {}).get('integerValue') or 2.0),
+                        'potUE': float(ef.get('potUE', {}).get('doubleValue') or ef.get('potUE', {}).get('integerValue') or 1.5),
+                        'qtdUE': float(ef.get('qtdUE', {}).get('doubleValue') or ef.get('qtdUE', {}).get('integerValue') or 1.0),
+                    })
+            # Parse perfil
+            if 'perfil_uso' in fields:
+                arr = fields['perfil_uso'].get('arrayValue', {}).get('values', [])
+                for i, v in enumerate(arr):
+                    uf = v.get('mapValue', {}).get('fields', {})
+                    custom_perfil.append({
+                        'idx': i,
+                        'tag': uf.get('tag', {}).get('stringValue') or f'UE-{i+1:02d}',
+                        'hSegSex': float(uf.get('hSegSex', {}).get('doubleValue') or uf.get('hSegSex', {}).get('integerValue') or 12.0),
+                        'hSab': float(uf.get('hSab', {}).get('doubleValue') or uf.get('hSab', {}).get('integerValue') or 12.0),
+                        'hDom': float(uf.get('hDom', {}).get('doubleValue') or uf.get('hDom', {}).get('integerValue') or 12.0),
+                        'setupAntes': float(uf.get('setupAntes', {}).get('doubleValue') or uf.get('setupAntes', {}).get('integerValue') or 1.5),
+                        'setupDepois': float(uf.get('setupDepois', {}).get('doubleValue') or uf.get('setupDepois', {}).get('integerValue') or 1.5),
+                    })
+            if custom_equip and len(custom_equip) == 38:
+                print(f"[OK] 38 Equipamentos e Parametros carregados com sucesso do documento consolidado Firebase!")
+                return params, custom_equip, custom_perfil
+    except Exception as e:
+        pass
+
+    # 2. Fallback para documentos legados individuais se o consolidado ainda nao foi criado
     try:
         req = urllib.request.Request(params_url, headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req, timeout=5) as resp:
