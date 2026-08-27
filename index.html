@@ -872,18 +872,20 @@ td.calculated {
   color: #64748b;
 }
 
-/* Impressão Oficial */
+/* Impressão Oficial com Cores Vivas & Destaques Executivos */
 .print-doc {
   background: white;
   max-width: 860px;
   margin: 0 auto;
-  padding: 50px 45px;
+  padding: 45px 40px;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: 12.5px;
+  line-height: 1.65;
   color: #1e293b;
   box-shadow: var(--shadow-lg);
   border-radius: 8px;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
 }
 
 .doc-cover {
@@ -893,9 +895,9 @@ td.calculated {
   align-items: center;
   text-align: center;
   min-height: 245mm;
-  padding: 40px 24px 30px;
+  padding: 35px 24px 25px;
   box-sizing: border-box;
-  border-bottom: 2px solid #0284c7;
+  border-bottom: 3px solid #0284c7;
   page-break-after: always;
 }
 
@@ -918,7 +920,7 @@ td.calculated {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin: 30px 0;
+  margin: 25px 0;
 }
 
 .doc-cover-pretitle {
@@ -932,10 +934,11 @@ td.calculated {
   padding: 6px 18px;
   border-radius: 20px;
   display: inline-block;
+  border: 1px solid #bae6fd;
 }
 
 .doc-cover-title {
-  font-size: 24px;
+  font-size: 23px;
   font-weight: 800;
   color: #0a192f;
   text-transform: uppercase;
@@ -947,7 +950,7 @@ td.calculated {
 }
 
 .doc-cover-subtitle {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 700;
   color: #475569;
   text-transform: uppercase;
@@ -964,12 +967,13 @@ td.calculated {
 .doc-cover-meta-grid {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   text-align: left;
   background: #f8fafc;
-  padding: 20px 24px;
+  padding: 18px 22px;
   border-radius: 10px;
-  border: 1.5px solid #cbd5e1;
+  border: 1.5px solid #0284c7;
+  box-shadow: 0 2px 8px rgba(2,132,199,0.08);
 }
 
 .doc-meta-row strong {
@@ -981,75 +985,142 @@ td.calculated {
 }
 
 .doc-meta-row span {
-  font-size: 12.5px;
+  font-size: 12px;
   color: #334155;
   font-weight: 600;
+}
+
+.print-doc h2 {
+  background: linear-gradient(135deg, #0a192f 0%, #1e3a8a 100%) !important;
+  color: #ffffff !important;
+  padding: 7px 12px !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  margin: 22px 0 10px 0 !important;
+  display: block !important;
+  border-left: 5px solid #0284c7 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.print-doc h3 {
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  color: #0284c7 !important;
+  margin: 16px 0 8px !important;
+  text-transform: uppercase !important;
+  border-left: 4px solid #0284c7 !important;
+  padding-left: 8px !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.print-doc p {
+  text-align: justify;
+  margin-bottom: 11px;
+  line-height: 1.65;
 }
 
 .print-doc .tbl-wrap {
   overflow: visible !important;
   box-shadow: none !important;
   width: 100% !important;
-  margin-bottom: 16px !important;
+  margin-bottom: 14px !important;
 }
 
 .print-doc table {
   width: 100% !important;
   table-layout: fixed !important;
   border-collapse: collapse !important;
+  border: 1.5px solid #cbd5e1 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
 }
 
-.print-doc th, .print-doc td {
+.print-doc thead th {
+  background: #0a192f !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  font-size: 10.5px !important;
+  padding: 8px 5px !important;
+  border: 1px solid #1e293b !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.4px !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.print-doc tbody td {
   word-wrap: break-word !important;
   overflow-wrap: break-word !important;
   white-space: normal !important;
-  padding: 7px 4px !important;
+  padding: 6px 5px !important;
   font-size: 11px !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #1e293b !important;
+  text-align: center !important;
 }
 
-.print-doc h3 {
-  font-size: 12.5px;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 16px 0 8px;
+.print-doc tbody tr:nth-child(even) {
+  background: #f8fafc !important;
 }
 
-.print-doc p {
-  text-align: justify;
-  margin-bottom: 12px;
-  line-height: 1.7;
+.print-doc .total-row {
+  background: #ecfdf5 !important;
+  font-weight: 800 !important;
+  color: #065f46 !important;
+  border-top: 2px solid #10b981 !important;
+  border-bottom: 2px solid #10b981 !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.print-doc .total-row td {
+  color: #065f46 !important;
+  font-weight: 800 !important;
+  border-color: #a7f3d0 !important;
 }
 
 .print-doc .doc-highlight {
-  background: #f0fdf4;
-  border-left: 3px solid var(--success);
-  padding: 14px 18px;
-  font-size: 12.5px;
-  margin: 16px 0;
-  border-radius: 0 8px 8px 0;
+  background: #f0fdf4 !important;
+  border-left: 4px solid #10b981 !important;
+  padding: 12px 16px !important;
+  font-size: 12px !important;
+  margin: 14px 0 !important;
+  border-radius: 0 8px 8px 0 !important;
+  color: #065f46 !important;
+  border: 1px solid #bbf7d0;
+  border-left: 4px solid #10b981;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
 }
 
 .print-chart-box {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 14px;
-  margin: 16px 0;
-  page-break-inside: avoid;
+  background: #f8fafc !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  padding: 12px !important;
+  margin: 14px 0 !important;
+  page-break-inside: avoid !important;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
 }
 
 .doc-signature {
-  margin-top: 48px;
-  padding-top: 24px;
-  border-top: 1px dashed var(--border);
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px dashed #94a3b8;
   text-align: center;
   page-break-inside: avoid;
 }
 
 .doc-signature-line {
-  width: 340px;
+  width: 320px;
   margin: 0 auto 8px;
-  border-top: 1.5px solid #334155;
+  border-top: 1.5px solid #0a192f;
 }
 
 .doc-signature-name {
@@ -1061,9 +1132,9 @@ td.calculated {
 
 .doc-signature-title {
   font-size: 11px;
-  color: #64748b;
+  color: #334155;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 /* ==========================================================================
@@ -1230,13 +1301,17 @@ td.calculated {
     size: A4 portrait;
   }
 
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
   html, body {
     background: #ffffff !important;
     padding: 0 !important;
     margin: 0 !important;
-    color: #000000 !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+    color: #1e293b !important;
   }
 
   .navbar, .mobile-tab-bar, .no-print, .btn-save-nav, .save-indicator, .page-header, .btn-group, .toast, .sub-tabs, button, .hero-actions, .nav-tabs, footer, .footer-main {
@@ -1278,7 +1353,7 @@ td.calculated {
     padding: 35px 20px 25px !important;
     margin: 0 0 20px 0 !important;
     box-sizing: border-box !important;
-    border-bottom: 2px solid #0284c7 !important;
+    border-bottom: 3px solid #0284c7 !important;
     page-break-after: always !important;
     break-after: page !important;
   }
@@ -1313,7 +1388,7 @@ td.calculated {
   .doc-signature {
     page-break-inside: avoid;
     break-inside: avoid;
-    margin-top: 40px !important;
+    margin-top: 36px !important;
   }
 }
 </style>
@@ -3355,13 +3430,13 @@ function updatePrintPage() {
       const eq = equipamentos[idx];
       const u = perfil[idx];
       sampleRows += `<tr>
-        <td class="text-left bold">${eq.tag}</td>
+        <td class="text-left bold" style="color:#0a192f;">${eq.tag}</td>
         <td>${fmtDec(eq.potUC,1)}</td>
         <td>${eq.qtdUC}</td>
         <td>${fmtDec(eq.potUE,1)}</td>
         <td>${eq.qtdUE}</td>
-        <td>${fmtInt(u.consumoAntes)}</td>
-        <td>${fmtInt(u.consumoDepois)}</td>
+        <td style="color:#b91c1c; font-weight:600;">${fmtInt(u.consumoAntes)}</td>
+        <td style="color:#059669; font-weight:800;">${fmtInt(u.consumoDepois)}</td>
       </tr>`;
     }
   });
@@ -3401,10 +3476,10 @@ function updatePrintPage() {
       Este relatório apresenta a análise de viabilidade técnica e financeira para a implementação do sistema de controle automático baseado em Controladores Lógicos Programáveis (CLP) dedicado ao gerenciamento dos <b>${equipamentos.length} equipamentos</b> de climatização ativos no shopping. A modernização proposta visa sanar a ineficiência inerente ao controle analógico existente, otimizando as rotinas operacionais e reduzindo significativamente as despesas com energia elétrica, além de disponibilizar monitoramento centralizado e ajustes de setpoints operacionais de forma remota.
     </p>
     <p>
-      Os resultados consolidados da simulação de eficiência energética indicam que com os parâmetros operacionais de setpoint em <b>${fmtDec(params.setpoint,1)} °C</b> e uma histerese de controle ajustada para <b>${fmtDec(params.histerese,1)} °C</b>, o consumo mensal do sistema de climatização será reduzido de <b>${fmtInt(f.consAntesMes||0)} kWh/mês</b> para <b>${fmtInt(f.consDepoisMes||0)} kWh/mês</b>. Essa redução representa uma economia direta de energia de <b>${fmtInt(f.redKwhMes||0)} kWh/mês</b>, equivalendo a um decréscimo percentual de <b>${fmtDec((f.redPerc||0)*100,1)}%</b> no consumo energético do ar-condicionado.
+      Os resultados consolidados da simulação de eficiência energética indicam que com os parâmetros operacionais de setpoint em <b>${fmtDec(params.setpoint,1)} °C</b> e uma histerese de controle ajustada para <b>${fmtDec(params.histerese,1)} °C</b>, o consumo mensal do sistema de climatização será reduzido de <span style="color:#b91c1c; font-weight:700;">${fmtInt(f.consAntesMes||0)} kWh/mês</span> para <span style="color:#059669; font-weight:800;">${fmtInt(f.consDepoisMes||0)} kWh/mês</span>. Essa redução representa uma economia direta de energia de <span style="background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-weight:800;">${fmtInt(f.redKwhMes||0)} kWh/mês</span>, equivalendo a um decréscimo percentual de <span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:800;">-${fmtDec((f.redPerc||0)*100,1)}%</span> no consumo energético do ar-condicionado.
     </p>
     <p>
-      Financeiramente, considerando uma tarifa de energia elétrica contratada de <b>${fmtCur(params.tarifa)}/kWh</b>, o shopping obterá uma economia mensal líquida de <b>${fmtCur(f.econMesR||0)}</b>, totalizando uma economia anual recorrente de <b>${fmtCur(f.econAnoR||0)}</b>. Diante de um investimento total orçado em <b>${fmtCur(params.capex)}</b>, o tempo estimado para o retorno simples do capital (Payback Simples) é de <b>${fmtDec(f.paybackMeses||0,1)} meses</b> (${fmtDec(f.paybackAnos||0,1)} anos). O Retorno sobre Investimento (ROI) acumulado no período de 5 anos após a implantação é de expressivos <b>${fmtDec((f.roi||0)*100,1)}%</b>.
+      Financeiramente, considerando uma tarifa de energia elétrica contratada de <b>${fmtCur(params.tarifa)}/kWh</b>, o shopping obterá uma economia mensal líquida de <span style="color:#059669; font-weight:800;">${fmtCur(f.econMesR||0)}</span>, totalizando uma economia anual recorrente de <span style="background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-weight:800;">${fmtCur(f.econAnoR||0)}/ano</span>. Diante de um investimento total orçado em <span style="color:#b91c1c; font-weight:800;">${fmtCur(params.capex)}</span>, o tempo estimado para o retorno simples do capital (Payback Simples) é de <span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:800;">${fmtDec(f.paybackMeses||0,1)} meses</span> (${fmtDec(f.paybackAnos||0,1)} anos). O Retorno sobre Investimento (ROI) acumulado no período de 5 anos após a implantação é de expressivos <span style="background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-weight:800;">+${fmtDec((f.roi||0)*100,1)}%</span>.
     </p>
 
     <h2>2. DIAGNÓSTICO DA INSTALAÇÃO EXISTENTE (CENÁRIO ANTERIOR)</h2>
@@ -3437,7 +3512,7 @@ function updatePrintPage() {
       A potência nominal total de cada máquina e a sua respectiva corrente de regime são calculadas individualmente no cadastro através de potências definidas para evaporadoras e condensadoras. O sistema é modelado como trifásico em 380V e fator de potência de 0,95:
     </p>
     <div class="doc-highlight">
-      <b>Fórmulas de Regime:</b><br>
+      <b style="color:#065f46;">Fórmulas de Regime:</b><br>
       • Potência Total = (Pot. UC × Qtd. UC) + (Pot. UE × Qtd. UE)<br>
       • Corrente Nominal = (Potência Total × 1000) / (√3 × 380V × 0,95)
     </div>
@@ -3462,15 +3537,15 @@ function updatePrintPage() {
         </thead>
         <tbody>
           ${sampleRows}
-          <tr>
-            <td class="text-left bold" colspan="5">[Demais equipamentos 02 a 38 inclusos na planilha]</td>
-            <td>...</td>
-            <td>...</td>
+          <tr style="background:#f1f5f9;">
+            <td class="text-left bold" colspan="5" style="color:#64748b;">[Demais equipamentos 02 a 38 inclusos na base de cálculo completa]</td>
+            <td style="color:#b91c1c; font-weight:600;">...</td>
+            <td style="color:#059669; font-weight:800;">...</td>
           </tr>
           <tr class="total-row">
             <td class="text-left" colspan="5">TOTAL GERAL DO SISTEMA (${equipamentos.length} EQUIPAMENTOS)</td>
-            <td>${fmtInt(f.consAntesMes||0)}</td>
-            <td>${fmtInt(f.consDepoisMes||0)}</td>
+            <td style="color:#b91c1c; font-size:11.5px;">${fmtInt(f.consAntesMes||0)}</td>
+            <td style="color:#059669; font-size:12px;">${fmtInt(f.consDepoisMes||0)}</td>
           </tr>
         </tbody>
       </table>
@@ -3498,33 +3573,33 @@ function updatePrintPage() {
         </thead>
         <tbody>
           <tr>
-            <td class="text-left bold">FC-17</td>
-            <td>1x Evaporadora</td>
+            <td class="text-left bold" style="color:#0a192f;">FC-17</td>
+            <td><span style="background:#fef3c7; color:#b45309; padding:2px 6px; border-radius:4px; font-weight:700;">1x Evaporadora</span></td>
             <td>678,8 min</td>
-            <td class="bold text-blue">85,0%</td>
-            <td class="bold text-blue">37,7%</td>
-            <td>205,5 min/dia</td>
-            <td>61,3%</td>
+            <td class="bold" style="color:#0284c7;">85,0%</td>
+            <td class="bold" style="color:#0284c7;">37,7%</td>
+            <td><span style="background:#fee2e2; color:#b91c1c; padding:2px 6px; border-radius:4px; font-weight:800;">205,5 min/dia</span></td>
+            <td style="font-weight:700;">61,3%</td>
             <td>25,2° / 24,0°C</td>
           </tr>
           <tr>
-            <td class="text-left bold">FC-27</td>
-            <td>2x Evaporadoras</td>
+            <td class="text-left bold" style="color:#0a192f;">FC-27</td>
+            <td><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:700;">2x Evaporadoras</span></td>
             <td>670,5 min</td>
-            <td class="bold text-blue">75,7%</td>
-            <td class="bold text-blue">23,6%</td>
-            <td>45,5 min/dia</td>
-            <td>49,7%</td>
+            <td class="bold" style="color:#0284c7;">75,7%</td>
+            <td class="bold" style="color:#0284c7;">23,6%</td>
+            <td><span style="background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-weight:800;">45,5 min/dia</span></td>
+            <td style="font-weight:700; color:#059669;">49,7%</td>
             <td>24,2° / 23,0°C</td>
           </tr>
           <tr>
-            <td class="text-left bold">FC-28</td>
-            <td>2x Evaporadoras</td>
+            <td class="text-left bold" style="color:#0a192f;">FC-28</td>
+            <td><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:700;">2x Evaporadoras</span></td>
             <td>247,8 min</td>
-            <td class="bold text-blue">60,2%</td>
-            <td class="bold text-blue">18,6%</td>
-            <td>43,2 min/dia</td>
-            <td>39,4%</td>
+            <td class="bold" style="color:#0284c7;">60,2%</td>
+            <td class="bold" style="color:#0284c7;">18,6%</td>
+            <td><span style="background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-weight:800;">43,2 min/dia</span></td>
+            <td style="font-weight:700; color:#059669;">39,4%</td>
             <td>24,2° / 23,0°C</td>
           </tr>
         </tbody>
@@ -3533,20 +3608,20 @@ function updatePrintPage() {
 
     <h3>6.2 Comparativo Gráfico de Operação em Campo</h3>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0;" class="print-chart-box">
-      <div style="background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
-        <strong style="font-size: 11.5px; color: #0a192f; display: block; margin-bottom: 8px; text-transform: uppercase;">Duty Cycle Real por Estágio (Mestre vs. Escrava)</strong>
+      <div style="background: #f0f9ff; border: 1.5px solid #0284c7; border-radius: 8px; padding: 12px;">
+        <strong style="font-size: 11.5px; color: #0369a1; display: block; margin-bottom: 8px; text-transform: uppercase;">📊 Duty Cycle Real por Estágio (Mestre vs. Escrava)</strong>
         <div style="font-size: 11px; color: #334155; line-height: 1.8;">
-          • <b>FC-17 (1 Evap):</b> Mestre 85,0% | Escrava 37,7% | Global: 61,3%<br>
-          • <b>FC-27 (2 Evaps):</b> Mestre 75,7% | Escrava 23,6% | Global: 49,7%<br>
-          • <b>FC-28 (2 Evaps):</b> Mestre 60,2% | Escrava 18,6% | Global: 39,4%
+          • <b>FC-17 (1 Evap):</b> Mestre <span style="color:#0284c7; font-weight:700;">85,0%</span> | Escrava <span style="color:#38bdf8; font-weight:700;">37,7%</span> | Global: <b>61,3%</b><br>
+          • <b>FC-27 (2 Evaps):</b> Mestre <span style="color:#0284c7; font-weight:700;">75,7%</span> | Escrava <span style="color:#38bdf8; font-weight:700;">23,6%</span> | Global: <b style="color:#059669;">49,7%</b><br>
+          • <b>FC-28 (2 Evaps):</b> Mestre <span style="color:#0284c7; font-weight:700;">60,2%</span> | Escrava <span style="color:#38bdf8; font-weight:700;">18,6%</span> | Global: <b style="color:#059669;">39,4%</b>
         </div>
       </div>
-      <div style="background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
-        <strong style="font-size: 11.5px; color: #0a192f; display: block; margin-bottom: 8px; text-transform: uppercase;">Minutos Diários com Ambos Compressores ON (Pico)</strong>
+      <div style="background: #ecfdf5; border: 1.5px solid #10b981; border-radius: 8px; padding: 12px;">
+        <strong style="font-size: 11.5px; color: #047857; display: block; margin-bottom: 8px; text-transform: uppercase;">⏱️ Minutos Diários com Ambos Compressores ON (Pico)</strong>
         <div style="font-size: 11px; color: #334155; line-height: 1.8;">
-          • <b>FC-17 (1 Evap):</b> <span style="color:#ef4444; font-weight:800;">205,5 min/dia</span> (Elevado esforço térmico)<br>
-          • <b>FC-27 (2 Evaps):</b> <span style="color:#059669; font-weight:800;">45,5 min/dia</span> (Queda de 78% no pico conjunto)<br>
-          • <b>FC-28 (2 Evaps):</b> <span style="color:#059669; font-weight:800;">43,2 min/dia</span> (Queda de 79% no pico conjunto)
+          • <b>FC-17 (1 Evap):</b> <span style="background:#fee2e2; color:#b91c1c; padding:2px 6px; border-radius:4px; font-weight:800;">205,5 min/dia</span> (Elevado esforço térmico)<br>
+          • <b>FC-27 (2 Evaps):</b> <span style="background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-weight:800;">45,5 min/dia</span> (Queda de 78% no pico conjunto)<br>
+          • <b>FC-28 (2 Evaps):</b> <span style="background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-weight:800;">43,2 min/dia</span> (Queda de 79% no pico conjunto)
         </div>
       </div>
     </div>
@@ -3576,31 +3651,31 @@ function updatePrintPage() {
         <tbody>
           <tr>
             <td class="text-left bold">Consumo Mensal de Energia</td>
-            <td>${fmtInt(f.consAntesMes||0)} kWh/mês</td>
-            <td>${fmtInt(f.consDepoisMes||0)} kWh/mês</td>
-            <td class="bold">${fmtInt(f.redKwhMes||0)} kWh/mês</td>
-            <td class="bold">${fmtDec((f.redPerc||0)*100,1)}%</td>
+            <td style="color:#b91c1c; font-weight:700;">${fmtInt(f.consAntesMes||0)} kWh/mês</td>
+            <td style="color:#0284c7; font-weight:800;">${fmtInt(f.consDepoisMes||0)} kWh/mês</td>
+            <td><span style="background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-weight:800;">${fmtInt(f.redKwhMes||0)} kWh/mês</span></td>
+            <td><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:800;">-${fmtDec((f.redPerc||0)*100,1)}%</span></td>
           </tr>
           <tr>
             <td class="text-left bold">Consumo Anual de Energia</td>
-            <td>${fmtInt(f.consAntesAno||0)} kWh/ano</td>
-            <td>${fmtInt(f.consDepoisAno||0)} kWh/ano</td>
-            <td class="bold">${fmtInt(f.redKwhAno||0)} kWh/ano</td>
-            <td class="bold">${fmtDec((f.redPerc||0)*100,1)}%</td>
+            <td style="color:#b91c1c; font-weight:700;">${fmtInt(f.consAntesAno||0)} kWh/ano</td>
+            <td style="color:#0284c7; font-weight:800;">${fmtInt(f.consDepoisAno||0)} kWh/ano</td>
+            <td><span style="background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-weight:800;">${fmtInt(f.redKwhAno||0)} kWh/ano</span></td>
+            <td><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:800;">-${fmtDec((f.redPerc||0)*100,1)}%</span></td>
           </tr>
           <tr>
             <td class="text-left bold">Gasto Operacional Mensal</td>
-            <td>${fmtCur(f.custoAntesMes||0)}</td>
-            <td>${fmtCur(f.custoDepoisMes||0)}</td>
-            <td class="bold text-blue">${fmtCur(f.econMesR||0)}</td>
-            <td class="bold">${fmtDec((f.redPerc||0)*100,1)}%</td>
+            <td style="color:#b91c1c; font-weight:700;">${fmtCur(f.custoAntesMes||0)}</td>
+            <td style="color:#0284c7; font-weight:800;">${fmtCur(f.custoDepoisMes||0)}</td>
+            <td><span style="background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-weight:800;">${fmtCur(f.econMesR||0)}</span></td>
+            <td><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:800;">-${fmtDec((f.redPerc||0)*100,1)}%</span></td>
           </tr>
           <tr class="total-row">
             <td class="text-left">Gasto Operacional Anual</td>
-            <td>${fmtCur(f.custoAntesAno||0)}</td>
-            <td>${fmtCur(f.custoDepoisAno||0)}</td>
-            <td class="bold">${fmtCur(f.econAnoR||0)}</td>
-            <td class="bold">${fmtDec((f.redPerc||0)*100,1)}%</td>
+            <td style="color:#b91c1c; font-size:12px;">${fmtCur(f.custoAntesAno||0)}</td>
+            <td style="color:#0284c7; font-size:12px;">${fmtCur(f.custoDepoisAno||0)}</td>
+            <td><span style="background:#15803d; color:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800; font-size:12px;">${fmtCur(f.econAnoR||0)}</span></td>
+            <td><span style="background:#0284c7; color:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800; font-size:12px;">-${fmtDec((f.redPerc||0)*100,1)}%</span></td>
           </tr>
         </tbody>
       </table>
@@ -3609,14 +3684,14 @@ function updatePrintPage() {
     <!-- GRÁFICOS DO ITEM 7.1: CONSUMO E CUSTO (GERAL & MÉDIO POR EQUIPAMENTO) -->
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0;" class="print-chart-box">
       <!-- Gráfico 1: Consumo Total e Médio -->
-      <div style="background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
-        <strong style="font-size: 11px; color: #0a192f; display: block; margin-bottom: 10px; text-transform: uppercase;">⚡ Comparativo de Consumo de Energia (Total & Médio)</strong>
+      <div style="background: #f0f9ff; border: 1.5px solid #0284c7; border-radius: 8px; padding: 12px;">
+        <strong style="font-size: 11px; color: #0369a1; display: block; margin-bottom: 10px; text-transform: uppercase;">⚡ Comparativo de Consumo de Energia (Total & Médio)</strong>
         <div style="margin-bottom: 10px;">
           <div style="display:flex; justify-content:space-between; font-size:10.5px; margin-bottom:3px;">
             <span>Consumo Total Mensal (Shopping)</span>
-            <span><b>${fmtInt(f.consDepoisMes||0)}</b> vs ${fmtInt(f.consAntesMes||0)} kWh (-${fmtDec((f.redPerc||0)*100,1)}%)</span>
+            <span><b style="color:#0284c7;">${fmtInt(f.consDepoisMes||0)}</b> vs <span style="color:#b91c1c;">${fmtInt(f.consAntesMes||0)} kWh</span> (<b style="color:#059669;">-${fmtDec((f.redPerc||0)*100,1)}%</b>)</span>
           </div>
-          <div style="height:12px; background:#e2e8f0; border-radius:6px; overflow:hidden; display:flex;">
+          <div style="height:14px; background:#e2e8f0; border-radius:6px; overflow:hidden; display:flex;">
             <div style="width:${(((f.consDepoisMes||0)/(f.consAntesMes||1))*100).toFixed(1)}%; background:#0284c7;"></div>
             <div style="width:${(((f.redKwhMes||0)/(f.consAntesMes||1))*100).toFixed(1)}%; background:#10b981;"></div>
           </div>
@@ -3624,28 +3699,28 @@ function updatePrintPage() {
         <div>
           <div style="display:flex; justify-content:space-between; font-size:10.5px; margin-bottom:3px;">
             <span>Média por Equipamento (${equipamentos.length} un.)</span>
-            <span><b>${fmtInt((f.consDepoisMes||0)/(equipamentos.length||38))}</b> vs ${fmtInt((f.consAntesMes||0)/(equipamentos.length||38))} kWh/mês</span>
+            <span><b style="color:#0284c7;">${fmtInt((f.consDepoisMes||0)/(equipamentos.length||38))}</b> vs <span style="color:#b91c1c;">${fmtInt((f.consAntesMes||0)/(equipamentos.length||38))} kWh/mês</span></span>
           </div>
-          <div style="height:12px; background:#e2e8f0; border-radius:6px; overflow:hidden; display:flex;">
+          <div style="height:14px; background:#e2e8f0; border-radius:6px; overflow:hidden; display:flex;">
             <div style="width:${(((f.consDepoisMes||0)/(f.consAntesMes||1))*100).toFixed(1)}%; background:#2563eb;"></div>
             <div style="width:${(((f.redKwhMes||0)/(f.consAntesMes||1))*100).toFixed(1)}%; background:#34d399;"></div>
           </div>
         </div>
-        <div style="font-size:9.5px; color:#64748b; margin-top:8px; display:flex; gap:12px; justify-content:center;">
-          <span><span style="display:inline-block;width:8px;height:8px;background:#0284c7;border-radius:2px;"></span> Consumo com CLP</span>
-          <span><span style="display:inline-block;width:8px;height:8px;background:#10b981;border-radius:2px;"></span> Economia Obtida</span>
+        <div style="font-size:9.5px; color:#475569; margin-top:8px; display:flex; gap:14px; justify-content:center; font-weight:700;">
+          <span><span style="display:inline-block;width:10px;height:10px;background:#0284c7;border-radius:3px;vertical-align:middle;"></span> Consumo com CLP</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:#10b981;border-radius:3px;vertical-align:middle;"></span> Economia Obtida</span>
         </div>
       </div>
 
       <!-- Gráfico 2: Custo Operacional Total e Médio -->
-      <div style="background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
-        <strong style="font-size: 11px; color: #0a192f; display: block; margin-bottom: 10px; text-transform: uppercase;">💰 Comparativo de Custo Operacional (R$/mês)</strong>
+      <div style="background: #ecfdf5; border: 1.5px solid #059669; border-radius: 8px; padding: 12px;">
+        <strong style="font-size: 11px; color: #047857; display: block; margin-bottom: 10px; text-transform: uppercase;">💰 Comparativo de Custo Operacional (R$/mês)</strong>
         <div style="margin-bottom: 10px;">
           <div style="display:flex; justify-content:space-between; font-size:10.5px; margin-bottom:3px;">
             <span>Gasto Total Mensal</span>
-            <span><b>${fmtCur(f.custoDepoisMes||0)}</b> vs ${fmtCur(f.custoAntesMes||0)}</span>
+            <span><b style="color:#059669;">${fmtCur(f.custoDepoisMes||0)}</b> vs <span style="color:#b91c1c;">${fmtCur(f.custoAntesMes||0)}</span></span>
           </div>
-          <div style="height:12px; background:#e2e8f0; border-radius:6px; overflow:hidden; display:flex;">
+          <div style="height:14px; background:#e2e8f0; border-radius:6px; overflow:hidden; display:flex;">
             <div style="width:${(((f.custoDepoisMes||0)/(f.custoAntesMes||1))*100).toFixed(1)}%; background:#059669;"></div>
             <div style="width:${(((f.econMesR||0)/(f.custoAntesMes||1))*100).toFixed(1)}%; background:#38bdf8;"></div>
           </div>
@@ -3653,16 +3728,16 @@ function updatePrintPage() {
         <div>
           <div style="display:flex; justify-content:space-between; font-size:10.5px; margin-bottom:3px;">
             <span>Custo Médio por Equipamento</span>
-            <span><b>${fmtCur((f.custoDepoisMes||0)/(equipamentos.length||38))}</b> vs ${fmtCur((f.custoAntesMes||0)/(equipamentos.length||38))}</span>
+            <span><b style="color:#059669;">${fmtCur((f.custoDepoisMes||0)/(equipamentos.length||38))}</b> vs <span style="color:#b91c1c;">${fmtCur((f.custoAntesMes||0)/(equipamentos.length||38))}</span></span>
           </div>
-          <div style="height:12px; background:#e2e8f0; border-radius:6px; overflow:hidden; display:flex;">
+          <div style="height:14px; background:#e2e8f0; border-radius:6px; overflow:hidden; display:flex;">
             <div style="width:${(((f.custoDepoisMes||0)/(f.custoAntesMes||1))*100).toFixed(1)}%; background:#047857;"></div>
             <div style="width:${(((f.econMesR||0)/(f.custoAntesMes||1))*100).toFixed(1)}%; background:#7dd3fc;"></div>
           </div>
         </div>
-        <div style="font-size:9.5px; color:#64748b; margin-top:8px; display:flex; gap:12px; justify-content:center;">
-          <span><span style="display:inline-block;width:8px;height:8px;background:#059669;border-radius:2px;"></span> Custo com CLP</span>
-          <span><span style="display:inline-block;width:8px;height:8px;background:#38bdf8;border-radius:2px;"></span> Economia Mensal</span>
+        <div style="font-size:9.5px; color:#475569; margin-top:8px; display:flex; gap:14px; justify-content:center; font-weight:700;">
+          <span><span style="display:inline-block;width:10px;height:10px;background:#059669;border-radius:3px;vertical-align:middle;"></span> Custo com CLP</span>
+          <span><span style="display:inline-block;width:10px;height:10px;background:#38bdf8;border-radius:3px;vertical-align:middle;"></span> Economia Mensal</span>
         </div>
       </div>
     </div>
@@ -3678,51 +3753,51 @@ function updatePrintPage() {
           </tr>
         </thead>
         <tbody>
-          <tr><td class="text-left bold">Investimento CAPEX Total</td><td class="bold">${fmtCur(params.capex)}</td><td>R$</td></tr>
-          <tr><td class="text-left">Economia Mensal Gerada</td><td>${fmtCur(f.econMesR||0)}</td><td>R$/mês</td></tr>
-          <tr><td class="text-left">Economia Anual Gerada</td><td>${fmtCur(f.econAnoR||0)}</td><td>R$/ano</td></tr>
-          <tr><td class="text-left">Redução Energética Anual</td><td>${fmtInt(f.redKwhAno||0)}</td><td>kWh/ano</td></tr>
-          <tr><td class="text-left">Redução Percentual Média</td><td>${fmtDec((f.redPerc||0)*100,1)}%</td><td>%</td></tr>
-          <tr class="total-row"><td class="text-left">Payback Simples (Meses)</td><td class="bold">${fmtDec(f.paybackMeses||0,1)} meses</td><td>Meses</td></tr>
-          <tr class="total-row"><td class="text-left">Payback Simples (Anos)</td><td class="bold">${fmtDec(f.paybackAnos||0,1)} anos</td><td>Anos</td></tr>
-          <tr class="total-row"><td class="text-left">ROI Acumulado em 5 Anos</td><td class="bold">${fmtDec((f.roi||0)*100,1)}%</td><td>%</td></tr>
+          <tr><td class="text-left bold">Investimento CAPEX Total</td><td><span style="background:#fee2e2; color:#b91c1c; padding:2px 8px; border-radius:4px; font-weight:800;">${fmtCur(params.capex)}</span></td><td>R$</td></tr>
+          <tr><td class="text-left">Economia Mensal Gerada</td><td style="color:#059669; font-weight:800;">${fmtCur(f.econMesR||0)}</td><td>R$/mês</td></tr>
+          <tr><td class="text-left">Economia Anual Gerada</td><td style="color:#059669; font-weight:800;">${fmtCur(f.econAnoR||0)}</td><td>R$/ano</td></tr>
+          <tr><td class="text-left">Redução Energética Anual</td><td style="color:#0284c7; font-weight:800;">${fmtInt(f.redKwhAno||0)}</td><td>kWh/ano</td></tr>
+          <tr><td class="text-left">Redução Percentual Média</td><td><span style="background:#e0f2fe; color:#0369a1; padding:2px 8px; border-radius:4px; font-weight:800;">-${fmtDec((f.redPerc||0)*100,1)}%</span></td><td>%</td></tr>
+          <tr class="total-row"><td class="text-left">Payback Simples (Meses)</td><td><span style="background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:4px; font-weight:800;">${fmtDec(f.paybackMeses||0,1)} meses</span></td><td>Meses</td></tr>
+          <tr class="total-row"><td class="text-left">Payback Simples (Anos)</td><td><span style="background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:4px; font-weight:800;">${fmtDec(f.paybackAnos||0,1)} anos</span></td><td>Anos</td></tr>
+          <tr class="total-row"><td class="text-left">ROI Acumulado em 5 Anos</td><td><span style="background:#15803d; color:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800;">+${fmtDec((f.roi||0)*100,1)}%</span></td><td>%</td></tr>
         </tbody>
       </table>
     </div>
 
     <!-- GRÁFICO DO ITEM 7.2: CURVA DE PAYBACK E FLUXO CUMULATIVO 5 ANOS -->
-    <div class="print-chart-box" style="margin: 16px 0; background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px;">
+    <div class="print-chart-box" style="margin: 16px 0; background: white; border: 1.5px solid #0284c7; border-radius: 8px; padding: 14px;">
       <strong style="font-size: 11px; color: #0a192f; display: block; margin-bottom: 8px; text-transform: uppercase;">📈 Projeção de Amortização do CAPEX & Retorno Líquido Cumulativo (5 Anos)</strong>
       <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; text-align: center; margin-top: 10px;">
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 3px;">
-          <div style="font-size:9.5px; font-weight:700; color:#64748b;">Ano 0 (CAPEX)</div>
-          <div style="font-size:10.5px; font-weight:800; color:#ef4444; margin-top:4px;">-${fmtCur(params.capex)}</div>
-          <div style="font-size:8.5px; color:#94a3b8; margin-top:2px;">Investimento</div>
+        <div style="background:#fee2e2; border:1.5px solid #ef4444; border-radius:6px; padding:8px 3px;">
+          <div style="font-size:9.5px; font-weight:800; color:#991b1b;">Ano 0 (CAPEX)</div>
+          <div style="font-size:10.5px; font-weight:800; color:#dc2626; margin-top:4px;">-${fmtCur(params.capex)}</div>
+          <div style="font-size:8.5px; color:#b91c1c; margin-top:2px;">Investimento</div>
         </div>
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 3px;">
-          <div style="font-size:9.5px; font-weight:700; color:#64748b;">Ano 1</div>
+        <div style="background:#f0f9ff; border:1.5px solid #38bdf8; border-radius:6px; padding:8px 3px;">
+          <div style="font-size:9.5px; font-weight:700; color:#0369a1;">Ano 1</div>
           <div style="font-size:10.5px; font-weight:800; color:#0284c7; margin-top:4px;">+${fmtCur(f.econAnoR||0)}</div>
           <div style="font-size:8.5px; color:#0284c7; margin-top:2px;">Amortizando</div>
         </div>
-        <div style="background:#ecfdf5; border:1.5px solid #10b981; border-radius:6px; padding:8px 3px;">
-          <div style="font-size:9.5px; font-weight:800; color:#059669;">Ano 2 (Payback)</div>
-          <div style="font-size:10.5px; font-weight:800; color:#059669; margin-top:4px;">+${fmtCur((f.econAnoR||0)*2)}</div>
-          <div style="font-size:8.5px; font-weight:700; color:#059669; margin-top:2px;">${fmtDec(f.paybackMeses||0,1)} meses</div>
+        <div style="background:#dcfce7; border:2px solid #10b981; border-radius:6px; padding:8px 3px; box-shadow:0 2px 4px rgba(16,185,129,0.2);">
+          <div style="font-size:9.5px; font-weight:800; color:#15803d;">Ano 2 (Payback)</div>
+          <div style="font-size:10.5px; font-weight:800; color:#15803d; margin-top:4px;">+${fmtCur((f.econAnoR||0)*2)}</div>
+          <div style="font-size:8.5px; font-weight:800; color:#15803d; margin-top:2px;">${fmtDec(f.paybackMeses||0,1)} meses</div>
         </div>
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 3px;">
-          <div style="font-size:9.5px; font-weight:700; color:#64748b;">Ano 3</div>
+        <div style="background:#ecfdf5; border:1.5px solid #34d399; border-radius:6px; padding:8px 3px;">
+          <div style="font-size:9.5px; font-weight:700; color:#047857;">Ano 3</div>
           <div style="font-size:10.5px; font-weight:800; color:#059669; margin-top:4px;">+${fmtCur((f.econAnoR||0)*3)}</div>
-          <div style="font-size:8.5px; color:#64748b; margin-top:2px;">Retorno Líquido</div>
+          <div style="font-size:8.5px; color:#059669; margin-top:2px;">Retorno Líquido</div>
         </div>
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 3px;">
-          <div style="font-size:9.5px; font-weight:700; color:#64748b;">Ano 4</div>
+        <div style="background:#ecfdf5; border:1.5px solid #34d399; border-radius:6px; padding:8px 3px;">
+          <div style="font-size:9.5px; font-weight:700; color:#047857;">Ano 4</div>
           <div style="font-size:10.5px; font-weight:800; color:#059669; margin-top:4px;">+${fmtCur((f.econAnoR||0)*4)}</div>
-          <div style="font-size:8.5px; color:#64748b; margin-top:2px;">Retorno Líquido</div>
+          <div style="font-size:8.5px; color:#059669; margin-top:2px;">Retorno Líquido</div>
         </div>
-        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 3px;">
-          <div style="font-size:9.5px; font-weight:700; color:#64748b;">Ano 5 (Total)</div>
-          <div style="font-size:10.5px; font-weight:800; color:#059669; margin-top:4px;">+${fmtCur((f.econAnoR||0)*5)}</div>
-          <div style="font-size:8.5px; font-weight:800; color:#2563eb; margin-top:2px;">ROI +${fmtDec((f.roi||0)*100,1)}%</div>
+        <div style="background:linear-gradient(135deg, #0a192f 0%, #1e3a8a 100%); border:1.5px solid #0284c7; border-radius:6px; padding:8px 3px;">
+          <div style="font-size:9.5px; font-weight:800; color:#93c5fd;">Ano 5 (Total)</div>
+          <div style="font-size:10.5px; font-weight:800; color:#34d399; margin-top:4px;">+${fmtCur((f.econAnoR||0)*5)}</div>
+          <div style="font-size:8.5px; font-weight:800; color:#38bdf8; margin-top:2px;">ROI +${fmtDec((f.roi||0)*100,1)}%</div>
         </div>
       </div>
     </div>
