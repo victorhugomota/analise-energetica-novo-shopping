@@ -1299,10 +1299,11 @@ td.calculated {
     </div>
   </section>
 
-  <!-- FAIXA DE INDICADORES CENTRAIS (KPIS) -->
+  <!-- FAIXA DE INDICADORES CENTRAIS (KPIS: 8 BALÕES COMPLETOS) -->
   <section class="kpi-section" style="margin-bottom: 2.5rem;">
     <div class="container">
       <div class="kpi-grid">
+        <!-- LINHA 1 (BALÕES 1 A 4) -->
         <div class="kpi-card kpi-emerald">
           <div class="kpi-header">
             <span class="kpi-title">Economia Anual Projetada</span>
@@ -1346,6 +1347,52 @@ td.calculated {
             <div class="kpi-subtext"><span>Mitigação Direta no Fator SIN/MCTI</span></div>
           </div>
         </div>
+
+        <!-- LINHA 2 (NOVOS BALÕES 5 A 8) -->
+        <div class="kpi-card kpi-emerald">
+          <div class="kpi-header">
+            <span class="kpi-title">Economia Mensal Recorrente</span>
+            <div class="kpi-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></div>
+          </div>
+          <div>
+            <div class="kpi-value-row"><span class="kpi-value" id="kpi-econMes">R$ 18.140,53</span></div>
+            <div class="kpi-subtext"><span class="kpi-badge badge-emerald">Recorrente</span><span id="kpi-kwhMes">24.187 kWh/mês</span></div>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-cyan">
+          <div class="kpi-header">
+            <span class="kpi-title">Consumo Mensal com CLP</span>
+            <div class="kpi-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></div>
+          </div>
+          <div>
+            <div class="kpi-value-row"><span class="kpi-value" id="kpi-consDepoisMes">212.403</span><span class="kpi-unit">kWh/mês</span></div>
+            <div class="kpi-subtext"><span>Antes: <strong id="kpi-consAntesMes">235.954 kWh/mês</strong></span></div>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-blue">
+          <div class="kpi-header">
+            <span class="kpi-title">Consumo Anual do Parque</span>
+            <div class="kpi-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"></rect><rect x="2" y="14" width="20" height="8" rx="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg></div>
+          </div>
+          <div>
+            <div class="kpi-value-row"><span class="kpi-value" id="kpi-consDepoisAno">2.548.841</span><span class="kpi-unit">kWh/ano</span></div>
+            <div class="kpi-subtext"><span>Antes: <strong id="kpi-consAntesAno">2.831.451 kWh/ano</strong></span></div>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-amber">
+          <div class="kpi-header">
+            <span class="kpi-title">Gasto Anual Otimizado (OPEX)</span>
+            <div class="kpi-icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div>
+          </div>
+          <div>
+            <div class="kpi-value-row"><span class="kpi-value" id="kpi-custoDepoisAno" style="font-size:1.45rem;">R$ 1.911.630,48</span></div>
+            <div class="kpi-subtext"><span>Antes: <strong id="kpi-custoAntesAno">R$ 2.123.588,31</strong></span></div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -2789,7 +2836,7 @@ function updateDashboard() {
   const hPb = document.getElementById('hero-payback');
   if (hPb) hPb.innerText = `${fmtDec(paybackMeses, 1)} Meses`;
 
-  // Home Hero KPIs
+  // Home Hero KPIs (Linha 1: Balões 1 a 4)
   const kEcon = document.getElementById('kpi-econAno');
   if (kEcon) kEcon.innerText = fmtCur(econAnoR);
   const kKwh = document.getElementById('kpi-kwhAno');
@@ -2802,6 +2849,24 @@ function updateDashboard() {
   if (kVpl) kVpl.innerText = fmtCur(vpl);
   const kCo2 = document.getElementById('kpi-co2');
   if (kCo2) kCo2.innerText = fmtDec(co2, 1);
+
+  // Home Hero KPIs (Linha 2: Novos Balões 5 a 8)
+  const kEconM = document.getElementById('kpi-econMes');
+  if (kEconM) kEconM.innerText = fmtCur(econMesR);
+  const kKwhM = document.getElementById('kpi-kwhMes');
+  if (kKwhM) kKwhM.innerText = `${fmtInt(redKwhMes)} kWh/mês`;
+  const kConsDM = document.getElementById('kpi-consDepoisMes');
+  if (kConsDM) kConsDM.innerText = fmtInt(consDepoisMes);
+  const kConsAM = document.getElementById('kpi-consAntesMes');
+  if (kConsAM) kConsAM.innerText = `${fmtInt(consAntesMes)} kWh/mês`;
+  const kConsDA = document.getElementById('kpi-consDepoisAno');
+  if (kConsDA) kConsDA.innerText = fmtInt(consDepoisAno);
+  const kConsAA = document.getElementById('kpi-consAntesAno');
+  if (kConsAA) kConsAA.innerText = `${fmtInt(consAntesAno)} kWh/ano`;
+  const kCustoDA = document.getElementById('kpi-custoDepoisAno');
+  if (kCustoDA) kCustoDA.innerText = fmtCur(custoDepoisAno);
+  const kCustoAA = document.getElementById('kpi-custoAntesAno');
+  if (kCustoAA) kCustoAA.innerText = `${fmtCur(custoAntesAno)}/ano`;
 
   // Dynamic Calculator Cards
   const cAnn = document.getElementById('calcResAnnualSavings');
