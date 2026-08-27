@@ -1392,132 +1392,6 @@ td.calculated {
   }
 }
 
-/* ==========================================================================
-   ESTILOS DA APRESENTAÇÃO DE SLIDES (20 SLIDES INTERATIVOS EM TEMPO REAL)
-   ========================================================================== */
-.btn-slide-nav {
-  background: #0284c7;
-  color: white;
-  border: none;
-  padding: 7px 14px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.btn-slide-nav:hover {
-  background: #0369a1;
-}
-
-.btn-slide-nav:disabled {
-  background: #475569;
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.slide-wrapper {
-  padding: 26px 30px;
-  height: 100%;
-  min-height: 480px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: #ffffff;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-}
-
-.slide-header {
-  border-bottom: 2px solid #0284c7;
-  padding-bottom: 10px;
-  margin-bottom: 14px;
-}
-
-.slide-category {
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: #0284c7;
-  letter-spacing: 1px;
-}
-
-.slide-title {
-  font-size: 19px;
-  font-weight: 800;
-  color: #0a192f;
-  margin: 3px 0 0 0;
-  font-family: 'Outfit', sans-serif;
-}
-
-.slide-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.slide-grid-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-.slide-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.slide-grid-4 {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.slide-card {
-  background: #f8fafc;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 10px;
-  padding: 14px;
-  box-sizing: border-box;
-}
-
-.slide-card.blue {
-  background: #f0f9ff;
-  border-color: #0284c7;
-}
-
-.slide-card.emerald {
-  background: #ecfdf5;
-  border-color: #10b981;
-}
-
-.slide-card.red {
-  background: #fef2f2;
-  border-color: #ef4444;
-}
-
-.slide-card.navy {
-  background: #0a192f;
-  color: white;
-  border-color: #1e3a8a;
-}
-
-.slide-metric-val {
-  font-size: 22px;
-  font-weight: 800;
-  margin: 4px 0;
-}
-
-#slide-stage-wrapper:fullscreen {
-  max-width: 100vw !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  border-radius: 0 !important;
-  border: none !important;
-}
 </style>
 </head>
 <body>
@@ -1532,10 +1406,7 @@ td.calculated {
       </div>
       <div class="nav-tabs">
         <button class="nav-tab active" onclick="switchTab(event,'tab-home')">
-          <span class="material-icons-round">home</span> Visão Geral
-        </button>
-        <button class="nav-tab" onclick="switchTab(event,'tab-slides')">
-          <span class="material-icons-round">slideshow</span> Apresentação de Slides (20)
+          <span class="material-icons-round">present_to_all</span> Apresentação
         </button>
         <button class="nav-tab" onclick="switchTab(event,'tab-dash')">
           <span class="material-icons-round">analytics</span> Dashboard
@@ -1561,10 +1432,7 @@ td.calculated {
   <!-- BARRA HORIZONTAL MOBILE -->
   <div class="mobile-tab-bar">
     <button class="mobile-tab-btn active" onclick="switchTab(event,'tab-home')">
-      <span class="material-icons-round" style="font-size:15px">home</span> Início
-    </button>
-    <button class="mobile-tab-btn" onclick="switchTab(event,'tab-slides')">
-      <span class="material-icons-round" style="font-size:15px">slideshow</span> Slides
+      <span class="material-icons-round" style="font-size:15px">present_to_all</span> Apresentação
     </button>
     <button class="mobile-tab-btn" onclick="switchTab(event,'tab-dash')">
       <span class="material-icons-round" style="font-size:15px">analytics</span> Dash
@@ -2333,51 +2201,6 @@ td.calculated {
 <!-- ================================================================ -->
 <!-- ABA 0.5: APRESENTAÇÃO DE SLIDES OFICIAL (20 SLIDES EM TEMPO REAL) -->
 <!-- ================================================================ -->
-<div id="tab-slides" class="tab-panel">
-  <!-- Slides Toolbar -->
-  <div class="slides-toolbar no-print" style="margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; background: white; padding: 14px 18px; border-radius: 12px; border: 1.5px solid var(--border); box-shadow: 0 4px 14px rgba(0,0,0,0.06); flex-wrap: wrap; gap: 12px;">
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <span class="material-icons-round" style="color: var(--accent); font-size: 28px;">slideshow</span>
-      <div>
-        <h3 style="font-size: 16px; font-weight: 800; color: var(--primary-dark); margin: 0; font-family: 'Outfit', sans-serif;">Estudo de Custo e Viabilidade - Novo Shopping</h3>
-        <p style="font-size: 12px; color: #64748b; margin: 2px 0 0 0;">Apresentação Executiva de 20 Slides • <span style="color:#059669; font-weight:700;">● Atualização em Tempo Real com o Banco de Dados</span></p>
-      </div>
-    </div>
-    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-
-      <button class="btn btn-primary" onclick="toggleSlideFullscreen()" style="padding: 8px 16px; font-size: 12px; font-weight: 700; border-radius: 8px; display: flex; align-items: center; gap: 6px; background: var(--accent-gradient); color: white; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);">
-        <span class="material-icons-round" style="font-size: 17px;">fullscreen</span> Apresentar (Tela Cheia)
-      </button>
-    </div>
-  </div>
-
-  <!-- Slides Controller Bar -->
-  <div class="slides-controls no-print" style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; background: #0a192f; color: white; padding: 10px 16px; border-radius: 10px; gap: 10px; flex-wrap: wrap;">
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <button class="btn-slide-nav" onclick="prevSlide()" title="Slide Anterior (Seta Esquerda)">◀ Anterior</button>
-      <select id="slide-selector" onchange="goToSlide(parseInt(this.value))" style="background: #1e293b; color: white; border: 1px solid #334155; padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; outline: none; cursor: pointer; max-width: 440px;">
-        <!-- Preenchido via JS -->
-      </select>
-      <button class="btn-slide-nav" onclick="nextSlide()" title="Próximo Slide (Seta Direita ou Espaço)">Próximo ▶</button>
-    </div>
-    <div style="font-size: 12.5px; font-weight: 700; color: #38bdf8;">
-      Slide <span id="slide-num-indicator">1</span> de 20
-    </div>
-  </div>
-
-  <!-- Slide Stage Container (16:9 Widescreen) -->
-  <div id="slide-stage-wrapper" style="position: relative; width: 100%; max-width: 1020px; margin: 0 auto; min-height: 520px; background: white; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); border: 2px solid #0284c7; overflow: hidden; display: flex; flex-direction: column;">
-    <div id="slide-viewport" style="flex: 1; overflow-y: auto; position: relative;">
-      <!-- Conteúdo do Slide -->
-    </div>
-    <!-- Slide Footer -->
-    <div style="height: 36px; background: #0a192f; border-top: 2px solid #0284c7; display: flex; justify-content: space-between; align-items: center; padding: 0 18px; font-size: 10.5px; color: #94a3b8;">
-      <span>3D Ar Condicionado e Engenharia Térmica • Eng. Victor Hugo Mota de Almeida</span>
-      <span style="color: #38bdf8; font-weight: 700;">Novo Shopping Center Ribeirão Preto</span>
-    </div>
-  </div>
-</div>
-
 <div id="tab-dash" class="tab-panel">
   <div class="page-header" style="margin-bottom: 20px;">
     <div>
@@ -2684,8 +2507,7 @@ function initFirebaseRealtimeSync() {
       if (changed) {
         syncSlidersWithParams();
         recalcAll();
-  initSlides();
-        renderCadastro();
+          renderCadastro();
         renderPerfil();
         renderParams();
       }
@@ -2761,8 +2583,7 @@ function recalcAll() {
   });
   updateDashboard();
   updatePrintPage();
-  renderSlide(currentSlideIndex);
-  renderCatalogCards();
+    renderCatalogCards();
 }
 
 // ================================================================
@@ -2835,8 +2656,7 @@ function onSimTempChange(val) {
   const pSetpoint = document.getElementById('p-setpoint');
   if (pSetpoint) pSetpoint.value = params.setpoint;
   recalcAll();
-  initSlides();
-  saveFieldToFirebase('parametros', null, 'setpoint', params.setpoint);
+    saveFieldToFirebase('parametros', null, 'setpoint', params.setpoint);
 }
 
 function onSimDcMasterChange(val) {
@@ -2845,8 +2665,7 @@ function onSimDcMasterChange(val) {
   const pDcM = document.getElementById('p-dcMestre');
   if (pDcM) pDcM.value = params.dcMestre;
   recalcAll();
-  initSlides();
-  updateSimSchematic();
+    updateSimSchematic();
   saveFieldToFirebase('parametros', null, 'dcMestre', params.dcMestre);
 }
 
@@ -2856,8 +2675,7 @@ function onSimDcSlaveChange(val) {
   const pDcE = document.getElementById('p-dcEscrava');
   if (pDcE) pDcE.value = params.dcEscrava;
   recalcAll();
-  initSlides();
-  updateSimSchematic();
+    updateSimSchematic();
   saveFieldToFirebase('parametros', null, 'dcEscrava', params.dcEscrava);
 }
 
@@ -2867,8 +2685,7 @@ function onSimDcAnalogChange(val) {
   const pDcA = document.getElementById('p-dcAntes');
   if (pDcA) pDcA.value = params.dcAntes;
   recalcAll();
-  initSlides();
-  updateSimSchematic();
+    updateSimSchematic();
   saveFieldToFirebase('parametros', null, 'dcAntes', params.dcAntes);
 }
 
@@ -2896,8 +2713,7 @@ function onDynamicCalculatorChange() {
   });
 
   recalcAll();
-  initSlides();
-  renderCadastro();
+    renderCadastro();
   renderPerfil();
   saveFieldToFirebase('parametros', null, 'tarifa', t);
 }
@@ -3514,8 +3330,7 @@ function onCadEdit(cell) {
     equipamentos[i][f] = val;
   }
   recalcAll();
-  initSlides();
-  renderCadastro();
+    renderCadastro();
   renderPerfil();
   saveFieldToFirebase('equipamentos', i, f, val);
 }
@@ -3524,8 +3339,7 @@ function confirmResetCadastro() {
   if (confirm('Tem certeza de que deseja restaurar as configurações originais de Cadastro de Equipamentos no banco de dados?')) {
     equipamentos = JSON.parse(JSON.stringify(DEFAULT_EQUIPAMENTOS));
     recalcAll();
-  initSlides();
-    renderCadastro();
+      renderCadastro();
     renderPerfil();
     saveToFirebase(true);
   }
@@ -3565,8 +3379,7 @@ function onUsoEdit(cell) {
   const v = parseFloat(cell.innerText.replace(',','.')) || 0;
   perfil[i][f] = v;
   recalcAll();
-  initSlides();
-  renderPerfil();
+    renderPerfil();
   saveFieldToFirebase('perfil_uso', i, f, v);
 }
 
@@ -3574,8 +3387,7 @@ function confirmResetPerfil() {
   if (confirm('Tem certeza de que deseja restaurar o Perfil de Uso para o padrão oficial no banco de dados?')) {
     perfil = JSON.parse(JSON.stringify(DEFAULT_PERFIL));
     recalcAll();
-  initSlides();
-    renderPerfil();
+      renderPerfil();
     saveToFirebase(true);
   }
 }
@@ -3619,8 +3431,7 @@ function applyParams() {
   readEditableParams();
   syncSlidersWithParams();
   recalcAll();
-  initSlides();
-  renderCadastro();
+    renderCadastro();
   renderPerfil();
   saveFieldToFirebase('parametros', null, 'all', params);
   showToast('Parâmetros salvos com sucesso!');
@@ -3640,8 +3451,7 @@ function confirmResetParams() {
     renderParams();
     syncSlidersWithParams();
     recalcAll();
-  initSlides();
-    renderCadastro();
+      renderCadastro();
     renderPerfil();
     saveToFirebase(true);
   }
@@ -3650,689 +3460,6 @@ function confirmResetParams() {
 // ================================================================
 // RELATÓRIO DE IMPRESSÃO OFICIAL (Word Relatorio_Retrofit.docm)
 // ================================================================
-
-// ================================================================
-// MOTOR DA APRESENTAÇÃO OFICIAL DE 20 SLIDES (TEMPO REAL)
-// ================================================================
-let currentSlideIndex = 1;
-const SLIDE_TITLES = [
-  "1. Capa Oficial — Estudo de Custo e Viabilidade",
-  "2. Sumário Executivo & 4 Pilares Estratégicos",
-  "3. Diagnóstico do Sistema Existente (Controle Analógico)",
-  "4. A Solução de Engenharia: Automação por CLP",
-  "5. Revezamento Automático & Redundância Ativa",
-  "6. Cadastro Completo do Parque de 38 Climatizadores",
-  "7. Metodologia e Fórmulas de Regime Elétrico Trifásico",
-  "8. Validação Empírica: Telemetria Real de Campo",
-  "9. Diagnóstico: 1 Evaporadora vs. 2 Evaporadoras",
-  "10. Redução Drástica de Pico Simultâneo (Queda de 79%)",
-  "11. Impacto das Variações Sazonais de Temperatura",
-  "12. Balanço Energético Consolidado: Antes vs. Depois",
-  "13. Análise Financeira Mensal & Custo por Equipamento",
-  "14. Análise Financeira Anual & Fluxo Recorrente",
-  "15. Análise de CAPEX, OPEX e Payback Simples",
-  "16. Curva de Amortização & Fluxo de Caixa (5 Anos)",
-  "17. Indicadores de Engenharia Financeira: ROI e VPL",
-  "18. Sustentabilidade, Descarbonização & Metas ESG",
-  "19. Plano de Execução & Cronograma Físico-Financeiro",
-  "20. Conclusão Técnica & Assinatura de Engenharia"
-];
-
-function initSlides() {
-  const sel = document.getElementById('slide-selector');
-  if (!sel) return;
-  sel.innerHTML = SLIDE_TITLES.map((t, i) => `<option value="${i+1}">${t}</option>`).join('');
-  renderSlide(currentSlideIndex);
-
-  document.addEventListener('keydown', (e) => {
-    const activeTab = document.querySelector('.tab-panel.active');
-    if (activeTab && activeTab.id === 'tab-slides') {
-      if (e.key === 'ArrowRight' || e.key === ' ') {
-        nextSlide();
-      } else if (e.key === 'ArrowLeft') {
-        prevSlide();
-      }
-    }
-  });
-}
-
-function goToSlide(idx) {
-  if (idx < 1) idx = 1;
-  if (idx > 20) idx = 20;
-  currentSlideIndex = idx;
-  const sel = document.getElementById('slide-selector');
-  if (sel) sel.value = idx;
-  const ind = document.getElementById('slide-num-indicator');
-  if (ind) ind.innerText = idx;
-  renderSlide(idx);
-}
-
-function nextSlide() {
-  if (currentSlideIndex < 20) goToSlide(currentSlideIndex + 1);
-}
-
-function prevSlide() {
-  if (currentSlideIndex > 1) goToSlide(currentSlideIndex - 1);
-}
-
-function toggleSlideFullscreen() {
-  const elem = document.getElementById('slide-stage-wrapper');
-  if (!elem) return;
-  if (!document.fullscreenElement) {
-    elem.requestFullscreen().catch(err => {
-      alert(`Erro ao ativar modo tela cheia: ${err.message}`);
-    });
-  } else {
-    document.exitFullscreen();
-  }
-}
-
-function renderSlide(idx) {
-  const f = window._fin || {};
-  const v = document.getElementById('slide-viewport');
-  if (!v) return;
-
-  const potTot = equipamentos.reduce((a,c)=>a+(c.potTotal||0),0);
-  const corrTot = equipamentos.reduce((a,c)=>a+(c.corrente||0),0);
-
-  let content = '';
-
-  switch(idx) {
-    case 1:
-      content = `
-        <div class="slide-wrapper" style="background: #0a192f; color: white; justify-content: center; align-items: center; text-align: center; padding: 40px 30px;">
-          <div style="background: rgba(2, 132, 199, 0.2); border: 1.5px solid #0284c7; padding: 6px 18px; border-radius: 20px; font-size: 11px; font-weight: 800; color: #38bdf8; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 18px;">
-            ESTUDO DE CUSTO E VIABILIDADE TÉCNICA
-          </div>
-          <h1 style="font-size: 26px; font-weight: 800; color: #ffffff; margin: 0 0 10px 0; font-family: 'Outfit', sans-serif; max-width: 800px; line-height: 1.3;">
-            Retrofit e Gerenciamento Inteligente por CLP em 38 Climatizadores
-          </h1>
-          <p style="font-size: 14px; color: #94a3b8; max-width: 680px; margin: 0 auto 28px;">
-            Validação de Eficiência Energética, Telemetria Real de Campo e Retorno sobre o Investimento
-          </p>
-          <div style="background: rgba(15, 23, 42, 0.8); border: 1.5px solid #0284c7; border-radius: 10px; padding: 16px 24px; text-align: left; max-width: 650px; width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
-            <div style="display: flex; justify-content: space-between; font-size: 11.5px; margin-bottom: 6px;">
-              <span style="color: #64748b; font-weight: 700;">CLIENTE:</span>
-              <span style="color: #ffffff; font-weight: 700;">Administração do Novo Shopping Center</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 11.5px; margin-bottom: 6px;">
-              <span style="color: #64748b; font-weight: 700;">EMPRESA:</span>
-              <span style="color: #34d399; font-weight: 800;">3D Ar Condicionado e Engenharia Térmica</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 11.5px;">
-              <span style="color: #64748b; font-weight: 700;">RESPONSÁVEL:</span>
-              <span style="color: #38bdf8; font-weight: 800;">ENG. VICTOR HUGO MOTA DE ALMEIDA</span>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 2:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Sumário Executivo</div>
-            <h2 class="slide-title">4 Pilares Estratégicos da Modernização</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-4">
-              <div class="slide-card blue">
-                <div style="font-size:11px; font-weight:800; color:#0284c7;">⚡ EFICIÊNCIA</div>
-                <div class="slide-metric-val" style="color:#0284c7;">-${fmtDec((f.redPerc||0)*100,1)}%</div>
-                <p style="font-size:11px; color:#475569; margin:0;">Redução de ${fmtInt(f.redKwhMes||0)} kWh/mês com controle proporcional por estágios.</p>
-              </div>
-              <div class="slide-card emerald">
-                <div style="font-size:11px; font-weight:800; color:#059669;">💰 ECONOMIA</div>
-                <div class="slide-metric-val" style="color:#059669;">${fmtCur(f.econAnoR||0)}</div>
-                <p style="font-size:11px; color:#475569; margin:0;">Economia financeira recorrente anual no custo com energia elétrica.</p>
-              </div>
-              <div class="slide-card blue">
-                <div style="font-size:11px; font-weight:800; color:#0284c7;">⏱️ PAYBACK</div>
-                <div class="slide-metric-val" style="color:#0284c7;">${fmtDec(f.paybackMeses||0,1)} m</div>
-                <p style="font-size:11px; color:#475569; margin:0;">Retorno completo do capital CAPEX (${fmtCur(params.capex)}) em ~${fmtDec(f.paybackAnos||0,1)} anos.</p>
-              </div>
-              <div class="slide-card emerald">
-                <div style="font-size:11px; font-weight:800; color:#059669;">🌱 ESG / CO₂</div>
-                <div class="slide-metric-val" style="color:#059669;">${fmtDec(f.co2||0,1)} t/ano</div>
-                <p style="font-size:11px; color:#475569; margin:0;">Mitigação direta de emissões de carbono alinhada às melhores práticas.</p>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 3:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Diagnóstico da Situação Atual</div>
-            <h2 class="slide-title">Limitações do Sistema Analógico Existente</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-2">
-              <div class="slide-card red">
-                <strong style="font-size:12px; color:#dc2626; display:block; margin-bottom:8px;">🔴 VULNERABILIDADES OPERACIONAIS</strong>
-                <ul style="font-size:11.5px; color:#450a0a; margin:0; padding-left:16px; line-height:1.6;">
-                  <li>Termostato mecânico de bulbo simples sem controle fino.</li>
-                  <li>Partida simultânea das duas condensadoras (100% de esforço elétrico).</li>
-                  <li>Altos picos de corrente e frequentes queimas de contatores.</li>
-                  <li>Desgaste mecânico acelerado por falta de rodízio de compressores.</li>
-                </ul>
-              </div>
-              <div class="slide-card">
-                <strong style="font-size:12px; color:#0a192f; display:block; margin-bottom:8px;">📊 CUSTO DO CENÁRIO ANTERIOR</strong>
-                <div style="font-size:11.5px; color:#334155; line-height:1.8;">
-                  • <b>Consumo Mensal Total:</b> <span style="color:#dc2626; font-weight:800;">${fmtInt(f.consAntesMes||0)} kWh/mês</span><br>
-                  • <b>Gasto Operacional Mensal:</b> <span style="color:#dc2626; font-weight:800;">${fmtCur(f.custoAntesMes||0)}</span><br>
-                  • <b>Gasto Operacional Anual:</b> <span style="color:#dc2626; font-weight:800;">${fmtCur(f.custoAntesAno||0)}</span><br>
-                  • <b>Duty Cycle de Manutenção:</b> Estimado em <b>${fmtDec(params.dcAntes*100,0)}%</b> contínuo.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 4:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Proposta de Modernização</div>
-            <h2 class="slide-title">Automação Inteligente com Controle por CLP</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-3">
-              <div class="slide-card blue">
-                <strong style="font-size:12px; color:#0284c7; display:block; margin-bottom:6px;">🎛️ ESTÁGIOS PROPORCIONAIS</strong>
-                <p style="font-size:11px; color:#334155; margin:0; line-height:1.5;">O CLP aciona apenas a unidade Mestre sob carga térmica estável, mantendo a Escrava em repouso e ligando-a somente em picos.</p>
-              </div>
-              <div class="slide-card emerald">
-                <strong style="font-size:12px; color:#059669; display:block; margin-bottom:6px;">🔄 REVEZAMENTO AUTOMÁTICO</strong>
-                <p style="font-size:11px; color:#334155; margin:0; line-height:1.5;">Rodízio programado a cada <b>${fmtDec(params.tempoRevezamento,1)}h</b> de operação ativa, equalizando com perfeição a vida útil dos compressores.</p>
-              </div>
-              <div class="slide-card blue">
-                <strong style="font-size:12px; color:#0284c7; display:block; margin-bottom:6px;">🛡️ REDUNDÂNCIA ATIVA</strong>
-                <p style="font-size:11px; color:#334155; margin:0; line-height:1.5;">Monitoramento por sensores de corrente. Se a unidade Mestre falhar, a Escrava assume imediatamente sem parada na climatização.</p>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 5:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Engenharia de Confiabilidade</div>
-            <h2 class="slide-title">Revezamento Programado e Proteção de Ativos</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-2">
-              <div class="slide-card emerald">
-                <strong style="font-size:12px; color:#059669; display:block; margin-bottom:6px;">⚖️ EQUALIZAÇÃO DE DESGASTE</strong>
-                <p style="font-size:11.5px; color:#334155; line-height:1.6; margin:0;">
-                  No sistema analógico, o compressor primário atua quase 100% do tempo. Com o CLP, o rodízio a cada ${fmtDec(params.tempoRevezamento,1)}h divide a carga de trabalho em exatos 50% para cada compressor, dobrando o intervalo entre manutenções pesadas.
-                </p>
-              </div>
-              <div class="slide-card blue">
-                <strong style="font-size:12px; color:#0284c7; display:block; margin-bottom:6px;">⚡ REDUÇÃO DE CHATTERING E TRANSIENTES</strong>
-                <p style="font-size:11.5px; color:#334155; line-height:1.6; margin:0;">
-                  A histerese digital configurada em <b>${fmtDec(params.histerese,1)}°C</b> com temporização de segurança anti-repique elimina partidas curtas sucessivas, protegendo os enrolamentos do motor e evitando picos de demanda.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 6:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Mapeamento Técnico</div>
-            <h2 class="slide-title">Cadastro Geral do Parque de 38 Climatizadores</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-4" style="margin-bottom:12px;">
-              <div class="slide-card navy">
-                <div style="font-size:10px; color:#38bdf8; font-weight:700;">TOTAL MÁQUINAS</div>
-                <div style="font-size:22px; font-weight:800; color:white;">${equipamentos.length} un.</div>
-              </div>
-              <div class="slide-card blue">
-                <div style="font-size:10px; color:#0284c7; font-weight:700;">POTÊNCIA TOTAL</div>
-                <div style="font-size:22px; font-weight:800; color:#0284c7;">${fmtDec(potTot,1)} kW</div>
-              </div>
-              <div class="slide-card blue">
-                <div style="font-size:10px; color:#0284c7; font-weight:700;">CORRENTE NOMINAL</div>
-                <div style="font-size:22px; font-weight:800; color:#0284c7;">${fmtDec(corrTot,1)} A</div>
-              </div>
-              <div class="slide-card emerald">
-                <div style="font-size:10px; color:#059669; font-weight:700;">TENSÃO / FP</div>
-                <div style="font-size:22px; font-weight:800; color:#059669;">380V / 0.95</div>
-              </div>
-            </div>
-            <p style="font-size:11px; color:#475569; margin:0; line-height:1.5;">
-              Parque padronizado com condensadoras de alta performance (10,0 kW e 12,8 kW) e evaporadoras dimensionadas de 1,5 kW a 3,0 kW distribuídas estrategicamente por todo o complexo.
-            </p>
-          </div>
-        </div>`;
-      break;
-
-    case 7:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Metodologia Científica</div>
-            <h2 class="slide-title">Fórmulas de Cálculo e Modelagem Termodinâmica</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-2">
-              <div class="slide-card blue">
-                <strong style="font-size:12px; color:#0284c7; display:block; margin-bottom:6px;">📐 FÓRMULAS DE REGIME TRIFÁSICO</strong>
-                <div style="font-size:11px; color:#334155; line-height:1.6;">
-                  • <b>Potência Total:</b> (Pot. UC × Qtd. UC) + (Pot. UE × Qtd. UE)<br>
-                  • <b>Corrente Nominal:</b> P_total / (√3 × 380V × 0.95)<br>
-                  • <b>Consumo Mensal:</b> P_total × Horas/dia × Dias/mês × Duty Cycle
-                </div>
-              </div>
-              <div class="slide-card emerald">
-                <strong style="font-size:12px; color:#059669; display:block; margin-bottom:6px;">⏱️ MODELO DE JORNADA (12 HORAS)</strong>
-                <div style="font-size:11px; color:#334155; line-height:1.6;">
-                  • <b>Pull-down Matinal (1,5h):</b> Carga plena (100%) para rápida quebra da inércia térmica.<br>
-                  • <b>Manutenção Térmica (10,5h):</b> Otimização CLP (Mestre: ${fmtDec(params.dcMestre*100,0)}% | Escrava: ${fmtDec(params.dcEscrava*100,0)}%).
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 8:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Comprovação Empírica</div>
-            <h2 class="slide-title">Telemetria Real de Campo (5.760 Registros por Máquina)</h2>
-          </div>
-          <div class="slide-body">
-            <p style="font-size:11.5px; color:#334155; margin-bottom:10px;">
-              Registros minuto a minuto coletados diretamente pelos CLPs em operação real no shopping para validação dos modelos teóricos:
-            </p>
-            <div class="slide-grid-3">
-              <div class="slide-card">
-                <strong style="font-size:12px; color:#0a192f;">FC-17 (1 Evaporadora)</strong>
-                <div style="font-size:11px; color:#475569; margin-top:4px;">
-                  • Duty Mestre: <b>85,0%</b><br>
-                  • Duty Escrava: <b>37,7%</b><br>
-                  • Ambos ON: <span style="color:#ef4444; font-weight:800;">205,5 min/dia</span>
-                </div>
-              </div>
-              <div class="slide-card emerald">
-                <strong style="font-size:12px; color:#059669;">FC-27 (2 Evaporadoras)</strong>
-                <div style="font-size:11px; color:#475569; margin-top:4px;">
-                  • Duty Mestre: <b>75,7%</b><br>
-                  • Duty Escrava: <b>23,6%</b><br>
-                  • Ambos ON: <span style="color:#059669; font-weight:800;">45,5 min/dia</span>
-                </div>
-              </div>
-              <div class="slide-card emerald">
-                <strong style="font-size:12px; color:#059669;">FC-28 (2 Evaporadoras)</strong>
-                <div style="font-size:11px; color:#475569; margin-top:4px;">
-                  • Duty Mestre: <b>60,2%</b><br>
-                  • Duty Escrava: <b>18,6%</b><br>
-                  • Ambos ON: <span style="color:#059669; font-weight:800;">43,2 min/dia</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 9:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Diagnóstico Termodinâmico</div>
-            <h2 class="slide-title">Evaporadora Simples vs. Evaporadora Dupla</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-2">
-              <div class="slide-card red">
-                <strong style="font-size:12px; color:#dc2626;">1 EVAPORADORA (FC-17)</strong>
-                <p style="font-size:11px; color:#450a0a; margin-top:6px; line-height:1.5;">
-                  A menor área de troca térmica exige que ambos os compressores atuem por <b>205,5 min/dia</b> para segurar a temperatura. O CLP evita o colapso do sistema modulando a carga com inteligência.
-                </p>
-              </div>
-              <div class="slide-card emerald">
-                <strong style="font-size:12px; color:#059669;">2 EVAPORADORAS (FC-27 & FC-28)</strong>
-                <p style="font-size:11px; color:#065f46; margin-top:6px; line-height:1.5;">
-                  Maior vazão e dobro de área de serpentina permitem que a condensadora Mestre atenda a demanda quase que isolada, derrubando o tempo simultâneo para apenas <b>~43 min/dia</b>.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 10:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Impacto na Rede Elétrica</div>
-            <h2 class="slide-title">Redução de 79% no Pico Simultâneo de Compressores</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-2" style="align-items:center;">
-              <div class="slide-card navy">
-                <div style="font-size:11px; color:#38bdf8; font-weight:700;">QUEDA NO PICO CONJUNTO</div>
-                <div style="font-size:32px; font-weight:800; color:#34d399; margin:6px 0;">-79%</div>
-                <p style="font-size:11px; color:#cbd5e1; margin:0;">De 205,5 min/dia para ~43 min/dia de compressores operando em paralelo.</p>
-              </div>
-              <div class="slide-card blue">
-                <strong style="font-size:12px; color:#0284c7; display:block; margin-bottom:6px;">BENEFÍCIOS PARA A SUBESTAÇÃO DO SHOPPING</strong>
-                <ul style="font-size:11px; color:#334155; margin:0; padding-left:14px; line-height:1.6;">
-                  <li>Alívio severo na demanda instantânea da cabine primária.</li>
-                  <li>Menor aquecimento nos barramentos e transformadores.</li>
-                  <li>Eliminação de quedas de tensão transitórias.</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 11:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Sensibilidade Climática</div>
-            <h2 class="slide-title">Impacto das Temperaturas Médias de Ribeirão Preto</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-3">
-              <div class="slide-card blue">
-                <div style="font-size:10.5px; font-weight:800; color:#0284c7;">INVERNO (JUN - AGO)</div>
-                <div style="font-size:20px; font-weight:800; color:#0284c7; margin:4px 0;">20,4°C a 21,8°C</div>
-                <p style="font-size:10.5px; color:#475569; margin:0;">Carga térmica leve. Quase 100% atendida apenas pela unidade Mestre.</p>
-              </div>
-              <div class="slide-card emerald">
-                <div style="font-size:10.5px; font-weight:800; color:#059669;">TRANSIÇÃO (SET - NOV)</div>
-                <div style="font-size:20px; font-weight:800; color:#059669; margin:4px 0;">23,5°C a 24,8°C</div>
-                <p style="font-size:10.5px; color:#475569; margin:0;">Operação equilibrada. Escrava atua esporadicamente nas horas de pico.</p>
-              </div>
-              <div class="slide-card red">
-                <div style="font-size:10.5px; font-weight:800; color:#dc2626;">VERÃO (DEZ - FEV)</div>
-                <div style="font-size:20px; font-weight:800; color:#dc2626; margin:4px 0;">25,5°C a 26,0°C</div>
-                <p style="font-size:10.5px; color:#475569; margin:0;">Carga plena. O CLP garante escalonamento sem desarmar compressores.</p>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 12:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Balanço Energético</div>
-            <h2 class="slide-title">Consumo de Energia: Cenário Antes vs. Cenário Depois</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-3">
-              <div class="slide-card red">
-                <div style="font-size:10.5px; font-weight:800; color:#dc2626;">CENÁRIO ANTERIOR</div>
-                <div class="slide-metric-val" style="color:#dc2626;">${fmtInt(f.consAntesMes||0)}</div>
-                <div style="font-size:10px; color:#64748b;">kWh / mês</div>
-              </div>
-              <div class="slide-card blue">
-                <div style="font-size:10.5px; font-weight:800; color:#0284c7;">CENÁRIO COM CLP</div>
-                <div class="slide-metric-val" style="color:#0284c7;">${fmtInt(f.consDepoisMes||0)}</div>
-                <div style="font-size:10px; color:#64748b;">kWh / mês</div>
-              </div>
-              <div class="slide-card emerald">
-                <div style="font-size:10.5px; font-weight:800; color:#059669;">ECONOMIA FÍSICA</div>
-                <div class="slide-metric-val" style="color:#059669;">${fmtInt(f.redKwhMes||0)}</div>
-                <div style="font-size:10px; color:#059669; font-weight:700;">-${fmtDec((f.redPerc||0)*100,1)}% de redução</div>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 13:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Economia Financeira Mensal</div>
-            <h2 class="slide-title">Custo Operacional Mensal & Média por Equipamento</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-2">
-              <div class="slide-card emerald">
-                <strong style="font-size:12px; color:#059669; display:block; margin-bottom:4px;">💰 ECONOMIA LÍQUIDA MENSAL</strong>
-                <div style="font-size:28px; font-weight:800; color:#059669; margin:4px 0;">${fmtCur(f.econMesR||0)}</div>
-                <p style="font-size:11px; color:#475569; margin:0;">Redução direta e recorrente na fatura de energia do shopping todo mês.</p>
-              </div>
-              <div class="slide-card blue">
-                <strong style="font-size:12px; color:#0284c7; display:block; margin-bottom:4px;">📊 CUSTO MÉDIO POR MÁQUINA</strong>
-                <div style="font-size:11.5px; color:#334155; line-height:1.7; margin-top:8px;">
-                  • <b>Antes:</b> <span style="color:#dc2626;">${fmtCur((f.custoAntesMes||0)/38)} / mês</span><br>
-                  • <b>Depois:</b> <span style="color:#0284c7; font-weight:800;">${fmtCur((f.custoDepoisMes||0)/38)} / mês</span><br>
-                  • <b>Economia Média:</b> <b style="color:#059669;">${fmtCur((f.econMesR||0)/38)} / máquina</b>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 14:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Resultado Anual Consolidado</div>
-            <h2 class="slide-title">Economia Recorrente Anual e Previsibilidade</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-2">
-              <div class="slide-card emerald">
-                <div style="font-size:11px; font-weight:800; color:#059669;">ECONOMIA ANUAL GERADA</div>
-                <div style="font-size:30px; font-weight:800; color:#059669; margin:6px 0;">${fmtCur(f.econAnoR||0)}</div>
-                <p style="font-size:11px; color:#475569; margin:0;">Recursos que deixam de ser drenados pelo ar-condicionado e viram caixa livre.</p>
-              </div>
-              <div class="slide-card">
-                <strong style="font-size:12px; color:#0a192f; display:block; margin-bottom:6px;">🛡️ BLINDAGEM TARIFÁRIA</strong>
-                <p style="font-size:11.5px; color:#334155; line-height:1.6; margin:0;">
-                  Com <b>${fmtInt(f.redKwhAno||0)} kWh</b> a menos consumidos todo ano, o condomínio fica significativamente menos exposto a bandeiras tarifárias e reajustes anuais da distribuidora.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 15:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Engenharia Financeira</div>
-            <h2 class="slide-title">Análise de CAPEX, OPEX e Payback Simples</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-3">
-              <div class="slide-card red">
-                <div style="font-size:10.5px; font-weight:800; color:#dc2626;">INVESTIMENTO (CAPEX)</div>
-                <div class="slide-metric-val" style="color:#dc2626;">${fmtCur(params.capex)}</div>
-                <p style="font-size:10.5px; color:#475569; margin:0;">Painéis, CLPs, sensores, cabeamento, montagem e comissionamento total.</p>
-              </div>
-              <div class="slide-card emerald">
-                <div style="font-size:10.5px; font-weight:800; color:#059669;">ECONOMIA ANUAL</div>
-                <div class="slide-metric-val" style="color:#059669;">${fmtCur(f.econAnoR||0)}</div>
-                <p style="font-size:10.5px; color:#475569; margin:0;">${fmtCur(f.econMesR||0)} por mês de economia líquida recorrente.</p>
-              </div>
-              <div class="slide-card blue">
-                <div style="font-size:10.5px; font-weight:800; color:#0284c7;">PAYBACK SIMPLES</div>
-                <div class="slide-metric-val" style="color:#0284c7;">${fmtDec(f.paybackMeses||0,1)} meses</div>
-                <p style="font-size:10.5px; color:#0284c7; font-weight:700; margin:0;">~${fmtDec(f.paybackAnos||0,1)} anos de retorno.</p>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 16:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Projeção Plurianual</div>
-            <h2 class="slide-title">Curva de Amortização e Retorno Acumulado (5 Anos)</h2>
-          </div>
-          <div class="slide-body">
-            <div style="display:grid; grid-template-columns:repeat(6, 1fr); gap:6px; text-align:center;">
-              <div class="slide-card red" style="padding:10px 4px;">
-                <div style="font-size:9.5px; font-weight:800; color:#991b1b;">Ano 0</div>
-                <div style="font-size:11px; font-weight:800; color:#dc2626; margin-top:3px;">-${fmtCur(params.capex)}</div>
-                <div style="font-size:8.5px; color:#64748b; margin-top:2px;">CAPEX</div>
-              </div>
-              <div class="slide-card blue" style="padding:10px 4px;">
-                <div style="font-size:9.5px; font-weight:800; color:#0369a1;">Ano 1</div>
-                <div style="font-size:11px; font-weight:800; color:#0284c7; margin-top:3px;">+${fmtCur(f.econAnoR||0)}</div>
-                <div style="font-size:8.5px; color:#0284c7; margin-top:2px;">Amortizando</div>
-              </div>
-              <div class="slide-card emerald" style="padding:10px 4px; border-width:2px;">
-                <div style="font-size:9.5px; font-weight:800; color:#047857;">Ano 2 (Payback)</div>
-                <div style="font-size:11px; font-weight:800; color:#059669; margin-top:3px;">+${fmtCur((f.econAnoR||0)*2)}</div>
-                <div style="font-size:8.5px; color:#059669; font-weight:800; margin-top:2px;">13,7 meses</div>
-              </div>
-              <div class="slide-card emerald" style="padding:10px 4px;">
-                <div style="font-size:9.5px; font-weight:800; color:#047857;">Ano 3</div>
-                <div style="font-size:11px; font-weight:800; color:#059669; margin-top:3px;">+${fmtCur((f.econAnoR||0)*3)}</div>
-                <div style="font-size:8.5px; color:#64748b; margin-top:2px;">Retorno</div>
-              </div>
-              <div class="slide-card emerald" style="padding:10px 4px;">
-                <div style="font-size:9.5px; font-weight:800; color:#047857;">Ano 4</div>
-                <div style="font-size:11px; font-weight:800; color:#059669; margin-top:3px;">+${fmtCur((f.econAnoR||0)*4)}</div>
-                <div style="font-size:8.5px; color:#64748b; margin-top:2px;">Retorno</div>
-              </div>
-              <div class="slide-card navy" style="padding:10px 4px;">
-                <div style="font-size:9.5px; font-weight:800; color:#38bdf8;">Ano 5 (Total)</div>
-                <div style="font-size:11px; font-weight:800; color:#34d399; margin-top:3px;">+${fmtCur((f.econAnoR||0)*5)}</div>
-                <div style="font-size:8.5px; color:#38bdf8; font-weight:800; margin-top:2px;">ROI +${fmtDec((f.roi||0)*100,1)}%</div>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 17:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Indicadores Avançados</div>
-            <h2 class="slide-title">Retorno sobre Investimento (ROI) e VPL</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-2">
-              <div class="slide-card emerald">
-                <div style="font-size:11px; font-weight:800; color:#059669;">ROI ACUMULADO EM 5 ANOS</div>
-                <div style="font-size:32px; font-weight:800; color:#059669; margin:6px 0;">+${fmtDec((f.roi||0)*100,1)}%</div>
-                <p style="font-size:11px; color:#475569; margin:0;">Retorno de mais de 3,3 vezes o capital investido no primeiro ciclo de 5 anos.</p>
-              </div>
-              <div class="slide-card blue">
-                <div style="font-size:11px; font-weight:800; color:#0284c7;">VALOR PRESENTE LÍQUIDO (VPL)</div>
-                <div style="font-size:32px; font-weight:800; color:#0284c7; margin:6px 0;">${fmtCur(f.vpl||0)}</div>
-                <p style="font-size:11px; color:#475569; margin:0;">Considerando Taxa Mínima de Atratividade (TMA) de 12% ao ano. Criação real de valor.</p>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 18:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Sustentabilidade Corporativa</div>
-            <h2 class="slide-title">Descarbonização e Conformidade com Diretrizes ESG</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-2">
-              <div class="slide-card emerald">
-                <div style="font-size:11px; font-weight:800; color:#059669;">MITIGAÇÃO ANUAL DE CO₂</div>
-                <div style="font-size:30px; font-weight:800; color:#059669; margin:6px 0;">${fmtDec(f.co2||0,1)} t CO₂ / ano</div>
-                <p style="font-size:11px; color:#475569; margin:0;">Baseado no fator de emissão oficial do SIN (MCTI) de 0,086 kg CO₂/kWh.</p>
-              </div>
-              <div class="slide-card">
-                <strong style="font-size:12px; color:#0a192f; display:block; margin-bottom:6px;">🌳 EQUIVALÊNCIA AMBIENTAL</strong>
-                <ul style="font-size:11.5px; color:#334155; margin:0; padding-left:14px; line-height:1.6;">
-                  <li>Equivale ao plantio de <b>~215 árvores adultas</b> por ano.</li>
-                  <li>Menos <b>~150.000 km</b> rodados por veículos leves a cada ano.</li>
-                  <li>Fortalece o selo verde e a atratividade comercial do shopping.</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 19:
-      content = `
-        <div class="slide-wrapper">
-          <div class="slide-header">
-            <div class="slide-category">Planejamento Executivo</div>
-            <h2 class="slide-title">Roadmap e Cronograma Físico de Implantação</h2>
-          </div>
-          <div class="slide-body">
-            <div class="slide-grid-4">
-              <div class="slide-card">
-                <div style="font-size:10px; font-weight:800; color:#0284c7;">FASE 1 • MÊS 1</div>
-                <strong style="font-size:11.5px; color:#0a192f; display:block; margin:4px 0;">Engenharia & Painéis</strong>
-                <p style="font-size:10.5px; color:#475569; margin:0;">Montagem e testes de bancada de todos os quadros de CLP.</p>
-              </div>
-              <div class="slide-card">
-                <div style="font-size:10px; font-weight:800; color:#0284c7;">FASE 2 • MÊS 2</div>
-                <strong style="font-size:11.5px; color:#0a192f; display:block; margin:4px 0;">Instalação Piloto</strong>
-                <p style="font-size:10.5px; color:#475569; margin:0;">Implantação em 6 máquinas prioritárias e ajuste fino.</p>
-              </div>
-              <div class="slide-card">
-                <div style="font-size:10px; font-weight:800; color:#0284c7;">FASE 3 • MESES 3-4</div>
-                <strong style="font-size:11.5px; color:#0a192f; display:block; margin:4px 0;">Expansão Geral</strong>
-                <p style="font-size:10.5px; color:#475569; margin:0;">Instalação noturna nos 32 climatizadores restantes.</p>
-              </div>
-              <div class="slide-card emerald">
-                <div style="font-size:10px; font-weight:800; color:#059669;">FASE 4 • MÊS 5</div>
-                <strong style="font-size:11.5px; color:#059669; display:block; margin:4px 0;">Comissionamento</strong>
-                <p style="font-size:10.5px; color:#475569; margin:0;">Treinamento da equipe, entrega do as-built e termo de garantia.</p>
-              </div>
-            </div>
-          </div>
-        </div>`;
-      break;
-
-    case 20:
-      content = `
-        <div class="slide-wrapper" style="text-align:center;">
-          <div class="slide-header">
-            <div class="slide-category">Conclusão & Fechamento</div>
-            <h2 class="slide-title">Proposta de Valor e Termo de Engenharia</h2>
-          </div>
-          <div class="slide-body" style="align-items:center;">
-            <div style="background:#ecfdf5; border:2px solid #10b981; border-radius:12px; padding:18px 24px; max-width:700px; width:100%; margin-bottom:18px;">
-              <h3 style="font-size:16px; font-weight:800; color:#047857; margin:0 0 6px 0;">PROJETO DE ALTA RENTABILIDADE E RISCO ZERO</h3>
-              <p style="font-size:12px; color:#065f46; margin:0; line-height:1.6;">
-                Com Payback de <b>${fmtDec(f.paybackMeses||0,1)} meses</b>, economia de <b>${fmtCur(f.econAnoR||0)}/ano</b> e proteção mecânica de 38 climatizadores, o retrofit consolida modernização tecnológica e eficiência econômica direta para o Novo Shopping.
-              </p>
-            </div>
-            <div style="border-top:1.5px solid #0a192f; width:300px; margin:10px auto 4px;"></div>
-            <div style="font-size:13px; font-weight:800; color:#0a192f;">3D AR CONDICIONADO E ENGENHARIA TÉRMICA</div>
-            <div style="font-size:11.5px; font-weight:700; color:#334155; text-transform:uppercase;">ENG. VICTOR HUGO MOTA DE ALMEIDA</div>
-          </div>
-        </div>`;
-      break;
-  }
-
-  v.innerHTML = content;
-}
 
 function updatePrintPage() {
   const f = window._fin || {};
@@ -4983,8 +4110,7 @@ function init() {
   renderRoadmap();
   renderFaq();
   recalcAll();
-  initSlides();
-  
+    
   // Conectar sincronização em tempo real via Firestore
   initFirebaseRealtimeSync();
 }
