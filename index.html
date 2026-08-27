@@ -2344,9 +2344,7 @@ td.calculated {
       </div>
     </div>
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-      <a href="Estudo de Custo e Viabilidade - Novo Shopping.pptx" download class="btn btn-secondary" style="padding: 8px 15px; font-size: 12px; font-weight: 700; border-radius: 8px; display: flex; align-items: center; gap: 6px; text-decoration: none;">
-        <span class="material-icons-round" style="font-size: 17px; color: #ea580c;">download</span> Baixar PowerPoint (.pptx)
-      </a>
+
       <button class="btn btn-primary" onclick="toggleSlideFullscreen()" style="padding: 8px 16px; font-size: 12px; font-weight: 700; border-radius: 8px; display: flex; align-items: center; gap: 6px; background: var(--accent-gradient); color: white; border: none; cursor: pointer; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);">
         <span class="material-icons-round" style="font-size: 17px;">fullscreen</span> Apresentar (Tela Cheia)
       </button>
@@ -2517,6 +2515,37 @@ td.calculated {
       <button class="modal-close-btn" onclick="closeEquipModal()">✕</button>
     </div>
     <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+
+<!-- ================================================================ -->
+<!-- MODAL DE ANÁLISE DETALHADA DE TELEMETRIA E LOGS (R1)             -->
+<!-- ================================================================ -->
+<div class="modal-overlay" id="telemetriaModalOverlay" onclick="if(event.target === this) closeTelemetriaModal()" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(10,25,47,0.75); z-index:9999; justify-content:center; align-items:center; padding:16px; backdrop-filter:blur(4px);">
+  <div class="modal-card" style="background:white; border-radius:14px; max-width:1050px; width:100%; max-height:90vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 20px 50px rgba(0,0,0,0.3); border:2px solid #0284c7;">
+    <!-- Header -->
+    <div style="background:#0a192f; color:white; padding:16px 22px; display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #0284c7;">
+      <div>
+        <div style="font-size:10px; font-weight:800; color:#38bdf8; letter-spacing:1px; text-transform:uppercase;">Auditoria de Campo • 5.760 Minutos Auditados</div>
+        <h3 style="font-size:17px; font-weight:800; margin:2px 0 0 0; color:white; font-family:'Outfit', sans-serif;">Análise Detalhada de Telemetria & Logs (Novo Shopping)</h3>
+      </div>
+      <button onclick="closeTelemetriaModal()" style="background:rgba(255,255,255,0.15); border:none; color:white; width:32px; height:32px; border-radius:50%; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-weight:700;">✕</button>
+    </div>
+
+    <!-- Body Scrollable -->
+    <div style="flex:1; overflow-y:auto; padding:22px;">
+      <!-- Seletor de Máquina -->
+      <div style="display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; border-bottom:1px solid #e2e8f0; padding-bottom:14px;">
+        <button id="btn-log-fc17" class="btn btn-primary" onclick="selectLogMachine('FC-17')" style="padding:8px 16px; font-size:12.5px; font-weight:700; border-radius:6px; cursor:pointer;">FC-17 (1x Evaporadora)</button>
+        <button id="btn-log-fc27" class="btn btn-secondary" onclick="selectLogMachine('FC-27')" style="padding:8px 16px; font-size:12.5px; font-weight:700; border-radius:6px; cursor:pointer;">FC-27 (2x Evaporadoras)</button>
+        <button id="btn-log-fc28" class="btn btn-secondary" onclick="selectLogMachine('FC-28')" style="padding:8px 16px; font-size:12.5px; font-weight:700; border-radius:6px; cursor:pointer;">FC-28 (2x Evaporadoras)</button>
+        <button id="btn-log-comparativo" class="btn btn-secondary" onclick="selectLogMachine('COMP')" style="padding:8px 16px; font-size:12.5px; font-weight:700; border-radius:6px; cursor:pointer;">📊 Visão Geral Comparativa</button>
+      </div>
+
+      <!-- Container do Conteúdo Dinâmico da Telemetria -->
+      <div id="telemetria-detail-content"></div>
+    </div>
   </div>
 </div>
 
@@ -4726,7 +4755,218 @@ function showToast(msg) {
 // ================================================================
 // INICIALIZAÇÃO BLINDADA DO PORTAL (SINGLE SOURCE OF TRUTH: FIRESTORE)
 // ================================================================
-async function init() {
+async 
+// ================================================================
+// DADOS E FUNÇÕES DE ANÁLISE DETALHADA DE TELEMETRIA & LOGS
+// ================================================================
+const TELEMETRIA_LOGS = {"FC-17": {"tag": "FC-17", "evaps": "1x Evaporadora", "local": "Entrada Principal / Mall Central", "total_registros": 5753, "media_geral_periodo": 21.6, "media_desligado_22_10_periodo": 18.0, "media_ligado_10_22_periodo": 25.2, "setpoint_periodo": 24.0, "media_both_min_dia": 205.5, "media_dc1_periodo": 69.3, "media_dc2_periodo": 53.0, "media_dc_global_periodo": 61.1, "dias": [{"date": "22/08/2026", "temp_geral": 21.5, "temp_desligado_22_10": 17.6, "temp_ligado_10_22": 25.4, "setpoint": 24.0, "comp1_min": 661, "comp2_min": 293, "both_min": 293, "one_min": 368, "dc1": 91.8, "dc2": 40.7, "dc_global": 66.2, "lider": "Comp. 01"}, {"date": "23/08/2026", "temp_geral": 20.8, "temp_desligado_22_10": 16.0, "temp_ligado_10_22": 25.6, "setpoint": 24.0, "comp1_min": 463, "comp2_min": 471, "both_min": 287, "one_min": 360, "dc1": 64.3, "dc2": 65.4, "dc_global": 64.9, "lider": "Comp. 02"}, {"date": "24/08/2026", "temp_geral": 21.6, "temp_desligado_22_10": 18.0, "temp_ligado_10_22": 25.2, "setpoint": 24.0, "comp1_min": 242, "comp2_min": 680, "both_min": 242, "one_min": 438, "dc1": 33.6, "dc2": 94.4, "dc_global": 64.0, "lider": "Comp. 02"}, {"date": "25/08/2026", "temp_geral": 22.5, "temp_desligado_22_10": 20.3, "temp_ligado_10_22": 24.7, "setpoint": 24.0, "comp1_min": 630, "comp2_min": 82, "both_min": 0, "one_min": 712, "dc1": 87.5, "dc2": 11.4, "dc_global": 49.4, "lider": "Comp. 01"}]}, "FC-27": {"tag": "FC-27", "evaps": "2x Evaporadoras", "local": "Corredor das Lojas Âncoras", "total_registros": 5760, "media_geral_periodo": 23.2, "media_desligado_22_10_periodo": 22.1, "media_ligado_10_22_periodo": 24.2, "setpoint_periodo": 23.0, "media_both_min_dia": 45.5, "media_dc1_periodo": 50.9, "media_dc2_periodo": 48.4, "media_dc_global_periodo": 49.7, "dias": [{"date": "22/08/2026", "temp_geral": 23.1, "temp_desligado_22_10": 22.0, "temp_ligado_10_22": 24.2, "setpoint": 23.0, "comp1_min": 509, "comp2_min": 139, "both_min": 0, "one_min": 648, "dc1": 70.7, "dc2": 19.3, "dc_global": 45.0, "lider": "Comp. 01"}, {"date": "23/08/2026", "temp_geral": 22.8, "temp_desligado_22_10": 21.4, "temp_ligado_10_22": 24.2, "setpoint": 23.0, "comp1_min": 182, "comp2_min": 633, "both_min": 182, "one_min": 451, "dc1": 25.3, "dc2": 87.9, "dc_global": 56.6, "lider": "Comp. 02"}, {"date": "24/08/2026", "temp_geral": 23.1, "temp_desligado_22_10": 21.9, "temp_ligado_10_22": 24.2, "setpoint": 23.0, "comp1_min": 550, "comp2_min": 132, "both_min": 0, "one_min": 682, "dc1": 76.4, "dc2": 18.3, "dc_global": 47.4, "lider": "Comp. 01"}, {"date": "25/08/2026", "temp_geral": 23.7, "temp_desligado_22_10": 23.1, "temp_ligado_10_22": 24.3, "setpoint": 23.0, "comp1_min": 225, "comp2_min": 490, "both_min": 0, "one_min": 715, "dc1": 31.2, "dc2": 68.1, "dc_global": 49.7, "lider": "Comp. 02"}]}, "FC-28": {"tag": "FC-28", "evaps": "2x Evaporadoras", "local": "Praça de Alimentação Sul", "total_registros": 5760, "media_geral_periodo": 23.1, "media_desligado_22_10_periodo": 22.1, "media_ligado_10_22_periodo": 24.2, "setpoint_periodo": 23.0, "media_both_min_dia": 43.2, "media_dc1_periodo": 37.9, "media_dc2_periodo": 40.9, "media_dc_global_periodo": 39.4, "dias": [{"date": "22/08/2026", "temp_geral": 22.8, "temp_desligado_22_10": 21.6, "temp_ligado_10_22": 24.1, "setpoint": 23.0, "comp1_min": 310, "comp2_min": 233, "both_min": 0, "one_min": 543, "dc1": 43.1, "dc2": 32.4, "dc_global": 37.7, "lider": "Comp. 01"}, {"date": "23/08/2026", "temp_geral": 22.8, "temp_desligado_22_10": 21.5, "temp_ligado_10_22": 24.1, "setpoint": 23.0, "comp1_min": 393, "comp2_min": 255, "both_min": 173, "one_min": 302, "dc1": 54.6, "dc2": 35.4, "dc_global": 45.0, "lider": "Comp. 01"}, {"date": "24/08/2026", "temp_geral": 23.1, "temp_desligado_22_10": 22.1, "temp_ligado_10_22": 24.1, "setpoint": 23.0, "comp1_min": 0, "comp2_min": 644, "both_min": 0, "one_min": 644, "dc1": 0.0, "dc2": 89.4, "dc_global": 44.7, "lider": "Comp. 02"}, {"date": "25/08/2026", "temp_geral": 23.8, "temp_desligado_22_10": 23.1, "temp_ligado_10_22": 24.4, "setpoint": 23.0, "comp1_min": 389, "comp2_min": 47, "both_min": 0, "one_min": 436, "dc1": 54.0, "dc2": 6.5, "dc_global": 30.3, "lider": "Comp. 01"}]};
+let activeLogMachine = 'FC-17';
+
+function openTelemetriaDetalhadaModal() {
+  const m = document.getElementById('telemetriaModalOverlay');
+  if (m) {
+    m.style.display = 'flex';
+    selectLogMachine(activeLogMachine);
+  }
+}
+
+function closeTelemetriaModal() {
+  const m = document.getElementById('telemetriaModalOverlay');
+  if (m) m.style.display = 'none';
+}
+
+function selectLogMachine(tag) {
+  activeLogMachine = tag;
+  ['fc17', 'fc27', 'fc28', 'comparativo'].forEach(k => {
+    const b = document.getElementById('btn-log-' + k);
+    if (b) {
+      b.className = 'btn btn-secondary';
+    }
+  });
+  
+  if (tag === 'FC-17') document.getElementById('btn-log-fc17').className = 'btn btn-primary';
+  else if (tag === 'FC-27') document.getElementById('btn-log-fc27').className = 'btn btn-primary';
+  else if (tag === 'FC-28') document.getElementById('btn-log-fc28').className = 'btn btn-primary';
+  else if (tag === 'COMP') document.getElementById('btn-log-comparativo').className = 'btn btn-primary';
+
+  renderTelemetriaContent(tag);
+}
+
+function renderTelemetriaContent(tag) {
+  const container = document.getElementById('telemetria-detail-content');
+  if (!container) return;
+
+  if (tag === 'COMP') {
+    // Renderizar visão comparativa de todos os 3 equipamentos
+    const m17 = TELEMETRIA_LOGS['FC-17'];
+    const m27 = TELEMETRIA_LOGS['FC-27'];
+    const m28 = TELEMETRIA_LOGS['FC-28'];
+
+    container.innerHTML = `
+      <div style="background:#f0f9ff; border:1.5px solid #0284c7; border-radius:10px; padding:16px; margin-bottom:20px;">
+        <h4 style="font-size:14px; font-weight:800; color:#0369a1; margin:0 0 6px 0; text-transform:uppercase;">📊 Comparativo Geral de Desempenho e Temperaturas (3 Climatizadores)</h4>
+        <p style="font-size:12px; color:#334155; margin:0; line-height:1.5;">
+          Análise direta entre os equipamentos monitorados com 1 Evaporadora (FC-17) versus 2 Evaporadoras (FC-27 e FC-28) durante os 5 dias de coleta contínua.
+        </p>
+      </div>
+
+      <div class="tbl-wrap" style="margin-bottom:22px;">
+        <table>
+          <thead>
+            <tr>
+              <th class="text-left">Equipamento</th>
+              <th>Evaporadoras</th>
+              <th>Temp. Noite (22h-10h)<br><small style="color:#94a3b8;">Desligado</small></th>
+              <th>Temp. Dia (10h-22h)<br><small style="color:#94a3b8;">Ligado</small></th>
+              <th>Média 24h</th>
+              <th>Setpoint</th>
+              <th>Duty Mestre (%)</th>
+              <th>Duty Escrava (%)</th>
+              <th>Ambos ON (min/dia)</th>
+              <th>Duty Global</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left bold" style="color:#0a192f;">FC-17</td>
+              <td><span style="background:#fef3c7; color:#b45309; padding:2px 6px; border-radius:4px; font-weight:700;">1x Evap</span></td>
+              <td style="color:#0284c7; font-weight:700;">${m17.media_desligado_22_10_periodo}°C</td>
+              <td style="color:#dc2626; font-weight:800;">${m17.media_ligado_10_22_periodo}°C</td>
+              <td>${m17.media_geral_periodo}°C</td>
+              <td>${m17.setpoint_periodo}°C</td>
+              <td style="color:#0284c7; font-weight:800;">${m17.media_dc1_periodo}%</td>
+              <td style="color:#0284c7; font-weight:800;">${m17.media_dc2_periodo}%</td>
+              <td><span style="background:#fee2e2; color:#b91c1c; padding:2px 6px; border-radius:4px; font-weight:800;">${m17.media_both_min_dia} min/dia</span></td>
+              <td style="font-weight:700;">${m17.media_dc_global_periodo}%</td>
+            </tr>
+            <tr>
+              <td class="text-left bold" style="color:#0a192f;">FC-27</td>
+              <td><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:700;">2x Evaps</span></td>
+              <td style="color:#0284c7; font-weight:700;">${m27.media_desligado_22_10_periodo}°C</td>
+              <td style="color:#059669; font-weight:800;">${m27.media_ligado_10_22_periodo}°C</td>
+              <td>${m27.media_geral_periodo}°C</td>
+              <td>${m27.setpoint_periodo}°C</td>
+              <td style="color:#0284c7; font-weight:800;">${m27.media_dc1_periodo}%</td>
+              <td style="color:#0284c7; font-weight:800;">${m27.media_dc2_periodo}%</td>
+              <td><span style="background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-weight:800;">${m27.media_both_min_dia} min/dia</span></td>
+              <td style="font-weight:700; color:#059669;">${m27.media_dc_global_periodo}%</td>
+            </tr>
+            <tr>
+              <td class="text-left bold" style="color:#0a192f;">FC-28</td>
+              <td><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:700;">2x Evaps</span></td>
+              <td style="color:#0284c7; font-weight:700;">${m28.media_desligado_22_10_periodo}°C</td>
+              <td style="color:#059669; font-weight:800;">${m28.media_ligado_10_22_periodo}°C</td>
+              <td>${m28.media_geral_periodo}°C</td>
+              <td>${m28.setpoint_periodo}°C</td>
+              <td style="color:#0284c7; font-weight:800;">${m28.media_dc1_periodo}%</td>
+              <td style="color:#0284c7; font-weight:800;">${m28.media_dc2_periodo}%</td>
+              <td><span style="background:#dcfce7; color:#15803d; padding:2px 6px; border-radius:4px; font-weight:800;">${m28.media_both_min_dia} min/dia</span></td>
+              <td style="font-weight:700; color:#059669;">${m28.media_dc_global_periodo}%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Laudo comparativo -->
+      <div style="background:#ecfdf5; border:1.5px solid #10b981; border-radius:10px; padding:16px;">
+        <h4 style="font-size:13px; font-weight:800; color:#047857; margin:0 0 6px 0; text-transform:uppercase;">💡 Conclusão Técnica Principal</h4>
+        <p style="font-size:12px; color:#065f46; margin:0; line-height:1.6;">
+          • <b>Comportamento Noturno (22h às 10h):</b> Durante a madrugada, com os equipamentos desligados, a inércia térmica do shopping mantém as temperaturas entre 18,0°C e 22,1°C.<br>
+          • <b>Comportamento Diurno (10h às 22h):</b> Durante o horário de funcionamento comercial, as máquinas com 2 evaporadoras (FC-27 e FC-28) mantêm a temperatura em estáveis 24,2°C demandando apenas ~43 min/dia de ambos os compressores ativos (queda de 79% no esforço de pico em relação à máquina de evaporadora simples FC-17).
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  const data = TELEMETRIA_LOGS[tag];
+  if (!data) return;
+
+  let rowsHtml = '';
+  data.dias.forEach(d => {
+    rowsHtml += `
+      <tr>
+        <td class="bold" style="color:#0a192f;">${d.date}</td>
+        <td style="color:#0284c7; font-weight:700;">${d.temp_desligado_22_10 !== null ? d.temp_desligado_22_10 + '°C' : '—'}</td>
+        <td style="color:#059669; font-weight:800;">${d.temp_ligado_10_22 !== null ? d.temp_ligado_10_22 + '°C' : '—'}</td>
+        <td>${d.temp_geral}°C</td>
+        <td>${d.setpoint}°C</td>
+        <td><b>${d.comp1_min} min</b> <span style="font-size:10px; color:#64748b;">(${d.dc1}%)</span></td>
+        <td><b>${d.comp2_min} min</b> <span style="font-size:10px; color:#64748b;">(${d.dc2}%)</span></td>
+        <td><span style="background:${d.both_min > 100 ? '#fee2e2' : '#dcfce7'}; color:${d.both_min > 100 ? '#b91c1c' : '#15803d'}; padding:2px 6px; border-radius:4px; font-weight:800;">${d.both_min} min</span></td>
+        <td>${d.one_min} min</td>
+        <td class="bold" style="color:#0284c7;">${d.dc_global}%</td>
+        <td><span style="background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:700; font-size:10.5px;">${d.lider}</span></td>
+      </tr>
+    `;
+  });
+
+  container.innerHTML = `
+    <!-- Top KPI Cards -->
+    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; margin-bottom:20px;">
+      <div style="background:#f0f9ff; border:1.5px solid #0284c7; border-radius:10px; padding:12px 14px;">
+        <div style="font-size:10.5px; font-weight:800; color:#0284c7; text-transform:uppercase;">🌙 Noite (22h às 10h)</div>
+        <div style="font-size:22px; font-weight:800; color:#0284c7; margin:4px 0;">${data.media_desligado_22_10_periodo}°C</div>
+        <div style="font-size:10px; color:#64748b;">Equipamento Desligado</div>
+      </div>
+
+      <div style="background:#ecfdf5; border:1.5px solid #10b981; border-radius:10px; padding:12px 14px;">
+        <div style="font-size:10.5px; font-weight:800; color:#059669; text-transform:uppercase;">☀️ Dia (10h às 22h)</div>
+        <div style="font-size:22px; font-weight:800; color:#059669; margin:4px 0;">${data.media_ligado_10_22_periodo}°C</div>
+        <div style="font-size:10px; color:#64748b;">Equipamento em Operação</div>
+      </div>
+
+      <div style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:10px; padding:12px 14px;">
+        <div style="font-size:10.5px; font-weight:800; color:#475569; text-transform:uppercase;">⏱️ Ambos Compressores ON</div>
+        <div style="font-size:22px; font-weight:800; color:${data.media_both_min_dia > 100 ? '#ef4444' : '#059669'}; margin:4px 0;">${data.media_both_min_dia} min</div>
+        <div style="font-size:10px; color:#64748b;">Média diária de pico simultâneo</div>
+      </div>
+
+      <div style="background:#0a192f; border:1.5px solid #1e3a8a; border-radius:10px; padding:12px 14px; color:white;">
+        <div style="font-size:10.5px; font-weight:800; color:#38bdf8; text-transform:uppercase;">🔄 Revezamento CLP</div>
+        <div style="font-size:14px; font-weight:800; color:#34d399; margin:4px 0;">Comp 1: ${data.media_dc1_periodo}%<br>Comp 2: ${data.media_dc2_periodo}%</div>
+        <div style="font-size:10px; color:#94a3b8;">Equalização ativa de horas</div>
+      </div>
+    </div>
+
+    <!-- Tabela Dia a Dia -->
+    <div style="margin-bottom:14px;">
+      <h4 style="font-size:13px; font-weight:800; color:#0a192f; text-transform:uppercase; margin:0 0 10px 0;">📅 Registros Diários de Temperatura e Compressores (${data.tag} • ${data.evaps})</h4>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Média Noite (22h-10h)<br><small style="color:#94a3b8;">Desligado</small></th>
+              <th>Média Dia (10h-22h)<br><small style="color:#94a3b8;">Ligado</small></th>
+              <th>Média 24h</th>
+              <th>Setpoint</th>
+              <th>Compressor 01 (ON)</th>
+              <th>Compressor 02 (ON)</th>
+              <th>Ambos ON (Simultâneo)</th>
+              <th>1 Comp. ON</th>
+              <th>Duty Global</th>
+              <th>Líder do Rodízio</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rowsHtml}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Diagnóstico Técnico da Máquina -->
+    <div style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:10px; padding:14px; margin-top:16px;">
+      <strong style="font-size:12px; color:#0a192f; display:block; margin-bottom:4px; text-transform:uppercase;">🔍 Diagnóstico Termodinâmico — ${data.tag}</strong>
+      <p style="font-size:11.5px; color:#334155; margin:0; line-height:1.6;">
+        O climatizador <b>${data.tag}</b> (${data.evaps}), localizado em <em>${data.local}</em>, apresentou temperatura média no período desligado (22h às 10h) de <b>${data.media_desligado_22_10_periodo}°C</b> e no período ligado (10h às 22h) de <b>${data.media_ligado_10_22_periodo}°C</b>. O sistema de revezamento alternou a liderança operacional entre o Compressor 01 e Compressor 02 ao longo dos dias, mantendo a temperatura estável e garantindo desgaste homogêneo.
+      </p>
+    </div>
+  `;
+}
+
+function init() {
   // Limpar qualquer cache antigo residual do navegador para garantir 100% de integridade
   try {
     localStorage.removeItem('ns_hvac_equipamentos');
