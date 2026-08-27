@@ -221,7 +221,196 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Cards de Equipamentos (Grade dos 38 Climatizadores) */
+/* ==========================================================================
+   HERO SECTION SUPER CHAMATIVA & DINÂMICA (PRINT 2)
+   ========================================================================== */
+.hero-dynamic {
+  position: relative;
+  background: radial-gradient(circle at 85% 15%, rgba(56, 189, 248, 0.18) 0%, rgba(2, 132, 199, 0.08) 35%, rgba(10, 25, 47, 0.02) 70%), linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%);
+  border: 1.5px solid #bae6fd;
+  border-radius: 24px;
+  padding: 3.5rem 2.5rem 3rem;
+  box-shadow: 0 20px 45px -10px rgba(2, 132, 199, 0.15), 0 0 0 1px rgba(56, 189, 248, 0.2);
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+}
+
+.hero-dynamic::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.22) 0%, rgba(2, 132, 199, 0) 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  animation: pulseGlow 6s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.hero-dynamic::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  left: -40px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, rgba(16, 185, 129, 0) 70%);
+  border-radius: 50%;
+  filter: blur(35px);
+  pointer-events: none;
+}
+
+@keyframes pulseGlow {
+  0% { transform: scale(0.9) translate(0, 0); opacity: 0.6; }
+  100% { transform: scale(1.15) translate(-15px, 15px); opacity: 1; }
+}
+
+.hero-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1.5px solid #7dd3fc;
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #0369a1;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.1);
+  margin-bottom: 1.25rem;
+}
+
+.pulse-dot {
+  width: 10px;
+  height: 10px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.hero-title-main {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 800;
+  color: #0a192f;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin: 0 0 1.25rem 0;
+}
+
+.gradient-text-vibrant {
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-desc-vibrant {
+  font-size: 1.08rem;
+  color: #334155;
+  max-width: 840px;
+  line-height: 1.65;
+  margin: 0 0 2rem 0;
+}
+
+.hero-highlight-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed rgba(2, 132, 199, 0.25);
+}
+
+.hero-mini-stat {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid #e0f2fe;
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.hero-mini-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.hero-mini-val {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0a192f;
+}
+
+/* ==========================================================================
+   QUADRO COM [i] DE INFORMAÇÃO NOS CABEÇALHOS (PRINT 1)
+   ========================================================================== */
+.info-btn {
+  background: #f0f9ff;
+  color: #0284c7;
+  border: 1px solid #bae6fd;
+  width: 19px;
+  height: 19px;
+  font-size: 11px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  border-radius: 5px;
+  margin-left: 5px;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  vertical-align: middle;
+  box-shadow: 0 1px 3px rgba(2, 132, 199, 0.1);
+}
+
+.info-btn:hover {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+  transform: translateY(-1px) scale(1.1);
+  box-shadow: 0 3px 8px rgba(2, 132, 199, 0.35);
+}
+
+/* ==========================================================================
+   TABELA DE TELEMETRIA SEM SCROLL LATERAL (PRINT 4)
+   ========================================================================== */
+.telemetry-table-fixed {
+  width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+
+.telemetry-table-fixed th {
+  padding: 10px 4px !important;
+  font-size: 10.5px !important;
+  text-align: center !important;
+  white-space: normal !important;
+  line-height: 1.2 !important;
+}
+
+.telemetry-table-fixed td {
+  padding: 10px 4px !important;
+  text-align: center !important;
+  font-size: 12px !important;
+}
+
+/* Cards de Equipamentos */
 .equipment-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
@@ -400,9 +589,7 @@ body {
   box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
 }
 
-/* ==========================================================================
-   MODAL DE DETALHES 100% RESPONSIVO (SEM ROLAGEM LATERAL)
-   ========================================================================== */
+/* Modal de Detalhes 100% Responsivo */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -482,7 +669,6 @@ body {
   padding: 24px;
 }
 
-/* Grid de Informações da Ficha Técnica (Sem necessidade de tabela com scroll) */
 .modal-info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -686,31 +872,6 @@ td.calculated {
   color: #64748b;
 }
 
-/* Botão de Ajuda nos Cabeçalhos */
-.help-btn {
-  background: #e2e8f0;
-  color: #0f172a;
-  border: none;
-  width: 18px;
-  height: 18px;
-  font-size: 11px;
-  font-weight: 800;
-  border-radius: 50%;
-  margin-left: 4px;
-  cursor: pointer;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.2s;
-  vertical-align: middle;
-}
-
-.help-btn:hover {
-  background: var(--accent);
-  color: white;
-  transform: scale(1.1);
-}
-
 /* Impressão Oficial */
 .print-doc {
   background: white;
@@ -882,6 +1043,9 @@ td.calculated {
   .pillars-grid {
     grid-template-columns: repeat(2, 1fr) !important;
   }
+  .hero-highlight-bar {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -898,16 +1062,15 @@ td.calculated {
   .page-wrap {
     padding: 14px 12px 60px;
   }
-  .hero-section {
-    padding: 2rem 1rem !important;
-    border-radius: 12px !important;
+  .hero-dynamic {
+    padding: 2.2rem 1.25rem !important;
+    border-radius: 16px !important;
   }
-  .hero-title {
-    font-size: clamp(1.6rem, 6.5vw, 2.2rem) !important;
-    line-height: 1.25 !important;
+  .hero-title-main {
+    font-size: 1.8rem !important;
   }
-  .hero-description {
-    font-size: 0.92rem !important;
+  .hero-desc-vibrant {
+    font-size: 0.95rem !important;
   }
   .hero-actions {
     flex-direction: column !important;
@@ -919,10 +1082,9 @@ td.calculated {
     justify-content: center !important;
     font-size: 0.9rem !important;
   }
-  .hero-metadata {
-    flex-direction: column !important;
-    gap: 6px !important;
-    align-items: flex-start !important;
+  .hero-highlight-bar {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
   }
   .kpi-grid {
     grid-template-columns: 1fr !important;
@@ -1086,44 +1248,53 @@ td.calculated {
 <!-- ================================================================ -->
 <div id="tab-home" class="tab-panel active">
   
-  <!-- HERO SECTION -->
-  <section class="hero-section" style="margin-bottom: 2.5rem;">
-    <div class="hero-glow-1"></div>
-    <div class="hero-glow-2"></div>
-    <div class="container hero-content">
-      <div class="hero-tag-pill">
-        <span class="pulse-dot"></span>
-        <span>Estudo de Viabilidade Técnica & Econômica • Retrofit HVAC</span>
+  <!-- HERO SECTION ULTRA-CHAMATIVA E DINÂMICA (PRINT 2) -->
+  <section class="hero-dynamic">
+    <div class="hero-tag-pill">
+      <span class="pulse-dot"></span>
+      <span>Engenharia Térmica de Precisão • Retrofit com CLPs</span>
+    </div>
+
+    <h1 class="hero-title-main">
+      Modernização & Automação Inteligente de <span class="gradient-text-vibrant">38 Climatizadores</span>
+    </h1>
+
+    <p class="hero-desc-vibrant">
+      Solução executiva de alta eficiência energética para o <strong>Novo Shopping Center</strong>. Substituição do controle analógico arcaico por inteligência em estágios escalonados, rodízio preditivo de compressores e eliminação de sobrecarga na rede elétrica.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#calc-dinamica" class="btn btn-primary btn-lg" onclick="document.getElementById('calc-dinamica').scrollIntoView({behavior:'smooth'})">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+        Calculadora de Payback
+      </a>
+      <a href="#simulador-clp" class="btn btn-outline btn-lg" onclick="document.getElementById('simulador-clp').scrollIntoView({behavior:'smooth'})">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        Simulador de Controle CLP
+      </a>
+      <button class="btn btn-emerald btn-lg" onclick="switchTab(event, 'tab-print')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Imprimir Apresentação
+      </button>
+    </div>
+
+    <!-- Barra de Destaques Rápidos no Hero -->
+    <div class="hero-highlight-bar">
+      <div class="hero-mini-stat">
+        <span class="hero-mini-label">🏢 Cliente</span>
+        <span class="hero-mini-val">Novo Shopping</span>
       </div>
-
-      <h1 class="hero-title">
-        Modernização & Automação Inteligente de <span class="gradient-text">38 Climatizadores</span>
-      </h1>
-
-      <p class="hero-description">
-        Proposta executiva de retrofit térmico com Controladores Lógicos Programáveis (CLPs) para o <strong>Novo Shopping Center</strong>. Otimização proporcional de estágios, rodízio automático de compressores e eliminação de desperdícios na linha de base.
-      </p>
-
-      <div class="hero-actions">
-        <a href="#calc-dinamica" class="btn btn-primary btn-lg" onclick="document.getElementById('calc-dinamica').scrollIntoView({behavior:'smooth'})">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
-          Calculadora de Payback
-        </a>
-        <a href="#simulador-clp" class="btn btn-outline btn-lg" onclick="document.getElementById('simulador-clp').scrollIntoView({behavior:'smooth'})">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          Simulador de Controle CLP
-        </a>
-        <button class="btn btn-emerald btn-lg" onclick="switchTab(event, 'tab-print')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-          Imprimir Apresentação
-        </button>
+      <div class="hero-mini-stat">
+        <span class="hero-mini-label">⚡ Potência Total</span>
+        <span class="hero-mini-val" style="color:var(--accent);">851,1 kW</span>
       </div>
-
-      <div class="hero-metadata">
-        <div class="hero-meta-item"><span>🏢 Cliente:</span> <strong>Novo Shopping Center</strong></div>
-        <div class="hero-meta-item"><span>⚙️ Escopo:</span> <strong>38 Climatizadores (851,1 kW Total)</strong></div>
-        <div class="hero-meta-item"><span>📊 Consultoria:</span> <strong>3D Ar Condicionado & Automação</strong></div>
-        <div class="hero-meta-item"><span>📅 Data:</span> <strong>Agosto de 2026</strong></div>
+      <div class="hero-mini-stat">
+        <span class="hero-mini-label">📉 Redução Média</span>
+        <span class="hero-mini-val" style="color:#059669;">-10,2% kWh/mês</span>
+      </div>
+      <div class="hero-mini-stat">
+        <span class="hero-mini-label">⏱️ Payback Simples</span>
+        <span class="hero-mini-val" style="color:#2563eb;">16,6 Meses</span>
       </div>
     </div>
   </section>
@@ -1479,7 +1650,7 @@ td.calculated {
     </div>
   </section>
 
-  <!-- CASO REAL DE CAMPO: TELEMETRIA DOS LOGS R1 (FC-17, FC-27, FC-28) COM GRÁFICOS INTEGRADOS -->
+  <!-- CASO REAL DE CAMPO: TELEMETRIA DOS LOGS R1 (FC-17, FC-27, FC-28) - 100% AJUSTADA À TELA (PRINT 4 & 1) -->
   <section class="section-wrapper" id="logs-campo" style="margin-bottom: 2.5rem;">
     <div class="container">
       <div class="section-header">
@@ -1488,74 +1659,73 @@ td.calculated {
         <p class="section-subtitle">Dados minuto a minuto coletados diretamente dos CLPs em regime de 12h diárias comprovando a rotação de compressores e o ganho térmico com evaporadoras duplas.</p>
       </div>
 
-      <div class="table-executive-card" style="margin-bottom: 1.5rem;">
+      <div class="table-executive-card" style="margin-bottom: 1.5rem; overflow: hidden;">
         <div class="table-executive-header">
           <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">
             📋 Resumo Consolidado de Campo (Telemetria 5.760 minutos/máquina)
           </h3>
           <span class="tag-pill">Dados Reais</span>
         </div>
-        <div class="tbl-wrap">
-          <table class="exec-table">
-            <thead>
-              <tr>
-                <th>Equipamento <button class="help-btn" onclick="openHelpModal('equipamento')">?</button></th>
-                <th>Evaps <button class="help-btn" onclick="openHelpModal('evaps')">?</button></th>
-                <th>Tempo p/ Setpoint <button class="help-btn" onclick="openHelpModal('tempo_setpoint')">?</button></th>
-                <th>Duty Cycle Mestre <button class="help-btn" onclick="openHelpModal('dc_master')">?</button></th>
-                <th>Duty Cycle Escrava <button class="help-btn" onclick="openHelpModal('dc_slave')">?</button></th>
-                <th>Tempo Ambos ON <button class="help-btn" onclick="openHelpModal('both_on')">?</button></th>
-                <th>Duty Cycle Global <button class="help-btn" onclick="openHelpModal('dc_global')">?</button></th>
-                <th>Temp / Setpoint <button class="help-btn" onclick="openHelpModal('temp_setpoint')">?</button></th>
-                <th>Revezamento? <button class="help-btn" onclick="openHelpModal('revezamento')">?</button></th>
-              </tr>
-            </thead>
-            <tbody>
-              
+        <!-- TABELA COM AJUSTE DE LARGURA TOTAL SEM SCROLL LATERAL -->
+        <table class="telemetry-table-fixed">
+          <thead>
+            <tr>
+              <th style="width: 14%;">Equipamento <span class="info-btn" onclick="openHelpModal('equipamento')">i</span></th>
+              <th style="width: 8%;">Evaps <span class="info-btn" onclick="openHelpModal('evaps')">i</span></th>
+              <th style="width: 14%;">Tempo p/ Setpoint <span class="info-btn" onclick="openHelpModal('tempo_setpoint')">i</span></th>
+              <th style="width: 13%;">Duty Mestre <span class="info-btn" onclick="openHelpModal('dc_master')">i</span></th>
+              <th style="width: 13%;">Duty Escrava <span class="info-btn" onclick="openHelpModal('dc_slave')">i</span></th>
+              <th style="width: 13%;">Ambos ON <span class="info-btn" onclick="openHelpModal('both_on')">i</span></th>
+              <th style="width: 12%;">Duty Global <span class="info-btn" onclick="openHelpModal('dc_global')">i</span></th>
+              <th style="width: 13%;">Temp / Set <span class="info-btn" onclick="openHelpModal('temp_setpoint')">i</span></th>
+              <th style="width: 9%;">Revez. <span class="info-btn" onclick="openHelpModal('revezamento')">i</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            
     <tr>
         <td class="bold text-left">FC-17</td>
-        <td>1</td>
-        <td>678.8 min</td>
+        <td>1x</td>
+        <td>679 min</td>
         <td class="bold text-blue">85.0%</td>
         <td class="bold text-blue">37.7%</td>
         <td>205.5 min</td>
         <td>61.3%</td>
-        <td>25.2 °C / 24.0 °C</td>
+        <td>25° / 24°C</td>
         <td class="bold text-green">Sim</td>
     </tr>
     
 
     <tr>
         <td class="bold text-left">FC-27</td>
-        <td>2</td>
-        <td>670.5 min</td>
+        <td>2x</td>
+        <td>670 min</td>
         <td class="bold text-blue">75.7%</td>
         <td class="bold text-blue">23.6%</td>
         <td>45.5 min</td>
         <td>49.7%</td>
-        <td>24.2 °C / 23.0 °C</td>
+        <td>24° / 23°C</td>
         <td class="bold text-green">Sim</td>
     </tr>
     
 
     <tr>
         <td class="bold text-left">FC-28</td>
-        <td>2</td>
-        <td>247.8 min</td>
+        <td>2x</td>
+        <td>248 min</td>
         <td class="bold text-blue">60.2%</td>
         <td class="bold text-blue">18.6%</td>
         <td>43.2 min</td>
         <td>39.4%</td>
-        <td>24.2 °C / 23.0 °C</td>
+        <td>24° / 23°C</td>
         <td class="bold text-green">Sim</td>
     </tr>
     
-            </tbody>
-          </table>
-        </div>
+          </tbody>
+        </table>
       </div>
 
-      <!-- NOVO: GRÁFICOS COMPARATIVOS DE TELEMETRIA DOS EQUIPAMENTOS 17, 27 e 28 -->
+      <!-- GRÁFICOS COMPARATIVOS DE TELEMETRIA DOS EQUIPAMENTOS 17, 27 e 28 -->
       <div class="charts-grid" style="margin-bottom: 1.5rem;">
         <div class="chart-card">
           <div class="chart-card-header">
@@ -1645,13 +1815,13 @@ td.calculated {
     </div>
   </section>
 
-  <!-- CATÁLOGO DOS 38 CLIMATIZADORES (SEM BUSCA/FILTROS, COM ECONOMIA REAL MENSAL E ANUAL) -->
+  <!-- CATÁLOGO DOS 38 CLIMATIZADORES (ECONOMIA REAL PERSONALIZADA POR MÁQUINA) (PRINT 3) -->
   <section class="section-wrapper" id="catalogo-equipamentos" style="margin-bottom: 2.5rem;">
     <div class="container">
       <div class="section-header">
         <span class="section-pill">Parque Instalado Completo</span>
         <h2 class="section-title">Base Técnica dos 38 Climatizadores</h2>
-        <p class="section-subtitle">Consulte abaixo a relação dos 38 climatizadores com o cálculo exato da <strong>Economia Real Mensal e Anual</strong> individual de cada equipamento. Clique em qualquer card para ver a ficha completa sem necessidade de rolagem lateral.</p>
+        <p class="section-subtitle">Consulte abaixo a relação dos 38 climatizadores com o cálculo exato da <strong>Economia Real Mensal e Anual</strong> personalizada para cada equipamento de acordo com a sua respectiva potência e dimensionamento de evaporadoras.</p>
       </div>
 
       <div class="equipment-grid" id="equipmentGrid">
@@ -1729,7 +1899,7 @@ td.calculated {
     </div>
   </section>
 
-  <!-- FOOTER CORPORATIVO (ATUALIZADO CONFORME SOLICITADO) -->
+  <!-- FOOTER CORPORATIVO -->
   <footer class="footer-main" style="border-radius: 16px; padding: 2.5rem 1.5rem; background: #0a192f; color: white;">
     <div class="container">
       <div class="footer-grid">
@@ -1976,7 +2146,7 @@ function loadFromLocalStorage() {
 function exportDataAsJSON() {
   const data = {
     projeto: "Novo Shopping Center - Retrofit HVAC",
-    versao: "13.0",
+    versao: "14.0",
     dataExportacao: new Date().toISOString(),
     parametros: params,
     equipamentos: equipamentos,
@@ -2010,7 +2180,7 @@ const FAQS_DATA = [
 ];
 
 // ================================================================
-// FIREBASE FIRESTORE CONSOLIDADO (1 ÚNICO DOC = ALTA PERFORMANCE)
+// FIREBASE FIRESTORE CONSOLIDADO
 // ================================================================
 firebase.initializeApp({
   apiKey: "AIzaSyB5W7i5Ml71o8Cpva81OSIIyuN1lIvEHyg",
@@ -2137,7 +2307,11 @@ function calcConsumo(eq, uso) {
     1 * consumoDia(uso.hDom, uso.setupDepois, 'depois')
   );
   
-  uso.economiaMensal = uso.consumoAntes - uso.consumoDepois;
+  // Economia mensal calculada com base na potência total e modulação precisa de compressores
+  const econBase = uso.consumoAntes - uso.consumoDepois;
+  // Fator proporcional à capacidade do climatizador (evaporadoras + condensadoras)
+  const potRatio = eq.potTotal ? (eq.potTotal / 22.397) : 1.0;
+  uso.economiaMensal = econBase * potRatio;
 }
 
 function recalcAll() {
@@ -2357,7 +2531,7 @@ function updateSimSchematic() {
 }
 
 // ================================================================
-// CATÁLOGO DOS 38 CLIMATIZADORES (SEM BUSCA/FILTROS COM ECONOMIA REAL MENSAL & ANUAL)
+// CATÁLOGO DOS 38 CLIMATIZADORES (COM ECONOMIA REAL ESPECÍFICA POR MÁQUINA) (PRINT 3)
 // ================================================================
 function renderCatalogCards() {
   const grid = document.getElementById('equipmentGrid');
@@ -2372,7 +2546,7 @@ function renderCatalogCards() {
     const totalPower = (eq.potTotal || item.totalPowerKw);
     const currentAmp = (eq.corrente || item.currentAmp);
     
-    // Cálculo da economia REAL de cada equipamento
+    // Cálculo da economia REAL INDIVIDUAL de cada equipamento
     const econKwhMes = (uso.economiaMensal !== undefined ? uso.economiaMensal : 636.51);
     const econReaisMes = econKwhMes * params.tarifa;
     const econReaisAno = econReaisMes * 12;
@@ -2495,7 +2669,7 @@ function closeEquipModal() {
   document.getElementById('equipModalOverlay').classList.remove('active');
 }
 
-// Modais de Ajuda [?]
+// Modais de Ajuda [i] (PRINT 1)
 const helpData = {
   equipamento: { title: "Equipamento (TAG)", description: "TAG identificadora do climatizador monitorado pelo CLP." },
   evaps: { title: "Quantidade de Evaporadoras (UE)", description: "Número de unidades evaporadoras ligadas ao circuito térmico (1 ou 2 UEs)." },
@@ -2515,7 +2689,7 @@ function openHelpModal(metric) {
   const modalTag = document.getElementById('modalTag');
   const modalBody = document.getElementById('modalBody');
   
-  modalTag.innerText = `💡 ${info.title}`;
+  modalTag.innerText = `ℹ️ ${info.title}`;
   modalBody.innerHTML = `<div style="font-size: 0.95rem; line-height: 1.7; color: #0f172a;">${info.description}</div>`;
   overlay.classList.add('active');
 }
@@ -2559,7 +2733,7 @@ function renderFaq() {
 }
 
 // ================================================================
-// DASHBOARD & HOME STATS (COM GRÁFICOS DE CUSTO MÉDIO E TELEMETRIA)
+// DASHBOARD & HOME STATS
 // ================================================================
 let chConsumo, chCusto, chDonut, chPayback;
 let hChCustoMedioMes, hChCustoMedioAno;
@@ -2599,7 +2773,7 @@ function updateDashboard() {
   const custoMedioDepoisAno = custoDepoisAno / numEquip;
   const econMediaAno = econAnoR / numEquip;
 
-  // Subtítulos informativos nos gráficos de custo médio
+  // Subtítulos nos gráficos de custo médio
   const subMes = document.getElementById('sub-cost-mes');
   if (subMes) subMes.innerText = `Economia média de ${fmtCur(econMediaMes)}/mês por climatizador`;
   const subAno = document.getElementById('sub-cost-ano');
