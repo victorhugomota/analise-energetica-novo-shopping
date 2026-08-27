@@ -986,14 +986,25 @@ td.calculated {
   font-weight: 600;
 }
 
-.print-doc h2 {
-  font-size: 14px;
-  font-weight: 800;
-  color: #0a192f;
-  text-transform: uppercase;
-  border-bottom: 1.5px solid #0a192f;
-  padding-bottom: 4px;
-  margin: 28px 0 12px;
+.print-doc .tbl-wrap {
+  overflow: visible !important;
+  box-shadow: none !important;
+  width: 100% !important;
+  margin-bottom: 16px !important;
+}
+
+.print-doc table {
+  width: 100% !important;
+  table-layout: fixed !important;
+  border-collapse: collapse !important;
+}
+
+.print-doc th, .print-doc td {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+  padding: 7px 4px !important;
+  font-size: 11px !important;
 }
 
 .print-doc h3 {
@@ -3526,8 +3537,7 @@ function updatePrintPage() {
             <th>Duty Escrava</th>
             <th>Ambos ON (min/dia)</th>
             <th>Duty Global</th>
-            <th>Temp / Setpoint</th>
-            <th>Revezamento</th>
+            <th>Temp / Set</th>
           </tr>
         </thead>
         <tbody>
@@ -3539,8 +3549,7 @@ function updatePrintPage() {
             <td class="bold text-blue">37,7%</td>
             <td>205,5 min/dia</td>
             <td>61,3%</td>
-            <td>25,2°C / 24,0°C</td>
-            <td class="bold text-green">Sim</td>
+            <td>25,2° / 24,0°C</td>
           </tr>
           <tr>
             <td class="text-left bold">FC-27</td>
@@ -3550,8 +3559,7 @@ function updatePrintPage() {
             <td class="bold text-blue">23,6%</td>
             <td>45,5 min/dia</td>
             <td>49,7%</td>
-            <td>24,2°C / 23,0°C</td>
-            <td class="bold text-green">Sim</td>
+            <td>24,2° / 23,0°C</td>
           </tr>
           <tr>
             <td class="text-left bold">FC-28</td>
@@ -3561,27 +3569,13 @@ function updatePrintPage() {
             <td class="bold text-blue">18,6%</td>
             <td>43,2 min/dia</td>
             <td>39,4%</td>
-            <td>24,2°C / 23,0°C</td>
-            <td class="bold text-green">Sim</td>
+            <td>24,2° / 23,0°C</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <h3>6.2 Dicionário e Significado Detalhado de cada Indicador</h3>
-    <p>
-      • <b>Equipamento (TAG):</b> Identificação do climatizador monitorado com instrumentação de temperatura e status de relés de compressores.<br>
-      • <b>Evaporadoras (Evaps):</b> Quantidade física de unidades evaporadoras instaladas no circuito de insuflamento (1 unidade simples no FC-17 vs. 2 unidades duplas A/B no FC-27 e FC-28).<br>
-      • <b>Tempo para Atingir o Setpoint (Pull-down):</b> Intervalo decorrido desde o início da jornada até o momento em que a temperatura atinge o setpoint e ambos os compressores desligam pela primeira vez.<br>
-      • <b>Duty Cycle Mestre:</b> Percentual de tempo da jornada de 12h em que a unidade condensadora líder permaneceu ativa.<br>
-      • <b>Duty Cycle Escrava:</b> Percentual de tempo em que a condensadora secundária foi requisitada para suporte térmico.<br>
-      • <b>Tempo Ambos ON:</b> Duração média diária em minutos em que ambos os compressores funcionaram simultaneamente a 100% de capacidade.<br>
-      • <b>Duty Cycle Global:</b> Média ponderada do tempo de compressão ativa do conjunto: <code>(Duty Mestre + Duty Escrava) / 2</code>.<br>
-      • <b>Temp / Setpoint:</b> Relação entre a temperatura média mantida no ambiente durante a jornada de 12h e a meta térmica programada.<br>
-      • <b>Revezamento:</b> Confirmação da alternância automática de compressores a cada 12 horas, garantindo equalização do desgaste mecânico.
-    </p>
-
-    <h3>6.3 Comparativo Gráfico de Operação em Campo</h3>
+    <h3>6.2 Comparativo Gráfico de Operação em Campo</h3>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0;" class="print-chart-box">
       <div style="background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
         <strong style="font-size: 11.5px; color: #0a192f; display: block; margin-bottom: 8px; text-transform: uppercase;">Duty Cycle Real por Estágio (Mestre vs. Escrava)</strong>
@@ -3601,7 +3595,7 @@ function updatePrintPage() {
       </div>
     </div>
 
-    <h3>6.4 Diagnóstico Termodinâmico: Evaporadora Simples vs. Evaporadora Dupla</h3>
+    <h3>6.3 Diagnóstico Termodinâmico: Evaporadora Simples vs. Evaporadora Dupla</h3>
     <p>
       A análise dos 5.760 registros confirma com clareza a tese de engenharia: climatizadores dotados de <b>duas evaporadoras (FC-27 e FC-28)</b> apresentam eficiência de troca térmica amplamente superior, permitindo que a unidade condensadora Mestre atenda a demanda na maior parte do dia e reduzindo o tempo com ambos os compressores ligados para apenas <b>~43 minutos diários</b> (redução de <b>79%</b> no estresse elétrico e mecânico em comparação ao FC-17). No <b>FC-17 (1 evaporadora)</b>, a restrição de vazão forçou a operação conjunta por 205,5 min/dia, evidenciando a importância do escalonamento por CLP para não sobrecarregar as máquinas.
     </p>
@@ -3656,6 +3650,67 @@ function updatePrintPage() {
       </table>
     </div>
 
+    <!-- GRÁFICOS DO ITEM 7.1: CONSUMO E CUSTO (GERAL & MÉDIO POR EQUIPAMENTO) -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0;" class="print-chart-box">
+      <!-- Gráfico 1: Consumo Total e Médio -->
+      <div style="background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
+        <strong style="font-size: 11px; color: #0a192f; display: block; margin-bottom: 10px; text-transform: uppercase;">⚡ Comparativo de Consumo de Energia (Total & Médio)</strong>
+        <div style="margin-bottom: 10px;">
+          <div style="display:flex; justify-content:space-between; font-size:10.5px; margin-bottom:3px;">
+            <span>Consumo Total Mensal (Shopping)</span>
+            <span><b>${fmtInt(f.consDepoisMes||0)}</b> vs ${fmtInt(f.consAntesMes||0)} kWh (-${fmtDec((f.redPerc||0)*100,1)}%)</span>
+          </div>
+          <div style="height:12px; background:#e2e8f0; border-radius:6px; overflow:hidden; display:flex;">
+            <div style="width:${(((f.consDepoisMes||0)/(f.consAntesMes||1))*100).toFixed(1)}%; background:#0284c7;"></div>
+            <div style="width:${(((f.redKwhMes||0)/(f.consAntesMes||1))*100).toFixed(1)}%; background:#10b981;"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; font-size:10.5px; margin-bottom:3px;">
+            <span>Média por Equipamento (${equipamentos.length} un.)</span>
+            <span><b>${fmtInt((f.consDepoisMes||0)/(equipamentos.length||38))}</b> vs ${fmtInt((f.consAntesMes||0)/(equipamentos.length||38))} kWh/mês</span>
+          </div>
+          <div style="height:12px; background:#e2e8f0; border-radius:6px; overflow:hidden; display:flex;">
+            <div style="width:${(((f.consDepoisMes||0)/(f.consAntesMes||1))*100).toFixed(1)}%; background:#2563eb;"></div>
+            <div style="width:${(((f.redKwhMes||0)/(f.consAntesMes||1))*100).toFixed(1)}%; background:#34d399;"></div>
+          </div>
+        </div>
+        <div style="font-size:9.5px; color:#64748b; margin-top:8px; display:flex; gap:12px; justify-content:center;">
+          <span><span style="display:inline-block;width:8px;height:8px;background:#0284c7;border-radius:2px;"></span> Consumo com CLP</span>
+          <span><span style="display:inline-block;width:8px;height:8px;background:#10b981;border-radius:2px;"></span> Economia Obtida</span>
+        </div>
+      </div>
+
+      <!-- Gráfico 2: Custo Operacional Total e Médio -->
+      <div style="background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px;">
+        <strong style="font-size: 11px; color: #0a192f; display: block; margin-bottom: 10px; text-transform: uppercase;">💰 Comparativo de Custo Operacional (R$/mês)</strong>
+        <div style="margin-bottom: 10px;">
+          <div style="display:flex; justify-content:space-between; font-size:10.5px; margin-bottom:3px;">
+            <span>Gasto Total Mensal</span>
+            <span><b>${fmtCur(f.custoDepoisMes||0)}</b> vs ${fmtCur(f.custoAntesMes||0)}</span>
+          </div>
+          <div style="height:12px; background:#e2e8f0; border-radius:6px; overflow:hidden; display:flex;">
+            <div style="width:${(((f.custoDepoisMes||0)/(f.custoAntesMes||1))*100).toFixed(1)}%; background:#059669;"></div>
+            <div style="width:${(((f.econMesR||0)/(f.custoAntesMes||1))*100).toFixed(1)}%; background:#38bdf8;"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; font-size:10.5px; margin-bottom:3px;">
+            <span>Custo Médio por Equipamento</span>
+            <span><b>${fmtCur((f.custoDepoisMes||0)/(equipamentos.length||38))}</b> vs ${fmtCur((f.custoAntesMes||0)/(equipamentos.length||38))}</span>
+          </div>
+          <div style="height:12px; background:#e2e8f0; border-radius:6px; overflow:hidden; display:flex;">
+            <div style="width:${(((f.custoDepoisMes||0)/(f.custoAntesMes||1))*100).toFixed(1)}%; background:#047857;"></div>
+            <div style="width:${(((f.econMesR||0)/(f.custoAntesMes||1))*100).toFixed(1)}%; background:#7dd3fc;"></div>
+          </div>
+        </div>
+        <div style="font-size:9.5px; color:#64748b; margin-top:8px; display:flex; gap:12px; justify-content:center;">
+          <span><span style="display:inline-block;width:8px;height:8px;background:#059669;border-radius:2px;"></span> Custo com CLP</span>
+          <span><span style="display:inline-block;width:8px;height:8px;background:#38bdf8;border-radius:2px;"></span> Economia Mensal</span>
+        </div>
+      </div>
+    </div>
+
     <h3>7.2 ANÁLISE DE CAPEX, OPEX E PAYBACK SIMPLES</h3>
     <div class="tbl-wrap">
       <table>
@@ -3677,6 +3732,43 @@ function updatePrintPage() {
           <tr class="total-row"><td class="text-left">ROI Acumulado em 5 Anos</td><td class="bold">${fmtDec((f.roi||0)*100,1)}%</td><td>%</td></tr>
         </tbody>
       </table>
+    </div>
+
+    <!-- GRÁFICO DO ITEM 7.2: CURVA DE PAYBACK E FLUXO CUMULATIVO 5 ANOS -->
+    <div class="print-chart-box" style="margin: 16px 0; background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 14px;">
+      <strong style="font-size: 11px; color: #0a192f; display: block; margin-bottom: 8px; text-transform: uppercase;">📈 Projeção de Amortização do CAPEX & Retorno Líquido Cumulativo (5 Anos)</strong>
+      <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; text-align: center; margin-top: 10px;">
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 3px;">
+          <div style="font-size:9.5px; font-weight:700; color:#64748b;">Ano 0 (CAPEX)</div>
+          <div style="font-size:10.5px; font-weight:800; color:#ef4444; margin-top:4px;">-${fmtCur(params.capex)}</div>
+          <div style="font-size:8.5px; color:#94a3b8; margin-top:2px;">Investimento</div>
+        </div>
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 3px;">
+          <div style="font-size:9.5px; font-weight:700; color:#64748b;">Ano 1</div>
+          <div style="font-size:10.5px; font-weight:800; color:#0284c7; margin-top:4px;">+${fmtCur(f.econAnoR||0)}</div>
+          <div style="font-size:8.5px; color:#0284c7; margin-top:2px;">Amortizando</div>
+        </div>
+        <div style="background:#ecfdf5; border:1.5px solid #10b981; border-radius:6px; padding:8px 3px;">
+          <div style="font-size:9.5px; font-weight:800; color:#059669;">Ano 2 (Payback)</div>
+          <div style="font-size:10.5px; font-weight:800; color:#059669; margin-top:4px;">+${fmtCur((f.econAnoR||0)*2)}</div>
+          <div style="font-size:8.5px; font-weight:700; color:#059669; margin-top:2px;">${fmtDec(f.paybackMeses||0,1)} meses</div>
+        </div>
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 3px;">
+          <div style="font-size:9.5px; font-weight:700; color:#64748b;">Ano 3</div>
+          <div style="font-size:10.5px; font-weight:800; color:#059669; margin-top:4px;">+${fmtCur((f.econAnoR||0)*3)}</div>
+          <div style="font-size:8.5px; color:#64748b; margin-top:2px;">Retorno Líquido</div>
+        </div>
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 3px;">
+          <div style="font-size:9.5px; font-weight:700; color:#64748b;">Ano 4</div>
+          <div style="font-size:10.5px; font-weight:800; color:#059669; margin-top:4px;">+${fmtCur((f.econAnoR||0)*4)}</div>
+          <div style="font-size:8.5px; color:#64748b; margin-top:2px;">Retorno Líquido</div>
+        </div>
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:6px; padding:8px 3px;">
+          <div style="font-size:9.5px; font-weight:700; color:#64748b;">Ano 5 (Total)</div>
+          <div style="font-size:10.5px; font-weight:800; color:#059669; margin-top:4px;">+${fmtCur((f.econAnoR||0)*5)}</div>
+          <div style="font-size:8.5px; font-weight:800; color:#2563eb; margin-top:2px;">ROI +${fmtDec((f.roi||0)*100,1)}%</div>
+        </div>
+      </div>
     </div>
 
     <h3>7.3 Retorno sobre o Investimento e Ganhos Acumulados (VPL)</h3>
