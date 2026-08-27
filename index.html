@@ -1171,15 +1171,88 @@ td.calculated {
 }
 
 @media print {
-  body { background: white; padding: 0; }
-  .navbar, .mobile-tab-bar, .btn-group, .toast, .sub-tabs, .page-header button { display: none !important; }
-  .page-wrap { max-width: 100%; padding: 0; }
-  .tab-panel { display: none !important; }
-  #tab-print { display: block !important; }
-  .print-doc { box-shadow: none; padding: 20px; max-width: 100%; }
-  .card, .tbl-wrap { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
-  th { background-color: #f1f5f9 !important; -webkit-print-color-adjust: exact; }
-  .total-row { background-color: #f1f5f9 !important; -webkit-print-color-adjust: exact; }
+  @page {
+    margin: 8mm 12mm 8mm 12mm;
+    size: A4 portrait;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .navbar, .mobile-tab-bar, .no-print, .btn-save-nav, .save-indicator, .page-header, .btn-group, .toast, .sub-tabs, button, .hero-actions, .nav-tabs, footer, .footer-main {
+    display: none !important;
+  }
+
+  .page-wrap {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .tab-panel {
+    display: none !important;
+  }
+
+  #tab-print {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .print-doc {
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    border: none !important;
+    border-radius: 0 !important;
+  }
+
+  .doc-cover {
+    padding-top: 20px !important;
+    padding-bottom: 25px !important;
+    margin-bottom: 30px !important;
+    page-break-after: always;
+  }
+
+  .print-doc h2 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  .print-doc h3 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  table {
+    page-break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tfoot {
+    display: table-footer-group;
+  }
+
+  .doc-signature {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-top: 40px !important;
+  }
 }
 </style>
 </head>
@@ -2099,14 +2172,19 @@ td.calculated {
 <!-- ABA 4: RELATÓRIO DE IMPRESSÃO OFICIAL                            -->
 <!-- ================================================================ -->
 <div id="tab-print" class="tab-panel">
-  <div class="page-header" style="margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-    <div>
-      <h2 style="font-size: 20px; font-weight: 800; color: var(--primary-dark);">Relatório Técnico Executivo</h2>
-      <p style="font-size: 13px; color: #64748b;">Pressione o botão para gerar o PDF ou imprimir em padrão A4.</p>
+  <div class="print-toolbar no-print" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; background: white; padding: 16px 20px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.05); flex-wrap: wrap; gap: 12px;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span class="material-icons-round" style="color: var(--accent); font-size: 26px;">description</span>
+      <div>
+        <h3 style="font-size: 15px; font-weight: 800; color: var(--primary-dark); margin: 0; font-family: 'Outfit', sans-serif;">Relatório Executivo Oficial (Padrão A4)</h3>
+        <p style="font-size: 12px; color: #64748b; margin: 2px 0 0 0;">Documento formatado para apresentação à diretoria e conselho gestor.</p>
+      </div>
     </div>
-    <button class="btn btn-primary" onclick="window.print()" style="padding: 9px 18px; font-size: 13px; font-weight: 700; border-radius: 8px; cursor: pointer; border: none; background: var(--accent-gradient); color: white; display: flex; align-items: center; gap: 6px;">
-      <span class="material-icons-round">print</span> Imprimir / Salvar PDF
-    </button>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <button class="btn btn-primary" onclick="window.print()" style="padding: 10px 22px; font-size: 13px; font-weight: 700; border-radius: 8px; cursor: pointer; border: none; background: var(--accent-gradient); color: white; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);">
+        <span class="material-icons-round" style="font-size: 18px;">print</span> Gerar PDF / Imprimir
+      </button>
+    </div>
   </div>
   <div class="print-doc" id="print-body"></div>
 </div>
