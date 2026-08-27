@@ -1348,11 +1348,8 @@ td.calculated {
     </div>
     <div class="nav-right">
       <div class="save-indicator" id="save-indicator">
-        <span class="material-icons-round" style="font-size:14px; color:#34d399;">cloud_done</span> Salvo
+        <span class="material-icons-round" style="font-size:14px; color:#34d399;">cloud_done</span> Banco de Dados Conectado
       </div>
-      <button class="btn-save-nav" onclick="saveToFirebase(true)">
-        <span class="material-icons-round" style="font-size:15px">cloud_upload</span> Salvar
-      </button>
     </div>
   </div>
   
@@ -2184,8 +2181,6 @@ td.calculated {
         </table>
       </div>
       <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
-        <button class="btn btn-primary" onclick="saveToFirebase(true)"><span class="material-icons-round">cloud_upload</span> Salvar no Banco Agora</button>
-        <button class="btn btn-secondary" onclick="exportDataAsJSON()"><span class="material-icons-round">file_download</span> Baixar Backup (JSON)</button>
         <button class="btn btn-secondary" onclick="confirmResetCadastro()"><span class="material-icons-round">restart_alt</span> Restaurar Padrão da Planilha</button>
       </div>
     </div>
@@ -2202,8 +2197,6 @@ td.calculated {
         </table>
       </div>
       <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
-        <button class="btn btn-primary" onclick="saveToFirebase(true)"><span class="material-icons-round">cloud_upload</span> Salvar no Banco Agora</button>
-        <button class="btn btn-secondary" onclick="exportDataAsJSON()"><span class="material-icons-round">file_download</span> Baixar Backup (JSON)</button>
         <button class="btn btn-secondary" onclick="confirmResetPerfil()"><span class="material-icons-round">restart_alt</span> Restaurar Padrão da Planilha</button>
       </div>
     </div>
@@ -2223,8 +2216,6 @@ td.calculated {
   <div class="card" style="background: white; padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
     <div class="param-grid" id="param-grid"></div>
     <div style="margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap;">
-      <button class="btn btn-primary" onclick="applyParams(); saveToFirebase(true)"><span class="material-icons-round">autorenew</span> Aplicar e Salvar</button>
-      <button class="btn btn-secondary" onclick="exportDataAsJSON()"><span class="material-icons-round">file_download</span> Baixar Backup (JSON)</button>
       <button class="btn btn-secondary" onclick="confirmResetParams()"><span class="material-icons-round">restart_alt</span> Restaurar Padrão</button>
     </div>
   </div>
@@ -2273,7 +2264,7 @@ td.calculated {
 
 <script>
 // ================================================================
-// DATA STORE & HIGH-EFFICIENCY DUAL PERSISTENCE ENGINE
+// DATA STORE & FIREBASE REALTIME ENGINE (SINGLE SOURCE OF TRUTH)
 // ================================================================
 const DEFAULT_EQUIPAMENTOS = [{"tag": "[UE-CIA1 / UC-CIA1A / UC-CIA1B]", "potUC": 12.8, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 27.1, "corrente": 43.3}, {"tag": "[UE-CIA2 / UC-CIA2A]", "potUC": 12.8, "qtdUC": 1, "potUE": 1.5, "qtdUE": 1, "potTotal": 14.3, "corrente": 22.9}, {"tag": "[UE-CIA3 / UC-CIA3A / UC-CIA3B]", "potUC": 12.8, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 27.1, "corrente": 43.3}, {"tag": "[UE-05A / UE-05B / UC-05A / UC-05B]", "potUC": 10.0, "qtdUC": 2, "potUE": 3.0, "qtdUE": 1, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-06A / UE-06B / UC-06A / UC-06B]", "potUC": 10.0, "qtdUC": 2, "potUE": 3.0, "qtdUE": 2, "potTotal": 26.0, "corrente": 41.6}, {"tag": "[UE-07A / UE-07B / UC-07A / UC-07B]", "potUC": 10.0, "qtdUC": 2, "potUE": 2.2, "qtdUE": 2, "potTotal": 24.4, "corrente": 39.0}, {"tag": "[UE-08 / UC-08A / UC-08B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-09 / UC-09A / UC-09B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-10 / UC-10A / UC-10B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-11 / UC-11A / UC-11B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-12A / UE-12B / UC-12A / UC-12B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-13A / UE-13B / UC-13A / UC-13B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-14A / UE-14B / UC-14A / UC-14B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-15A / UE-15B / UC-15A / UC-15B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-16A / UE-16B / UC-16A / UC-16B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-17 / UC-17A / UC-17B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-18 / UC-18A / UC-18B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-19 / UC-19A / UC-19B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-20 / UC-20A / UC-20B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-21 / UC-21A / UC-21B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-22 / UC-22A / UC-22B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-23 / UC-23A / UC-23B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-24 / UC-24A / UC-24B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-25A / UE-25B / UC-25A / UC-25B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-26A / UE-26B / UC-26A / UC-26B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-27A / UE-27B / UC-27A / UC-27B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-28A / UE-28B / UC-28A / UC-28B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-29A / UE-29B / UC-29A / UC-29B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-30A / UE-30B / UC-30A / UC-30B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-35A / UE-35B / UC-35A / UC-35B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-37 / UC-37A / UC-37B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 1, "potTotal": 21.5, "corrente": 34.4}, {"tag": "[UE-41A / UE-41B / UC-41A / UC-41B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-42A / UE-42B / UC-42A / UC-42B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-43A / UE-43B / UC-43A / UC-43B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-44A / UE-44B / UC-44A / UC-44B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-45A / UE-45B / UC-45A / UC-45B]", "potUC": 10.0, "qtdUC": 2, "potUE": 1.5, "qtdUE": 2, "potTotal": 23.0, "corrente": 36.8}, {"tag": "[UE-49A / UC-49A / UC-49B]", "potUC": 6.5, "qtdUC": 2, "potUE": 2.2, "qtdUE": 1, "potTotal": 15.2, "corrente": 24.3}, {"tag": "[UE-47_50 / UC-47A / UC-47B / UC-50A]", "potUC": 10.0, "qtdUC": 1, "potUE": 1.0, "qtdUE": 1, "potTotal": 11.0, "corrente": 17.6}];
 const DEFAULT_PERFIL = [{"tag": "[UE-01 / UC-01A / UC-01B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 7401.883859999999, "consumoDepois": 6588.424079999999, "economiaMensal": 813.4597800000001}, {"tag": "[UE-02 / UC-02A / UC-02B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 3973.7319300000013, "consumoDepois": 3973.7319300000013, "economiaMensal": 0}, {"tag": "[UE-03A / UE-03B / UC-03A / UC-03B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 7401.883859999999, "consumoDepois": 6588.424079999999, "economiaMensal": 813.4597800000001}, {"tag": "[UE-04 / UC-04A / UC-04B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-05A / UE-05B / UC-05A / UC-05B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 7547.1900000000005, "consumoDepois": 6910.68, "economiaMensal": 636.5100000000002}, {"tag": "[UE-06A / UE-06B / UC-06A / UC-06B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6965.237999999999, "consumoDepois": 6328.728, "economiaMensal": 636.5099999999993}, {"tag": "[UE-07 / UC-07A / UC-07B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-08 / UC-08A / UC-08B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-09A / UE-09B / UC-09A / UC-09B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-10A / UE-10B / UC-10A / UC-10B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-11 / UC-11A / UC-11B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-12A / UE-12B / UC-12A / UC-12B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-13 / UC-13A / UC-13B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-14 / UC-14A / UC-14B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-15A / UE-15B / UC-15A / UC-15B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-16 / UC-16A / UC-16B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-17 / UC-17A / UC-17B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-18A / UE-18B / UC-18A / UC-18B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-19 / UC-19A / UC-19B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-20A / UE-20B / UC-20A / UC-20B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-21A / UE-21B / UC-21A / UC-21B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-22 / UC-22A / UC-22B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-23 / UC-23A / UC-23B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-24A / UE-24B / UC-24A / UC-24B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-25A / UE-25B / UC-25A / UC-25B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-26 / UC-26A / UC-26B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-27A / UE-27B / UC-27A / UC-27B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-28 / UC-28A / UC-28B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-29 / UC-29A / UC-29B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-30A / UE-30B / UC-30A / UC-30B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-31 / UC-31A / UC-31B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 5910.45, "consumoDepois": 5273.9400000000005, "economiaMensal": 636.5099999999993}, {"tag": "[UE-32 / UC-32A / UC-32B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-33A / UE-33B / UC-33A / UC-33B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-34 / UC-34A / UC-34B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-35A / UE-35B / UC-35A / UC-35B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-36A / UE-36B / UC-36A / UC-36B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 6456.03, "consumoDepois": 5819.52, "economiaMensal": 636.5099999999993}, {"tag": "[UE-37 / UC-37A / UC-37B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 4287.3495, "consumoDepois": 3873.6179999999995, "economiaMensal": 413.7315000000008}, {"tag": "[UE-38 / UC-38A / UC-38B]", "hSegSex": 12, "hSab": 12, "hDom": 12, "setupAntes": 1.5, "setupDepois": 1.5, "consumoAntes": 3046.155, "consumoDepois": 3046.155, "economiaMensal": 0}];
@@ -2283,82 +2274,6 @@ const CLIMATIZERS_DATA = [{"id": 1, "tag": "UE-01", "ucs": "UC-01A / UC-01B", "u
 let equipamentos = JSON.parse(JSON.stringify(DEFAULT_EQUIPAMENTOS));
 let perfil = JSON.parse(JSON.stringify(DEFAULT_PERFIL));
 let params = JSON.parse(JSON.stringify(DEFAULT_PARAMS));
-
-const DATA_VERSION = '15.0';
-
-// 1. LocalStorage Imediato
-function saveToLocalStorage() {
-  try {
-    localStorage.setItem('ns_hvac_version', DATA_VERSION);
-    localStorage.setItem('ns_hvac_equipamentos', JSON.stringify(equipamentos));
-    localStorage.setItem('ns_hvac_perfil', JSON.stringify(perfil));
-    localStorage.setItem('ns_hvac_params', JSON.stringify(params));
-  } catch(e) {
-    console.warn('LocalStorage save error:', e);
-  }
-}
-
-function loadFromLocalStorage() {
-  try {
-    const ver = localStorage.getItem('ns_hvac_version');
-    if (ver !== DATA_VERSION) {
-      equipamentos = JSON.parse(JSON.stringify(DEFAULT_EQUIPAMENTOS));
-      perfil = JSON.parse(JSON.stringify(DEFAULT_PERFIL));
-      params = JSON.parse(JSON.stringify(DEFAULT_PARAMS));
-      saveToLocalStorage();
-      return true;
-    }
-    const sEq = localStorage.getItem('ns_hvac_equipamentos');
-    const sPe = localStorage.getItem('ns_hvac_perfil');
-    const sPa = localStorage.getItem('ns_hvac_params');
-    let loaded = false;
-    if (sEq) {
-      const parsed = JSON.parse(sEq);
-      if (Array.isArray(parsed) && parsed.length === 38) {
-        equipamentos = parsed;
-        loaded = true;
-      }
-    }
-    if (sPe) {
-      const parsed = JSON.parse(sPe);
-      if (Array.isArray(parsed) && parsed.length === 38) {
-        perfil = parsed;
-        loaded = true;
-      }
-    }
-    if (sPa) {
-      const parsed = JSON.parse(sPa);
-      if (parsed && typeof parsed === 'object') {
-        params = Object.assign(params, parsed);
-        loaded = true;
-      }
-    }
-    return loaded;
-  } catch(e) {
-    console.warn('LocalStorage load error:', e);
-    return false;
-  }
-}
-
-// 2. Exportar Backup JSON
-function exportDataAsJSON() {
-  const data = {
-    projeto: "Novo Shopping Center - Retrofit HVAC",
-    versao: "15.0",
-    dataExportacao: new Date().toISOString(),
-    parametros: params,
-    equipamentos: equipamentos,
-    perfil_uso: perfil
-  };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `backup_retrofit_novo_shopping_${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('Backup JSON baixado com sucesso!');
-}
 
 // Roadmap & FAQ Data
 const ROADMAP_STEPS = [
@@ -2378,7 +2293,7 @@ const FAQS_DATA = [
 ];
 
 // ================================================================
-// FIREBASE FIRESTORE CONSOLIDADO & SMART GRANULAR SYNC
+// FIREBASE FIRESTORE REALTIME SYNC (SINGLE SOURCE OF TRUTH)
 // ================================================================
 firebase.initializeApp({
   apiKey: "AIzaSyB5W7i5Ml71o8Cpva81OSIIyuN1lIvEHyg",
@@ -2393,19 +2308,18 @@ const db = firebase.firestore();
 let pendingChanges = {};
 let autoSaveTimer = null;
 
-// Função granular para sincronizar apenas quando o usuário alterar um dado pontual
+// Função granular para sincronizar apenas o que foi alterado para o banco de dados
 function saveFieldToFirebase(category, index, field, value) {
-  saveToLocalStorage();
   const key = index !== null ? `${category}.${index}.${field}` : `${category}.${field}`;
   pendingChanges[key] = value;
   
   const ind = document.getElementById('save-indicator');
-  if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#38bdf8;">sync</span> Alteração Pendente...';
+  if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#38bdf8;">sync</span> Gravando no Banco...';
 
   clearTimeout(autoSaveTimer);
   autoSaveTimer = setTimeout(async () => {
     await flushGranularUpdates();
-  }, 2500); // Debounce de 2.5s após parar a digitação para consolidar em 1 única gravação
+  }, 1800);
 }
 
 async function flushGranularUpdates() {
@@ -2424,16 +2338,15 @@ async function flushGranularUpdates() {
     
     if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#34d399;">cloud_done</span> Salvo no Banco';
   } catch(e) {
-    console.warn('Firebase save note:', e.message);
-    if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#f59e0b;">sd_card</span> Salvo Local';
+    console.warn('Firebase save error:', e.message);
+    if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#ef4444;">error</span> Erro ao Gravar';
   }
 }
 
 async function saveToFirebase(showNotification = false) {
   readEditableParams();
-  saveToLocalStorage();
   const ind = document.getElementById('save-indicator');
-  if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#38bdf8;">sync</span> Gravando...';
+  if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#38bdf8;">sync</span> Gravando no Banco...';
 
   try {
     const payload = {
@@ -2446,35 +2359,49 @@ async function saveToFirebase(showNotification = false) {
     await db.collection('config').doc('dados_completos').set(payload);
     pendingChanges = {};
     
-    if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#34d399;">cloud_done</span> Salvo no Banco';
+    if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#34d399;">cloud_done</span> Banco Atualizado';
     if (showNotification) showToast('✅ Dados gravados com sucesso no banco de dados!');
   } catch(e) {
-    console.warn('Firebase save note:', e.message);
-    if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#f59e0b;">sd_card</span> Salvo Localmente';
-    if (showNotification) {
-      showToast('Salvo localmente no dispositivo com sucesso.');
-    }
+    console.warn('Firebase save error:', e.message);
+    if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#ef4444;">error</span> Erro ao Gravar';
   }
 }
 
-async function loadFromFirebase() {
-  try {
-    const cDoc = await db.collection('config').doc('dados_completos').get();
-    if (cDoc.exists) {
-      const d = cDoc.data();
-      if (d.parametros) params = Object.assign(params, d.parametros);
-      if (Array.isArray(d.equipamentos) && d.equipamentos.length === 38) equipamentos = d.equipamentos;
-      if (Array.isArray(d.perfil_uso) && d.perfil_uso.length === 38) perfil = d.perfil_uso;
-      saveToLocalStorage();
-      syncSlidersWithParams();
-      recalcAll(); renderCadastro(); renderPerfil(); renderParams();
-      const ind = document.getElementById('save-indicator');
-      if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#34d399;">cloud_done</span> Sincronizado';
-      return;
+function initFirebaseRealtimeSync() {
+  const ind = document.getElementById('save-indicator');
+  if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#38bdf8;">sync</span> Conectando ao Banco...';
+
+  db.collection('config').doc('dados_completos').onSnapshot((doc) => {
+    if (doc.exists) {
+      const d = doc.data();
+      let changed = false;
+      if (d.parametros) {
+        params = Object.assign(params, d.parametros);
+        changed = true;
+      }
+      if (Array.isArray(d.equipamentos) && d.equipamentos.length === 38) {
+        equipamentos = d.equipamentos;
+        changed = true;
+      }
+      if (Array.isArray(d.perfil_uso) && d.perfil_uso.length === 38) {
+        perfil = d.perfil_uso;
+        changed = true;
+      }
+      if (changed) {
+        syncSlidersWithParams();
+        recalcAll();
+        renderCadastro();
+        renderPerfil();
+        renderParams();
+      }
+      if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#34d399;">cloud_done</span> Banco de Dados Sincronizado';
+    } else {
+      saveToFirebase(false);
     }
-  } catch(e) {
-    console.log('Firebase load info:', e.message);
-  }
+  }, (err) => {
+    console.warn('Firebase snapshot note:', err);
+    if (ind) ind.innerHTML = '<span class="material-icons-round" style="font-size:14px; color:#f59e0b;">cloud_off</span> Modo Offline';
+  });
 }
 
 // ================================================================
@@ -2612,7 +2539,6 @@ function onSimTempChange(val) {
   const pSetpoint = document.getElementById('p-setpoint');
   if (pSetpoint) pSetpoint.value = params.setpoint;
   recalcAll();
-  saveToLocalStorage();
   saveFieldToFirebase('parametros', null, 'setpoint', params.setpoint);
 }
 
@@ -2623,7 +2549,6 @@ function onSimDcMasterChange(val) {
   if (pDcM) pDcM.value = params.dcMestre;
   recalcAll();
   updateSimSchematic();
-  saveToLocalStorage();
   saveFieldToFirebase('parametros', null, 'dcMestre', params.dcMestre);
 }
 
@@ -2634,7 +2559,6 @@ function onSimDcSlaveChange(val) {
   if (pDcE) pDcE.value = params.dcEscrava;
   recalcAll();
   updateSimSchematic();
-  saveToLocalStorage();
   saveFieldToFirebase('parametros', null, 'dcEscrava', params.dcEscrava);
 }
 
@@ -2645,7 +2569,6 @@ function onSimDcAnalogChange(val) {
   if (pDcA) pDcA.value = params.dcAntes;
   recalcAll();
   updateSimSchematic();
-  saveToLocalStorage();
   saveFieldToFirebase('parametros', null, 'dcAntes', params.dcAntes);
 }
 
@@ -2675,7 +2598,7 @@ function onDynamicCalculatorChange() {
   recalcAll();
   renderCadastro();
   renderPerfil();
-  saveToLocalStorage();
+  saveFieldToFirebase('parametros', null, 'tarifa', t);
 }
 
 // ================================================================
@@ -3289,7 +3212,6 @@ function onCadEdit(cell) {
     val = parseFloat(cell.innerText.replace(',','.')) || 0;
     equipamentos[i][f] = val;
   }
-  saveToLocalStorage();
   recalcAll();
   renderCadastro();
   renderPerfil();
@@ -3297,10 +3219,11 @@ function onCadEdit(cell) {
 }
 
 function confirmResetCadastro() {
-  if (confirm('Tem certeza de que deseja restaurar as configurações originais de Cadastro? As TAGs editadas serão redefinidas para o padrão.')) {
+  if (confirm('Tem certeza de que deseja restaurar as configurações originais de Cadastro de Equipamentos no banco de dados?')) {
     equipamentos = JSON.parse(JSON.stringify(DEFAULT_EQUIPAMENTOS));
-    saveToLocalStorage();
-    recalcAll(); renderCadastro(); renderPerfil();
+    recalcAll();
+    renderCadastro();
+    renderPerfil();
     saveToFirebase(true);
   }
 }
@@ -3338,17 +3261,16 @@ function onUsoEdit(cell) {
   const f = cell.dataset.field;
   const v = parseFloat(cell.innerText.replace(',','.')) || 0;
   perfil[i][f] = v;
-  saveToLocalStorage();
   recalcAll();
   renderPerfil();
   saveFieldToFirebase('perfil_uso', i, f, v);
 }
 
 function confirmResetPerfil() {
-  if (confirm('Tem certeza de que deseja restaurar o Perfil de Uso para o padrão?')) {
+  if (confirm('Tem certeza de que deseja restaurar o Perfil de Uso para o padrão oficial no banco de dados?')) {
     perfil = JSON.parse(JSON.stringify(DEFAULT_PERFIL));
-    saveToLocalStorage();
-    recalcAll(); renderPerfil();
+    recalcAll();
+    renderPerfil();
     saveToFirebase(true);
   }
 }
@@ -3384,14 +3306,12 @@ function renderParams() {
 function onParamChange(key, val) {
   if (key === 'capex') return;
   params[key] = parseFloat(val) || 0;
-  saveToLocalStorage();
   syncSlidersWithParams();
   applyParams();
 }
 
 function applyParams() {
   readEditableParams();
-  saveToLocalStorage();
   syncSlidersWithParams();
   recalcAll();
   renderCadastro();
@@ -3409,12 +3329,13 @@ function readEditableParams() {
 }
 
 function confirmResetParams() {
-  if (confirm('Tem certeza de que deseja restaurar os Parâmetros Gerais para o padrão?')) {
+  if (confirm('Tem certeza de que deseja restaurar os Parâmetros Gerais para o padrão oficial no banco de dados?')) {
     params = JSON.parse(JSON.stringify(DEFAULT_PARAMS));
-    saveToLocalStorage();
     renderParams();
     syncSlidersWithParams();
-    recalcAll(); renderCadastro(); renderPerfil();
+    recalcAll();
+    renderCadastro();
+    renderPerfil();
     saveToFirebase(true);
   }
 }
@@ -3841,10 +3762,17 @@ function showToast(msg) {
 }
 
 // ================================================================
-// INICIALIZAÇÃO BLINDADA DO PORTAL
+// INICIALIZAÇÃO BLINDADA DO PORTAL (SINGLE SOURCE OF TRUTH: FIRESTORE)
 // ================================================================
 async function init() {
-  loadFromLocalStorage();
+  // Limpar qualquer cache antigo residual do navegador para garantir 100% de integridade
+  try {
+    localStorage.removeItem('ns_hvac_equipamentos');
+    localStorage.removeItem('ns_hvac_perfil');
+    localStorage.removeItem('ns_hvac_params');
+    localStorage.removeItem('ns_hvac_version');
+  } catch(e) {}
+
   renderParams();
   renderCadastro();
   renderPerfil();
@@ -3854,7 +3782,8 @@ async function init() {
   renderFaq();
   recalcAll();
   
-  await loadFromFirebase();
+  // Conectar sincronização em tempo real via Firestore
+  initFirebaseRealtimeSync();
 }
 
 window.onload = init;
