@@ -1931,11 +1931,13 @@ td.calculated {
       </div>
 
       <div class="table-executive-card" style="margin-bottom: 1.5rem; overflow: hidden;">
-        <div class="table-executive-header">
+        <div class="table-executive-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
           <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-main);">
             📋 Resumo Consolidado de Campo (Telemetria 5.760 minutos/máquina)
           </h3>
-          <span class="tag-pill">Dados Reais</span>
+          <button class="btn btn-primary" onclick="openTelemetriaDetalhadaModal()" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 13px; padding: 8px 18px; border-radius: 8px; background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%); color: white; border: none; cursor: pointer; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4); transition: transform 0.2s, box-shadow 0.2s;">
+            <span class="material-icons-round" style="font-size: 18px;">analytics</span> 📊 Análise Detalhada de Logs
+          </button>
         </div>
         <!-- TABELA COM AJUSTE DE LARGURA TOTAL SEM SCROLL LATERAL -->
         <table class="telemetry-table-fixed">
