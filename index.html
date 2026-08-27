@@ -1286,15 +1286,15 @@ td.calculated {
       </div>
       <div class="hero-mini-stat">
         <span class="hero-mini-label">⚡ Potência Total</span>
-        <span class="hero-mini-val" style="color:var(--accent);">851,1 kW</span>
+        <span class="hero-mini-val" style="color:var(--accent);" id="hero-potTotal">851,1 kW</span>
       </div>
       <div class="hero-mini-stat">
         <span class="hero-mini-label">📉 Redução Média</span>
-        <span class="hero-mini-val" style="color:#059669;">-10,2% kWh/mês</span>
+        <span class="hero-mini-val" style="color:#059669;" id="hero-redPerc">-10,2% kWh/mês</span>
       </div>
       <div class="hero-mini-stat">
         <span class="hero-mini-label">⏱️ Payback Simples</span>
-        <span class="hero-mini-val" style="color:#2563eb;">16,6 Meses</span>
+        <span class="hero-mini-val" style="color:#2563eb;" id="hero-payback">16,6 Meses</span>
       </div>
     </div>
   </section>
@@ -2778,6 +2778,16 @@ function updateDashboard() {
   if (subMes) subMes.innerText = `Economia média de ${fmtCur(econMediaMes)}/mês por climatizador`;
   const subAno = document.getElementById('sub-cost-ano');
   if (subAno) subAno.innerText = `Economia média de ${fmtCur(econMediaAno)}/ano por climatizador`;
+
+  // Hero Highlight Bar (Cards Rápidos no Topo da Página)
+  let totPotGeral = 0;
+  equipamentos.forEach(eq => { totPotGeral += (eq.potTotal || 0); });
+  const hPot = document.getElementById('hero-potTotal');
+  if (hPot) hPot.innerText = `${fmtDec(totPotGeral, 1)} kW`;
+  const hRed = document.getElementById('hero-redPerc');
+  if (hRed) hRed.innerText = `-${fmtDec(redPerc * 100, 1)}% kWh/mês`;
+  const hPb = document.getElementById('hero-payback');
+  if (hPb) hPb.innerText = `${fmtDec(paybackMeses, 1)} Meses`;
 
   // Home Hero KPIs
   const kEcon = document.getElementById('kpi-econAno');
